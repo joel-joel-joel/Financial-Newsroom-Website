@@ -1,0 +1,241 @@
+@font-face {
+    font-family: Newsroom; /* set name */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+}
+
+/* For single-line truncation */
+.main-content a,
+.trending-list li a,
+.main-content p {
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
+}
+
+
+/* Header styles */
+.header {
+    background-color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    position: relative;
+}
+
+.date-container {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+}
+
+.date {
+    font-size: 16px;
+    color: black;
+    font-family: 'Apple Garamond Light', sans-serif;
+    font-style: italic;
+}
+
+
+.header h1 {
+    margin: 0;
+    font-size: 70px;
+    font-family: 'Newsroom';
+    color: crimson;
+    text-align: center;
+}
+
+.header p {
+    margin: 5px 0 0; /* Add some spacing above the paragraph */
+    font-size: 18px;
+    font-family: 'Apple Garamond Light', sans-serif;
+    text-align: center; /* Center the text */
+    color: black;
+    font-style: italic;
+}
+
+
+/* Navbar styles */
+.navbar {
+    display: flex; /* Makes this a flex container if needed */
+    gap: 40px; /* Adds spacing between links */
+    font-size: 24px;
+    font-family: 'Audrey', sans-serif;
+    color: cornsilk;
+    align-items: center; /* Vertically centers items */
+    text-align: center;
+    justify-content: center; /* Horizontally centers the navbar */
+    border-top: 2px solid black; /* Line above the navbar */
+    border-bottom: 2px solid black; /* Line below the navbar */
+    padding: 10px 0; /* Adds spacing inside the navbar */
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+.nav-link:hover {
+    color: crimson;
+    text-decoration:underline;
+}
+
+/* News Ticker styles */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;      /* hide overflowing text */
+    background-color: rgb(255, 255, 255);
+    color: crimson;
+    padding: 5px 0;
+    white-space: nowrap;  /* prevents line breaks */
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Oregon LDO', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+}
+
+.news-ticker p {
+    display: inline-block;
+    white-space: nowrap;   /* prevents line breaks */
+    padding-left: 100%;       /* start on-screen from the left */
+    animation: scroll-right 20s linear infinite; /* Use a new animation */
+}
+  
+@keyframes scroll-right {
+    0% { transform: translateX(-100%); } /* Start off-screen to the left */
+    100% { transform: translateX(0); }   /* End on-screen to the right */
+}
+
+
+/* Container for the main content and trending section */
+.main-container {
+    display: grid; /* Use CSS Grid for layout */
+    grid-template-columns: 2fr 1fr; /* 2/3 for main content, 1/3 for trending */
+    gap: 10px; /* Add spacing between sections */
+    width: 100%; /* Full width of the page */
+    box-sizing: border-box;
+}
+
+/* Main content styles */
+.main-content {
+    background-color: white; /* Light background for main content */
+    padding: 20px;
+    border: 2px solid lightgray; /* Add a full border for a clean box effect */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.main-img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover; /* fills box, maintains aspect ratio */
+    border-radius: 4px;
+}
+
+
+/* Main content link box */
+.main-content a {
+    text-decoration: none; 
+    color: black; 
+    font-weight: bold; 
+    font-size: 40px;
+    font-family: 'Apple Garamond', sans-serif;
+    position: absolute; 
+    bottom: 0px; 
+    left: 20px; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 10px; 
+    border-radius: 4px; 
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent wrapping */
+    text-overflow: ellipsis; /* Show ... for overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; /* Smooth hover */
+}
+
+.main-content a:hover {
+    transform: scale(1.02);  /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow */
+    color: crimson; 
+    text-decoration: underline;
+}
+
+
+.main-content p {
+    font-size: 18px;
+    font-family: 'Apple Garamond Light', sans-serif;
+    color: black;
+    margin-top: 15px; /* Add spacing above the paragraph */
+}
+
+
+
+
+
+/* Trending Content styles */
+.trending {
+    background-color: #fefefe; /* Slightly off-white for a softer look */
+    padding: 20px;
+    border: 2px solid lightgray; /* Add a full border for a clean box effect */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    text-align: center;
+    color: black;
+    font-family: 'Newsroom', sans-serif; /* Ensure a fallback font is provided */
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px 0; /* Add spacing above and below the section */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect for the trending section */
+.trending:hover {
+    transform: scale(1.02); /* Slightly enlarge the section on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+/* Trending list styles */
+.trending-list {
+    list-style-type: none; /* Remove default bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 10px 0; /* Add spacing above the list */
+}
+
+.trending-list li {
+    display: flex; /* Align image and text horizontally */
+    align-items: center; /* Vertically center the image and text */
+    background-color: #f9f9f9; /* Light background for the box */
+    border: 1px solid #ddd; /* Add a light border around the box */
+    border-radius: 8px; /* Rounded corners for the box */
+    padding: 10px; /* Add spacing inside the box */
+    margin-bottom: 10px; /* Add spacing between boxes */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.trending-list li:hover {
+    transform: scale(1.02); /* Slightly enlarge the box on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.trend-img {
+    width: 100px; /* Set a fixed width for the image */
+    height: 100px; /* Set a fixed height for the image */
+    margin-right: 15px; /* Add spacing between the image and text */
+    object-fit: cover;
+}
+
+.trending-list li a {
+    text-decoration: none; /* Remove underline from links */
+    color: black; /* Match the color of the section */
+    font-weight: bold; /* Make the links stand out */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+    font-size: 22px; /* Slightly smaller font size for links */
+    font-family: 'Apple Garamond', sans-serif; /* Ensure a fallback font is provided */
+}
+
+.trending-list li a:hover {
+    color: crimson; /* Change color on hover for interactivity */
+    text-decoration: underline;
+}
