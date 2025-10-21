@@ -225,7 +225,7 @@
 }
 
 .trending h3{
-    border-bottom: 2px solid crimson; /* line below text */
+    border-bottom: 4px solid crimson; /* line below text */
     padding-bottom: 10px;  
     display: inline-block;      /* Shrinks element to fit text */
 }
@@ -314,7 +314,7 @@
 .latest h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    border-bottom: 2px solid crimson;
+    border-bottom: 4px solid crimson;
     padding-bottom: 10px;
     display: inline-block;      /* Shrinks element to fit text */
 
@@ -388,6 +388,7 @@
     max-width: 1425px;  /* smaller width */
     margin: 20px auto;  /* keep it centered */
     padding: 20px;
+    text-align: center;
 }
 
 
@@ -398,14 +399,16 @@
 
 /* ===== Section Title ===== */
 .third-title {
-    text-align: center;
+    display: inline-block;              /* shrink to fit text width */
+    border-bottom: 4px solid crimson;   /* thicker line for visibility */
+    padding-bottom: 10px;
+    text-align: center;                 /* keeps text centered */
     font-size: 28px;
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto;           /* centers the inline-block */
     color: #222;
     font-family: 'Audrey', sans-serif;
-    border-bottom: 2px solid crimson;
-    padding-bottom: 10px;
 }
+
 
 /* ===== Section ===== */
 .third-section {
@@ -470,7 +473,7 @@
 .comment-1, .comment-3{
     font-size: 30px;
     font-style: italic;
-    padding: 10px;
+    padding: 30px;
     color: #666;
     font-family: 'Apple Garamond', sans-serif;
     min-height: 50px;
@@ -482,14 +485,26 @@
 .comment-2 {
     font-size: 30px;
     font-style: italic;
-    padding: 10px;
+    padding:0px;
     color: #666;
     font-family: 'Apple Garamond', sans-serif;
     min-height: 50px;
     text-align: top;
     border-bottom: 2px solid crimson; /* line below text */
-    padding-bottom: 10px;   
+    padding-bottom: 30px;   
 }
+
+
+.comment-author-1, .comment-author-2, .comment-author-3 {
+    text-align: center;
+    display: block;
+    margin-top: 8px;
+    font-size: 20px;
+    font-family: 'Audrey', sans-serif; /* or any other font you like */
+    font-style: normal;
+    color: crimson;
+  }
+  
 
 
 
