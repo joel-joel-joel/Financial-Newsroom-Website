@@ -12,6 +12,18 @@
     text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
+/* ===== Unified Container Width Control ===== */
+.main-container,
+.secondary-container,
+.third-container {
+    width: 100%;
+    max-width: 2000px;      /* Consistent visual width across all sections */
+    margin: 20px auto;      /* Centers horizontally and adds equal vertical spacing */
+    padding: 0 20px;        /* Same left-right padding for all */
+    box-sizing: border-box; /* Prevents borders/padding from changing total width */
+}
+
+
 
 /* Header styles */
 .header {
@@ -110,12 +122,12 @@
 
 /* Container for the main content and trending section */
 .main-container {
-    display: grid; /* Use CSS Grid for layout */
-    grid-template-columns: 2fr 1fr; /* 2/3 for main content, 1/3 for trending */
-    gap: 10px; /* Add spacing between sections */
-    width: 100%; /* Full width of the page */
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 66.66% 33.33%;
+    gap: 10px;
+    box-sizing: border-box; /* keep this */
 }
+
 
 /* Main content styles */
 .main-content {
@@ -125,7 +137,8 @@
     border-radius: 8px; /* Rounded corners for a modern look */
     margin: 20px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+    overflow: hidden; /* Prevent content from bleeding outside */
+    box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
 .main-img {
@@ -163,15 +176,35 @@
 }
 
 
-.main-content p {
+.text-container {
+    display: flex;               /* Use flexbox layout */
+    justify-content: space-between; /* Push left and right text apart */
+    align-items: flex-start;     /* Align text at the top */
+    width: 100%;                 /* Fit inside main content box */
+    flex-wrap: wrap;             /* Allow wrapping on small screens */
+    gap: 10px;                   /* Optional spacing between left and right */
+}
+
+.author {
     font-size: 18px;
     font-family: 'Apple Garamond Light', sans-serif;
     color: black;
-    margin-top: 15px; /* Add spacing above the paragraph */
+    margin: 0;
+    text-align: left;
 }
 
-
-
+.description {
+    font-size: 18px;
+    font-family: 'Apple Garamond Light', sans-serif;
+    color: black;
+    margin: 0;
+    text-align: right;
+    margin-left: auto; /* Push to the right */
+    max-width: 50%; /* Keeps it from stretching too wide */
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent wrapping */
+    text-overflow: ellipsis; /* Show ... for overflow */
+}
 
 
 /* Trending Content styles */
@@ -182,11 +215,19 @@
     border-radius: 8px; /* Rounded corners for a modern look */
     text-align: center;
     color: black;
-    font-family: 'Newsroom', sans-serif; /* Ensure a fallback font is provided */
+    font-family: 'Audrey', sans-serif; /* Ensure a fallback font is provided */
     font-size: 24px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     margin: 20px 0; /* Add spacing above and below the section */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    overflow: hidden; /* Prevent content from bleeding outside */
+    
+}
+
+.trending h3{
+    border-bottom: 2px solid crimson; /* line below text */
+    padding-bottom: 10px;  
+    display: inline-block;      /* Shrinks element to fit text */
 }
 
 /* Hover effect for the trending section */
@@ -238,4 +279,229 @@
 .trending-list li a:hover {
     color: crimson; /* Change color on hover for interactivity */
     text-decoration: underline;
+}
+
+/* Secondary Container */
+.secondary-container {
+    display: grid;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+
+/* Latest styles */
+.latest {
+    background-color: #fefefe; /* Slightly off-white for a softer look */
+    padding: 20px;
+    border: 2px solid lightgray; /* Add a full border for a clean box effect */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    text-align: center;
+    color: black;
+    font-family: 'Audrey', sans-serif; /* Ensure a fallback font is provided */
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px 0; /* Add spacing above and below the section */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    overflow: hidden; /* Prevent overflow */
+    box-sizing: border-box;
+}
+
+.latest:hover{
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.latest h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid crimson;
+    padding-bottom: 10px;
+    display: inline-block;      /* Shrinks element to fit text */
+
+}
+
+.top-stories-wrapper {
+    overflow: hidden;          /* Hide overflowing stories */
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+}
+
+.top-stories {
+    display: flex;             /* Align stories horizontally */
+    transition: transform 0.5s ease-in-out; /* Smooth sliding */
+    will-change: transform; /* Optimize animation performance */
+}
+
+.story {
+    flex: 0 0 20%; /* 5 stories per view (100% / 5 = 20%) */
+    box-sizing: border-box;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Apple Garamond', sans-serif;
+    min-width: 0; /* Allows flex items to shrink below content size */
+}
+
+.story a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    line-height: 1.3;
+    min-height: 35px; /* Consistent height for all links */
+    transition: color 0.3s ease;
+}
+
+.story a:hover {
+    color: crimson;
+    text-decoration: underline;
+}
+
+.story-img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    margin: 0 auto 8px;
+    border-radius: 4px;
+    display: block;
+}
+
+
+
+
+/* ===== Container Wrapper ===== */
+.third-container {
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    width: 100%;
+    max-width: 1425px;  /* smaller width */
+    margin: 20px auto;  /* keep it centered */
+    padding: 20px;
+}
+
+
+.third-container:hover{
+    transform: scale(1.02); /* Slightly enlarge the section on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+/* ===== Section Title ===== */
+.third-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #222;
+    font-family: 'Audrey', sans-serif;
+    border-bottom: 2px solid crimson;
+    padding-bottom: 10px;
+}
+
+/* ===== Section ===== */
+.third-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+/* ===== Each Story Box ===== */
+.editors-pick,
+.editors-pick-1,
+.editors-pick-2,
+.editors-pick-3 {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.editors-pick:hover,
+.editors-pick-1:hover,
+.editors-pick-2:hover,
+.editors-pick-3:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* ===== Image ===== */
+.editor-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* ===== Caption ===== */
+.editor-pick-caption-1, .editor-pick-caption-2, .editor-pick-caption-3 {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    font-family: 'Apple Garamond', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+    background-color: rgba(255,255,255,0.9);
+    transition: color 0.3s ease;
+}
+
+
+
+.editor-pick-caption-1:hover, .editor-pick-caption-2:hover, .editor-pick-caption-3:hover {
+    color: crimson;
+    text-decoration: underline;
+}
+
+.comment-1, .comment-3{
+    font-size: 30px;
+    font-style: italic;
+    padding: 10px;
+    color: #666;
+    font-family: 'Apple Garamond', sans-serif;
+    min-height: 50px;
+    text-align: bottom;
+    border-top: 2px solid crimson; /* line below text */
+    padding-bottom: 50px;  
+}
+
+.comment-2 {
+    font-size: 30px;
+    font-style: italic;
+    padding: 10px;
+    color: #666;
+    font-family: 'Apple Garamond', sans-serif;
+    min-height: 50px;
+    text-align: top;
+    border-bottom: 2px solid crimson; /* line below text */
+    padding-bottom: 10px;   
+}
+
+
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 900px) {
+    .third-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .third-section {
+        grid-template-columns: 1fr;
+    }
 }
