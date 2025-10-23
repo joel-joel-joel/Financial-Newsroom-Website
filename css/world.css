@@ -1,0 +1,128 @@
+@font-face {
+    font-family: Newsroom; /* set name */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+}
+
+
+/* Header styles */
+.header {
+    background-color: white;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    position: relative;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 35px; /* reduced from 70px */
+    font-family: 'Newsroom';
+    color: crimson;
+    text-align: center;
+    text-decoration: underline black;
+}
+.date-container {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.date {
+    font-size: 16px;
+    color: black;
+    font-family: 'Apple Garamond Light', sans-serif;
+    font-style: italic;
+}
+
+
+
+/* Navbar styles */
+.navbar {
+    display: flex; /* Makes this a flex container if needed */
+    gap: 40px; /* Adds spacing between links */
+    font-size: 24px;
+    font-family: 'Audrey', sans-serif;
+    color: cornsilk;
+    align-items: center; /* Vertically centers items */
+    text-align: center;
+    justify-content: center; /* Horizontally centers the navbar */
+    border-bottom: 2px solid black; /* Line below the navbar */
+    padding: 10px 0; /* Adds spacing inside the navbar */
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+.nav-link:hover {
+    color: crimson;
+    text-decoration:underline;
+}
+
+/* News Ticker styles */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;      /* hide overflowing text */
+    background-color: rgb(255, 255, 255);
+    color: crimson;
+    padding: 5px 0;
+    white-space: nowrap;  /* prevents line breaks */
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Oregon LDO', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+}
+
+.news-ticker p {
+    display: inline-block;
+    white-space: nowrap;   /* prevents line breaks */
+    padding-left: 100%;       /* start on-screen from the left */
+    animation: scroll-right 20s linear infinite; /* Use a new animation */
+}
+  
+@keyframes scroll-right {
+    0% { transform: translateX(-100%); } /* Start off-screen to the left */
+    100% { transform: translateX(0); }   /* End on-screen to the right */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main-header h2 {
+    font-family: 'Audrey', sans-serif;
+    color: black;
+    font-size: 40px;
+    border-bottom: 4px solid crimson;
+    margin-bottom: 30px;
+}
+
+#search-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    width: 90%; /* stretches almost full width */
+    max-width: 1200px; /* optional max width */
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+}

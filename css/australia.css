@@ -1,0 +1,560 @@
+@font-face {
+    font-family: Newsroom; /* set name */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+}
+
+
+/* Header styles */
+.header {
+    background-color: white;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    position: relative;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 35px; /* reduced from 70px */
+    font-family: 'Newsroom';
+    color: crimson;
+    text-align: center;
+    text-decoration: underline black;
+}
+.date-container {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.date {
+    font-size: 16px;
+    color: black;
+    font-family: 'Apple Garamond Light', sans-serif;
+    font-style: italic;
+}
+
+
+
+/* Navbar styles */
+.navbar {
+    display: flex; /* Makes this a flex container if needed */
+    gap: 40px; /* Adds spacing between links */
+    font-size: 24px;
+    font-family: 'Audrey', sans-serif;
+    color: cornsilk;
+    align-items: center; /* Vertically centers items */
+    text-align: center;
+    justify-content: center; /* Horizontally centers the navbar */
+    border-bottom: 2px solid black; /* Line below the navbar */
+    padding: 10px 0; /* Adds spacing inside the navbar */
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+.nav-link:hover {
+    color: crimson;
+    text-decoration:underline;
+}
+
+/* News Ticker styles */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;      /* hide overflowing text */
+    background-color: rgb(255, 255, 255);
+    color: crimson;
+    padding: 5px 0;
+    white-space: nowrap;  /* prevents line breaks */
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Oregon LDO', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+}
+
+.news-ticker p {
+    display: inline-block;
+    white-space: nowrap;   /* prevents line breaks */
+    padding-left: 100%;       /* start on-screen from the left */
+    animation: scroll-right 20s linear infinite; /* Use a new animation */
+}
+  
+@keyframes scroll-right {
+    0% { transform: translateX(-100%); } /* Start off-screen to the left */
+    100% { transform: translateX(0); }   /* End on-screen to the right */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main-header h2 {
+    font-family: 'Audrey', sans-serif;
+    color: black;
+    font-size: 40px;
+    border-bottom: 4px solid crimson;
+    margin-bottom: 30px;
+}
+
+#search-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    width: 90%; /* stretches almost full width */
+    max-width: 1200px; /* optional max width */
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.story-section {
+    display: flex;
+    flex-direction: column; /* stack the title on top of the stories */
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: 40px;
+    padding-top: 40px;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.story-section:hover{
+    transform: scale(1.02); /* Slightly enlarge the section on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+/* Title styling */
+.story-section h3 {
+    font-family: 'Audrey', sans-serif;
+    color: black;
+    font-size: 24px;
+    border-bottom: 4px solid crimson;
+    margin: 0 0 20px 0; /* spacing below title */
+    display: inline-block;
+}
+
+/* A wrapper for the stories inside */
+.story-grid {
+    display: flex;
+    gap: 20px;
+}
+
+
+.main-story, .substory-1, .substory-2 {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    height: 350px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* Set the widths - main story takes 50%, substories each take 25% */
+.main-story {
+    flex: 2;  /* Takes 2 parts out of 4 total = 50% */
+    min-width: 0;
+}
+
+.substory-1, .substory-2 {
+    flex: 1;  /* Each takes 1 part out of 4 total = 25% each */
+    min-width: 0;
+}
+
+/* Hover effect */
+.main-story:hover, .substory-1:hover, .substory-2:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border-color: crimson;
+}
+
+/* Typography */
+.main-story-title, .substory-title {
+    font-size: 22px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 4px solid crimson;
+    padding-bottom: 5px;
+    display: inline-block;
+    color: #222;
+    font-family: 'Apple Garamond', sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main-story-text, .substory-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    font-family: 'Apple Garamond', sans-serif;
+    text-decoration: none;
+    padding:0px;
+    margin: 0px;
+}
+
+.main-story-author, .substory-author {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+    font-family: 'Apple Garamond', sans-serif;
+    text-decoration: none;
+}
+
+.main-img {
+    width: 100%;
+    height: 60%; /* takes up top 60% of box, leaving 40% for text */
+    object-fit: cover; /* crops image neatly to fill area */
+    border-radius: 8px;
+    display: block;
+}
+
+.substory-body {
+    display: flex;                 /* image | text */
+    gap: 15px;
+    align-items: flex-start;       /* align top */
+}
+
+/* author sits under the square image */
+.sub-img-col {
+    display: flex;
+    flex-direction: column;       /* image on top, author under */
+    align-items: center;          /* center image */
+    justify-content: flex-start;  /* start author under image */
+}
+
+.sub-img.square-right {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.substory-author-under {
+    margin-top: 8px;              /* small gap between image & author */
+    font-size: 12px;
+    color: #777;
+    text-align: center;           /* center it under the square */
+}
+
+.substory-text-wrap {
+    flex: 1;                       /* take remaining width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;       /* center text vertically */
+}
+
+.substory-text {
+    margin: 0;
+    font-size: 16px;
+    color: #444;
+}
+
+.secondary-container{
+    flex-direction: column; /* stack the title on top of the stories */
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: 40px;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.secondary-container:hover{
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.secondary-container h4 {
+    font-family: 'Audrey', sans-serif;
+    color: black;
+    font-size: 24px;
+    border-bottom: 4px solid crimson;
+    margin: 0 0 20px 0; /* spacing below title */
+    display: inline-block;
+}
+
+.videos-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.video {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    background-color: #f9f9f9;
+    text-decoration: none; /* remove link underline */
+    color: inherit; /* keep text color normal */
+    box-sizing: border-box;
+}
+
+.video:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border-color: crimson;
+}
+
+.video-thumbnail {
+    width: 100%;          /* fill card width */
+    height: 140px;        /* whatever uniform height you want */
+    object-fit: cover;    /* crop & centre, no distortion */
+}
+
+.video-title {              /* h5 inside each card */
+    margin: 0;               /* remove default top/bottom margins */
+    padding: 4px 6px;        /* just a hair of breathing room */
+    font-size: 16px;         /* optional: keep it compact */
+    line-height: 1.2;        /* tighter line-box */
+    font-family: 'Apple Garamond', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.video-title:hover{
+    color: crimson;
+    text-decoration: underline;
+}
+
+.third-container{
+    flex-direction: column; /* stack the title on top of the stories */
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: 40px;
+    padding-top: 40px;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.third-container:hover{
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.third-container h6 {
+    font-family: 'Audrey', sans-serif;
+    color: black;
+    font-size: 24px;
+    border-bottom: 4px solid crimson;
+    margin: 0 0 20px 0; /* spacing below title */
+    display: inline-block;
+}
+
+.article-wrapper {
+    display: flex;
+    flex-direction: column;   /* one bar under another */
+    gap: 16px; 
+}
+
+/* ---------- article bar ---------- */
+.article {
+    display: flex;
+    align-items: flex-start;   /* top-align everything */
+    gap: 12px;                 /* space between thumb & text block */
+    padding: 10px;
+    min-height: 100px;          /* same height for every bar */
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .article:hover{
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border-color: crimson;
+  }
+  
+  .article-thumbnail {
+    width: 140px;              /* fixed thumb width */
+    height: 100px;
+    object-fit: cover;         /* crop, never stretch */
+    border-radius: 4px;
+    flex: 0 0 auto;            /* don’t grow or shrink */
+  }
+  
+  .article-text-block {
+    flex: 1 1 auto;             /* take remaining width */
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;                  /* Add more space between text elements */
+}
+
+.article-date {
+    margin: 0;                  /* Remove default margin */
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.article-title {
+    display: inline-block;       /* Ensure underline is only as wide as the title */
+    margin: 4px 0;               /* More space above and below the title */
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Apple Garamond', sans-serif;
+    border-bottom: 2px solid crimson;
+}
+
+.article-description {
+    margin: 0;                  /* Remove default margin */
+    font-size: 15px;
+    color: #333;
+    line-height: 1.3;
+}
+
+.article-author {
+    margin: 4px 0 0;            /* More space above the author, none below */
+    font-size: 13px;
+    color: #888;
+}
+
+
+/* ===== Footer Section ===== */
+
+.subscribe-section {
+    background-color: #f4f4f4; /* soft grey background */
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 500px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+.subscribe-section:hover{
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+  
+  .subscribe-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-family: 'Audrey', sans-serif;
+    text-decoration: underline crimson 4px;
+  }
+  
+  .subscribe-section p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    font-family: 'Garamond', sans-serif;
+  }
+  
+  .subscribe-section input[type="email"] {
+    padding: 12px;
+    width: 70%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: 'Garamond', sans-serif;
+  }
+  
+  .subscribe-section input[type="email"]:focus {
+    border-color: #007bff; /* blue highlight */
+  }
+  
+  .subscribe-section button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Garamond';
+    font-size: 20px;
+  }
+  
+  .subscribe-section button:hover {
+    background-color: crimson; /* darker blue on hover */
+  }
+  
+.footer {
+    background-color: #111;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.footer a {
+    color: crimson;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
