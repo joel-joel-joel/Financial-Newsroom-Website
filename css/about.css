@@ -84,8 +84,8 @@
 }
   
 @keyframes scroll-right {
-    0% { transform: translateX(-100%); } /* Start off-screen to the left */
-    100% { transform: translateX(0); }   /* End on-screen to the right */
+    0% { transform: translateX(0); } /* Start off-screen to the left */
+    100% { transform: translateX(-100%); }   /* End on-screen to the right */
 }
 
 .main-container {

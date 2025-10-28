@@ -8,7 +8,8 @@
         <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
         <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
         <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
-           
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     </head>
 
     <body>
@@ -36,16 +37,152 @@
             <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
         </div>
 
+        
+
         <!-- Main Container -->
         <div class="main-container">
             <div class="main-header">
                 <h2>Discussions</h2>
+
+                <div class="stock-exchange-container">
+                    <div class="stock-header">
+                        <span class="last-updated" id="last-updated">Updating...</span>
+                    </div>
+        
+                    <div class="stock-ticker-wrapper">
+                        <div class="stock-ticker" id="stock-ticker">
+                            <!-- Stock items will be populated by JavaScript -->
+                            <div class="stock-item">
+                                <span class="stock-symbol">SPY</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">AAPL</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">MSFT</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">GOOGL</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">TSLA</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">NVDA</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">BTC-USD</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="stock-symbol">GLD</span>
+                                <span class="stock-price">$---</span>
+                                <span class="stock-change positive">+0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-target="active">Active</button>
+                    <button class="nav-btn" data-target="trending">Trending</button>
+                    <button class="nav-btn" data-target="news">New</button>
+                </nav>
             </div>
+        </div>
+
+        <div class="second-container">
+            <section id="active" class="active">
+                    <div class="tab-content">
+                        <!-- thread list -->
+                        <a href="thread.html?id=1" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
+                            <p class="thread-meta">42 replies · last post 3 min ago</p>
+                        </a>
+
+                        <a href="thread.html?id=2" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Oil Volatility Returns</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
+                            <p class="thread-meta">18 replies · last post 12 min ago</p>
+                        </a>
+
+                        <!-- add / generate more cards as needed -->
+                    </div>
+                </section>
+
+                <section id="trending">
+                    <div class="tab-content">
+                        <!-- thread list -->
+                        <a href="thread.html?id=1" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
+                            <p class="thread-meta">42 replies · last post 3 min ago</p>
+                        </a>
+
+                        <a href="thread.html?id=2" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Oil Volatility Returns</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
+                            <p class="thread-meta">18 replies · last post 12 min ago</p>
+                        </a>
+
+                        <!-- add / generate more cards as needed -->
+                    </div>
+                </section>
+
+                <section id="news">
+                    <div class="tab-content">
+                        <!-- thread list -->
+                        <a href="thread.html?id=1" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
+                            <p class="thread-meta">42 replies · last post 3 min ago</p>
+                        </a>
+
+                        <a href="thread.html?id=2" class="thread-card">
+                            <div class="thread-header">
+                                <h5 class="thread-title">Oil Volatility Returns</h5>
+                                <i class="fa-solid fa-message"></i>
+                            </div>
+                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
+                            <p class="thread-meta">18 replies · last post 12 min ago</p>
+                        </a>
+
+                        <!-- add / generate more cards as needed -->
+                    </div>
+                </section>
         </div>
 
         
         
-        <script src="js/australia.js"></script>
+        <script src="js/discussions.js"></script>
 
     </body>
          

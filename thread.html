@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Financial Frontier - Thread</title>
+        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="css/thread.css">
+    </head>
+<body>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="date-container">
+                <p class="date" id="current-date"></p>
+            </div>
+            <div class="center">
+                <h1>The Financial Frontier</h1>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="australia.html" class="nav-link">Australia</a>
+            <a href="world.html" class="nav-link">World</a>
+            <a href="discussions.html" class="nav-link">Discussions</a>
+            <a href="about.html" class="nav-link">About Us</a>
+        </nav>
+
+        <!-- News Ticker -->
+        <div class="news-ticker">
+            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <a href="discussions.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Discussions
+            </a>
+
+            <div class="thread-header-section">
+                <h2 class="thread-title-large" id="thread-title">Loading...</h2>
+                <div class="thread-info">
+                    <span id="thread-replies">0 replies</span>
+                    <span>·</span>
+                    <span id="thread-last-post">Last post unknown</span>
+                </div>
+            </div>
+
+            <!-- Original Post -->
+            <div class="posts-container">
+                <div class="post" id="original-post">
+                    <div class="post-header">
+                        <div>
+                            <div class="post-author" id="author-name">Author</div>
+                            <div class="post-timestamp" id="post-time">Time unknown</div>
+                        </div>
+                    </div>
+                    <div class="post-content" id="post-content">
+                        Post content will load here...
+                    </div>
+                    <div class="post-actions">
+                        <a class="post-action" href="#">Like</a>
+                        <a class="post-action" href="#">Reply</a>
+                        <a class="post-action" href="#">Share</a>
+                    </div>
+                </div>
+
+                <!-- Additional Posts -->
+                <div id="posts-list"></div>
+            </div>
+
+            <!-- Reply Form -->
+            <div class="reply-form">
+                <h3>Join the Discussion</h3>
+                <form id="reply-form">
+                    <div class="form-group">
+                        <label for="reply-name">Name</label>
+                        <input type="text" id="reply-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reply-content">Your Reply</label>
+                        <textarea id="reply-content" name="content" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Post Reply</button>
+                </form>
+            </div>
+        </div>
+        <script src="js/thread.js"></script>
+    </body>
