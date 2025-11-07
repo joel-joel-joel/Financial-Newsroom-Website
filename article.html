@@ -1,102 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Financial Frontier - Article</title>
-        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link rel="stylesheet" href="css/article.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read the latest financial news article on The Financial Frontier">
+    <title>The Financial Frontier - Article</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Article CSS -->
+    <link rel="stylesheet" href="css/article.css">
+</head>
 
-    <body>
-        <!-- Header Section -->
-        <div class="header">
-            <div class="date-container">
-                <p class="date" id="current-date"></p>
+<body>
+    <!-- 1. Configuration (API keys) -->
+    <script src="js/config.js"></script>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="date-container">
+            <p class="date" id="current-date"></p>
+        </div>
+        <div class="center">
+            <h1>The Financial Frontier</h1>
+            <p class="titledesc">Your number one stop for financial news and discussions</p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="australia.html" class="nav-link">Australia</a>
+        <a href="world.html" class="nav-link">World</a>
+        <a href="discussions.html" class="nav-link">Discussions</a>
+        <a href="about.html" class="nav-link">About Us</a>
+    </nav>
+
+    <!-- News Ticker -->
+    <div class="news-ticker">
+        <p>Top Headlines: Loading...</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Back Button -->
+        <a href="javascript:history.back()" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+        </a>
+
+        <!-- Article Container -->
+        <article class="article-container">
+            <!-- Article Header -->
+            <header class="article-header">
+                <h1 class="article-title" id="article-title">Loading...</h1>
+                
+                <div class="article-meta">
+                    <span class="article-author" id="article-author">Author</span>
+                    <span class="meta-separator">·</span>
+                    <span class="article-date" id="article-date">Date</span>
+                    <span class="meta-separator">·</span>
+                    <span class="article-source" id="article-source">Source</span>
+                </div>
+
+                <div class="article-excerpt" id="article-excerpt">Loading article...</div>
+            </header>
+
+            <!-- Article Featured Image -->
+            <div class="article-image-container">
+                <img id="article-image" src="" alt="Article featured image" class="article-image">
+                <p class="image-caption" id="image-caption"></p>
             </div>
-            <div class="center">
-                <h1>The Financial Frontier</h1>
+
+            <!-- Article Body Content -->
+            <div class="article-body" id="article-body">
+                <!-- Article content will be populated here by article.js -->
             </div>
-        </div>
 
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="australia.html" class="nav-link">Australia</a>
-            <a href="world.html" class="nav-link">World</a>
-            <a href="discussions.html" class="nav-link">Discussions</a>
-            <a href="about.html" class="nav-link">About Us</a>
-        </nav>
-
-        <!-- News Ticker -->
-        <div class="news-ticker">
-            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
-        </div>
-
-        <!-- Main Container -->
-        <div class="main-container">
-            <article class="article-wrapper">
-                <a href="javascript:history.back()" class="back-btn">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Back
-                </a>
-
-                <header class="article-header">
-                    <h1 class="article-title" id="article-title">Loading...</h1>
-                    
-                    <div class="article-meta">
-                        <span class="article-author" id="article-author">Author</span>
-                        <span class="meta-separator">·</span>
-                        <span class="article-date" id="article-date">Date</span>
-                        <span class="meta-separator">·</span>
-                        <span class="article-category" id="article-category">Category</span>
+            <!-- Article Footer with Share Buttons -->
+            <footer class="article-footer">
+                <div class="share-section">
+                    <h4>Share This Article</h4>
+                    <div class="share-buttons">
+                        <button class="share-btn facebook" data-share="facebook" title="Share on Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </button>
+                        <button class="share-btn twitter" data-share="twitter" title="Share on Twitter">
+                            <i class="fa-brands fa-twitter"></i>
+                        </button>
+                        <button class="share-btn linkedin" data-share="linkedin" title="Share on LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </button>
+                        <button class="share-btn email" data-share="email" title="Share via Email">
+                            <i class="fa-solid fa-envelope"></i>
+                        </button>
+                        <button class="share-btn copy" data-share="copy" title="Copy Link">
+                            <i class="fa-solid fa-link"></i>
+                        </button>
                     </div>
-
-                    <div class="article-excerpt" id="article-excerpt">Article excerpt will appear here...</div>
-                </header>
-
-                <div class="article-image-container">
-                    <img id="article-image" src="" alt="Article featured image" class="article-image">
-                    <p class="image-caption" id="image-caption">Image caption</p>
                 </div>
+            </footer>
+        </article>
 
-                <div class="article-body" id="article-body">
-                    <!-- Article content will be populated here -->
-                </div>
+        <!-- Related Articles Section -->
+        <section class="related-articles">
+            <h2>Related Articles</h2>
+            <div class="related-grid" id="related-grid">
+                <!-- Related articles will be populated here by article.js -->
+            </div>
+        </section>
+    </div>
 
-                <footer class="article-footer">
-                    <div class="share-section">
-                        <h4>Share This Article</h4>
-                        <div class="share-buttons">
-                            <button class="share-btn facebook">
-                                <i class="fa-brands fa-facebook"></i>
-                            </button>
-                            <button class="share-btn twitter">
-                                <i class="fa-brands fa-twitter"></i>
-                            </button>
-                            <button class="share-btn linkedin">
-                                <i class="fa-brands fa-linkedin"></i>
-                            </button>
-                            <button class="share-btn email">
-                                <i class="fa-solid fa-envelope"></i>
-                            </button>
-                        </div>
-                    </div>
-                </footer>
-            </article>
+    <!-- Footer Section -->
+    <div class="subscribe-section">
+        <h3>Stay Updated</h3>
+        <p>Subscribe to our newsletter for weekly insights.</p>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+    </div>
 
-            <!-- Related Articles -->
-            <section class="related-articles">
-                <h2>Related Articles</h2>
-                <div class="related-grid" id="related-grid">
-                    <!-- Related articles will be populated here -->
-                </div>
-            </section>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
+        <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
 
-        <script src="js/article.js"></script>
-    </body>
+    <!-- ============================================
+         SCRIPTS - Load in correct order, at end of body
+         ============================================ -->
+
+    <!-- 2. Service modules (must load before main.js) -->
+    <script src="js/api-service.js"></script>
+    <script src="js/ui-renderer.js"></script>
+
+    <!-- 3. Article page logic (last) -->
+    <script src="js/article.js"></script>
+
+    <!-- Loading spinner animation -->
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</body>
 </html>

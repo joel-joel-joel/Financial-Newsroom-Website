@@ -14,6 +14,9 @@
         
 
     <body>
+
+        <!-- Configuration file (API keys) -->
+        <script src="js/config.js"></script>
         <!-- Header Section -->
     <div class="header">
         <div class="date-container">
@@ -35,9 +38,7 @@
     </nav>
 
     <!-- News Ticker -->
-    <div class="news-ticker">
-        <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
-    </div>
+    <div class="news-ticker"><p>Top Headlines: <span id="ticker-content">Loading…</span></p></div>
 
         <!-- Main Container -->
 
@@ -264,7 +265,21 @@
             <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
         </footer>
         
+
+        <!-- Service modules -->
+        <script src="js/api-service.js"></script>
+        <script src="js/ui-renderer.js"></script>
+
+        <!-- Main application logic -->
         <script src="js/main.js"></script>
+
+        <!-- CSS animation for loading spinner -->
+        <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        </style>
 
     </body>
          

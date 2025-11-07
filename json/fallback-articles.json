@@ -1,0 +1,12 @@
+[
+  {
+    "source": { "id": "reuters", "name": "Reuters" },
+    "author": "Reuters Staff",
+    "title": "Global markets steady as investors await Fed decision",
+    "description": "World shares held near record highs on Wednesday…",
+    "url": "https://www.reuters.com/business/global-markets-steady-investors-await-fed-decision-2025-11-07/",
+    "urlToImage": "https://static.reuters.com/resources/r/?m=02&d=20251107&t=2&i=157694345&w=800",
+    "publishedAt": "2025-11-07T10:00:00Z",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit…"
+  }
+]

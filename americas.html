@@ -179,7 +179,33 @@
         </footer>
         
         
+        <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const apiService = new APIService(API_CONFIG);
+            const uiRenderer = new UIRenderer();
+            
+            // Determine region from page
+            const region = window.location.pathname.includes('americas') ? 'americas' : 'world';
+            
+            // Fetch region-specific articles
+            const articles = await apiService.searchArticles(
+                `${region} market finance`,
+                20,
+                1
+            );
+            
+            if (articles.articles) {
+                const enriched = await Promise.all(
+                    articles.articles.map(a => apiService.getEnrichedArticle(a))
+                );
+                uiRenderer.renderTopStories(enriched);
+            }
+        });
+        </script>
+
         <script src="js/australia.js"></script>
+
+        
 
     </body>
          
