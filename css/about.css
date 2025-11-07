@@ -110,19 +110,24 @@
     margin-bottom: 30px;
 }
 
-#search-form {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.about-content {
+    max-width: 800px;
+    font-family: 'Apple Garamond Light', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    padding: 0 20px;
+    text-align: center;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
 
-#search-input {
-    width: 90%; /* stretches almost full width */
-    max-width: 1200px; /* optional max width */
-    padding: 10px 20px;
-    font-size: 18px;
-    border: 2px solid black;
-    border-radius: 8px;
-    outline: none;
-    box-sizing: border-box;
+.about-content:hover{
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02); 
 }
+
+

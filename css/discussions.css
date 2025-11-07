@@ -37,6 +37,7 @@
 
 
 
+/* Navbar styles */
 .navbar {
     display: flex; /* Makes this a flex container if needed */
     gap: 40px; /* Adds spacing between links */
@@ -56,7 +57,7 @@
 }
 .nav-link:hover {
     color: crimson;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
 /* News Ticker styles */
@@ -86,6 +87,8 @@
     0% { transform: translateX(0); } /* Start off-screen to the left */
     100% { transform: translateX(-100%); }   /* End on-screen to the right */
 }
+
+
 
 .main-container {
     display: flex;
@@ -248,7 +251,7 @@ text-decoration: underline;
     overflow: hidden;
 }
 
-.thread-meta {
+.thread-meta, .thread-time, .thread-reply, .thread-author {
     font-size: 13px;
     color: #777;
     margin: 0;
@@ -392,4 +395,76 @@ text-decoration: underline;
 /* Pause animation on hover */
 .stock-ticker-wrapper:hover .stock-ticker {
     animation-play-state: paused;
+}
+
+
+/* Reply Form */
+.reply-form {
+    background: white;
+    border: 1px solid #ddd;
+    max-width: 700px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto; /* top/bottom 0, left/right auto */
+
+}
+
+.reply-form h3 {
+    font-family: 'Audrey', sans-serif;
+    font-size: 20px;
+    color: black;
+    margin-bottom: 15px;
+    border-bottom: 3px solid crimson;
+    padding-bottom: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Apple Garamond', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.form-group textarea {
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: crimson;
+    box-shadow: 0 0 0 2px rgba(220, 20, 60, 0.1);
+}
+
+.submit-btn {
+    background-color: crimson;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Audrey', sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: darkred;
 }

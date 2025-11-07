@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Financial Frontier - Article</title>
+        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="css/article.css">
+    </head>
+
+    <body>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="date-container">
+                <p class="date" id="current-date"></p>
+            </div>
+            <div class="center">
+                <h1>The Financial Frontier</h1>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="australia.html" class="nav-link">Australia</a>
+            <a href="world.html" class="nav-link">World</a>
+            <a href="discussions.html" class="nav-link">Discussions</a>
+            <a href="about.html" class="nav-link">About Us</a>
+        </nav>
+
+        <!-- News Ticker -->
+        <div class="news-ticker">
+            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <article class="article-wrapper">
+                <a href="javascript:history.back()" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
+
+                <header class="article-header">
+                    <h1 class="article-title" id="article-title">Loading...</h1>
+                    
+                    <div class="article-meta">
+                        <span class="article-author" id="article-author">Author</span>
+                        <span class="meta-separator">·</span>
+                        <span class="article-date" id="article-date">Date</span>
+                        <span class="meta-separator">·</span>
+                        <span class="article-category" id="article-category">Category</span>
+                    </div>
+
+                    <div class="article-excerpt" id="article-excerpt">Article excerpt will appear here...</div>
+                </header>
+
+                <div class="article-image-container">
+                    <img id="article-image" src="" alt="Article featured image" class="article-image">
+                    <p class="image-caption" id="image-caption">Image caption</p>
+                </div>
+
+                <div class="article-body" id="article-body">
+                    <!-- Article content will be populated here -->
+                </div>
+
+                <footer class="article-footer">
+                    <div class="share-section">
+                        <h4>Share This Article</h4>
+                        <div class="share-buttons">
+                            <button class="share-btn facebook">
+                                <i class="fa-brands fa-facebook"></i>
+                            </button>
+                            <button class="share-btn twitter">
+                                <i class="fa-brands fa-twitter"></i>
+                            </button>
+                            <button class="share-btn linkedin">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </button>
+                            <button class="share-btn email">
+                                <i class="fa-solid fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+                </footer>
+            </article>
+
+            <!-- Related Articles -->
+            <section class="related-articles">
+                <h2>Related Articles</h2>
+                <div class="related-grid" id="related-grid">
+                    <!-- Related articles will be populated here -->
+                </div>
+            </section>
+        </div>
+
+        <script src="js/article.js"></script>
+    </body>
+</html>

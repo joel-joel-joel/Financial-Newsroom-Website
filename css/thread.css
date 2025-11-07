@@ -3,36 +3,26 @@
     src: url(https://fonts.google.com/specimen/Newsreader);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: 'Apple Garamond', sans-serif;
-    background-color: #f5f5f5;
-}
 
 /* Header styles */
 .header {
     background-color: white;
     padding: 10px 10px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
     position: relative;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 35px;
-    font-family: 'Newsroom', sans-serif;
+    font-size: 35px; /* reduced from 70px */
+    font-family: 'Newsroom';
     color: crimson;
     text-align: center;
     text-decoration: underline black;
 }
-
 .date-container {
     position: absolute;
     top: 10px;
@@ -46,55 +36,57 @@ body {
     font-style: italic;
 }
 
-/* Navigation Bar */
+
+
+/* Navbar styles */
 .navbar {
-    display: flex;
-    gap: 40px;
+    display: flex; /* Makes this a flex container if needed */
+    gap: 40px; /* Adds spacing between links */
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
-    color: black;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid black;
-    padding: 10px 0;
+    color: cornsilk;
+    align-items: center; /* Vertically centers items */
+    text-align: center;
+    justify-content: center; /* Horizontally centers the navbar */
+    border-bottom: 2px solid black; /* Line below the navbar */
+    padding: 10px 0; /* Adds spacing inside the navbar */
 }
 
 .nav-link {
     color: black;
     text-decoration: none;
 }
-
 .nav-link:hover {
     color: crimson;
-    text-decoration: underline;
+    text-decoration:underline;
 }
 
-/* News Ticker */
+/* News Ticker styles */
 .news-ticker {
     width: 100%;
-    overflow: hidden;
+    overflow: hidden;      /* hide overflowing text */
     background-color: rgb(255, 255, 255);
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;
+    white-space: nowrap;  /* prevents line breaks */
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
 }
 
 .news-ticker p {
     display: inline-block;
-    white-space: nowrap;
-    padding-left: 100%;
-    animation: scroll-right 20s linear infinite;
+    white-space: nowrap;   /* prevents line breaks */
+    padding-left: 100%;       /* start on-screen from the left */
+    animation: scroll-right 20s linear infinite; /* Use a new animation */
 }
-
+  
 @keyframes scroll-right {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% { transform: translateX(0); } /* Start off-screen to the left */
+    100% { transform: translateX(-100%); }   /* End on-screen to the right */
 }
 
 /* Main Container */
@@ -119,6 +111,7 @@ body {
     margin-bottom: 10px;
     border-bottom: 4px solid crimson;
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .thread-info {
@@ -133,17 +126,17 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: crimson;
+    color: black;
     text-decoration: none;
     font-size: 16px;
     margin-bottom: 20px;
     font-family: 'Audrey', sans-serif;
     cursor: pointer;
-    transition: color 0.2s ease;
 }
 
 .back-btn:hover {
-    color: darkred;
+    color: crimson;
+    text-decoration: underline;
 }
 
 /* Posts Container */
@@ -155,7 +148,7 @@ body {
 .post {
     background: white;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -163,8 +156,8 @@ body {
 }
 
 .post:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: scale(1.02); /* Slightly enlarge the section on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
 
 .post-header {
@@ -208,14 +201,17 @@ body {
 
 .post-action:hover {
     color: crimson;
+    text-decoration: underline;
 }
 
 /* Reply Form */
 .reply-form {
     background: white;
     border: 1px solid #ddd;
+    max-width: 800px;
+    width: 100%;
     border-radius: 6px;
-    padding: 20px;
+    padding: 40px;
     margin-top: 30px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
