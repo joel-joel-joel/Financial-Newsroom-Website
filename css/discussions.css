@@ -37,7 +37,6 @@
 
 
 
-/* Navbar styles */
 .navbar {
     display: flex; /* Makes this a flex container if needed */
     gap: 40px; /* Adds spacing between links */
