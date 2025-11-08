@@ -712,6 +712,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   // Initialize AI-enhanced live chat
   setTimeout(() => {
-    new AIEnhancedLiveChat();
+    window.chatInstance = new AIEnhancedLiveChat();
   }, 500);
 });
