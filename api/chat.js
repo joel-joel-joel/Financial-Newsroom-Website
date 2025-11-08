@@ -12,9 +12,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Only POST allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).end();
 
   const { prompt } = req.body;
   if (!prompt || prompt.length > 1_000) {
