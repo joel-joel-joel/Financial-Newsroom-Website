@@ -100,10 +100,9 @@ class APIService {
   const key = `random-${query}`;
   if (this.isCacheValid(key)) return this.cache.get(key).data;
 
-  // ask our proxy to resolve the redirect
-  const url = `${this.config.proxyUrl}?service=unsplash-redirect&query=${encodeURIComponent(query)}`;
-  const data = await this.fetchWithErrorHandling(url, 'unsplash-redirect');
-  const finalUrl = data?.url || `https://source.unsplash.com/800x450/?${encodeURIComponent(query)}`;
+  const redirectUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(query)}`;
+  const r = await fetch(redirectUrl, { method: 'HEAD' }); // lightweight
+  const finalUrl = r.url || redirectUrl;                // r.url === resolved JPG
 
   this.cache.set(key, { data: finalUrl, timestamp: Date.now() });
   return finalUrl;
@@ -128,7 +127,6 @@ class APIService {
     try {
       const topic = this.extractMainTopic(article.title);
       const image = await this.getRandomImage(topic); // fast, no key
-
       const enriched = { ...article, image: image || article.urlToImage, topic };
 
       if (includeVideo) {

@@ -48,6 +48,14 @@ async function loadHomepageData() {
   try {
     console.log('📰 Loading homepage data...');
 
+    const hero = await apiService.searchArticles('global market crash', 1, 1);
+  if (hero.articles?.length) {
+    const [enriched] = await Promise.all(
+      hero.articles.map(a => apiService.getEnrichedArticle(a))
+    );
+    renderHeroArticle(enriched);          // ← new tiny renderer
+  }
+
     // Fetch top headlines for news ticker
     const headlines = await apiService.getTopHeadlines('business', 15);
     if (headlines.length > 0) {
@@ -95,6 +103,22 @@ async function loadHomepageData() {
     );
   }
 }
+
+function renderHeroArticle(article) {
+  const box = document.querySelector('.main-content');
+  if (!box) return;
+  const id = btoa(article.url).slice(0,12).replace(/\//g,'-');
+  box.innerHTML = `
+    <img src="${article.image || article.urlToImage}" alt="${article.title}" class="main-img">
+    <a href="article.html?id=${id}">${article.title}</a>
+    <div class="text-container">
+      <p class="author">${article.author || 'Staff Writer'}</p>
+      <p class="description">${article.description || ''}</p>
+    </div>
+  `;
+}
+
+
 
 /**
  * Initialize carousel with infinite scroll
