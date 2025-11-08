@@ -578,32 +578,35 @@ document.addEventListener('DOMContentLoaded', async function() {
 class AIEnhancedLiveChat extends LiveChat {
   constructor() {
     super();
+    
+    console.log('🔧 AIEnhancedLiveChat constructor called');
+    console.log('🔍 Checking parent LiveChat elements...');
+    console.log('  - messagesContainer:', !!this.messagesContainer);
+    console.log('  - input:', !!this.input);
+    console.log('  - sendButton:', !!this.sendButton);
 
     // ===== AI Configuration =====
     this.aiConfig = {
       provider: 'gemini',
       model: 'gemini-2.0-flash-exp',
-      apiEndpoint: '/api/chat', // Vercel serverless function
+      apiEndpoint: '/api/chat',
       maxTokens: 150,
       temperature: 0.7,
       enabled: true,
-      // Client-side rate limiting (per user)
       rateLimit: {
         maxRequestsPerMinute: 5,
         requestCount: 0,
         resetTime: Date.now() + 60000
       },
-      // Request timeout (15 seconds)
       timeout: 15000
     };
 
-    // ===== State Management =====
     this.conversationContext = [];
     this.pendingQuestions = new Set();
-    this.activeRequests = new Map(); // Track in-flight requests
-    this.messageQueue = []; // Queue for sequential processing
+    this.activeRequests = new Map();
+    this.messageQueue = [];
 
-    // ===== Health Check =====
+    console.log('✅ AIEnhancedLiveChat initialized');
     this.checkAPIHealth();
   }
 
@@ -611,6 +614,7 @@ class AIEnhancedLiveChat extends LiveChat {
    * Check if the API endpoint is accessible
    */
   async checkAPIHealth() {
+    console.log('🏥 Running API health check...');
     try {
       const response = await fetch(this.aiConfig.apiEndpoint, {
         method: 'POST',
@@ -618,14 +622,21 @@ class AIEnhancedLiveChat extends LiveChat {
         body: JSON.stringify({ prompt: 'test' })
       });
       
+      console.log('📡 Health check response:', {
+        status: response.status,
+        ok: response.ok,
+        statusText: response.statusText
+      });
+
       if (response.ok) {
-        console.log('✅ AI API endpoint is healthy');
+        const data = await response.json();
+        console.log('✅ API is healthy. Sample response:', data);
       } else {
-        console.warn(`⚠️ AI API returned status ${response.status}`);
+        console.warn(`⚠️ API returned status ${response.status}`);
         this.aiConfig.enabled = false;
       }
     } catch (error) {
-      console.error('❌ AI API health check failed:', error);
+      console.error('❌ API health check failed:', error);
       this.aiConfig.enabled = false;
     }
   }
@@ -635,8 +646,12 @@ class AIEnhancedLiveChat extends LiveChat {
    */
   sendMessage() {
     const message = this.input.value.trim();
+    console.log('📝 sendMessage called with:', message);
     
-    if (!message) return;
+    if (!message) {
+      console.log('⚠️ Empty message, ignoring');
+      return;
+    }
 
     // Check character limit
     if (message.length > this.maxChars) {
@@ -645,16 +660,15 @@ class AIEnhancedLiveChat extends LiveChat {
     }
 
     // ===== Handle AI Commands =====
-    // User can type "/ai [question]" to directly query AI
     if (this.aiConfig.enabled && message.startsWith('/ai ')) {
       const prompt = message.slice(4).trim();
+      console.log('🤖 AI command detected. Prompt:', prompt);
       
       if (!prompt) {
         this.addMessage('@System', 'Please provide a question after /ai', false);
         return;
       }
 
-      console.log('🤖 Processing AI command:', prompt);
       this.handleAICommand(prompt);
       this.input.value = '';
       this.updateCharacterCount();
@@ -662,17 +676,16 @@ class AIEnhancedLiveChat extends LiveChat {
     }
 
     // ===== Regular Message =====
-    // Add user's message to chat
+    console.log('💬 Processing regular message');
     this.addMessage(this.username, message, true);
     this.input.value = '';
     this.updateCharacterCount();
 
     // ===== Auto-AI Response for Questions =====
-    // If message looks like a question, queue it for AI response
     if (this.aiConfig.enabled && this.isQuestion(message)) {
+      console.log('❓ Message detected as question, queuing for AI response');
       this.pendingQuestions.add(message);
       
-      // Random delay to simulate natural conversation (15-45 seconds)
       setTimeout(() => {
         if (this.pendingQuestions.has(message)) {
           this.pendingQuestions.delete(message);
@@ -681,7 +694,7 @@ class AIEnhancedLiveChat extends LiveChat {
       }, Math.random() * 30000 + 15000);
     }
 
-    // Simulate other users responding occasionally
+    // Simulate other users responding
     if (Math.random() > 0.7) {
       setTimeout(() => {
         this.simulateRandomMessage();
@@ -693,36 +706,62 @@ class AIEnhancedLiveChat extends LiveChat {
    * Handle direct AI command (/ai command)
    */
   async handleAICommand(prompt) {
+    console.log('🎯 handleAICommand started with prompt:', prompt);
+
     // ===== Rate Limit Check =====
     if (!this.checkRateLimit()) {
+      console.warn('⏱️ Rate limit exceeded');
       this.addMessage('@AI_Bot', 
-        '⏱️ Rate limit exceeded. Please wait a moment before asking another question.', 
+        '⏱️ Rate limit exceeded. Please wait a moment.', 
         false
       );
       return;
     }
 
     // ===== Show User's Command =====
+    console.log('📤 Adding user command to chat');
     this.addMessage(this.username, `/ai ${prompt}`, true);
 
     // ===== Add "Thinking" Placeholder =====
     const thinkingMessageId = `thinking-${Date.now()}`;
+    console.log('💭 Adding thinking message with ID:', thinkingMessageId);
+    
+    // Check if messagesContainer exists
+    if (!this.messagesContainer) {
+      console.error('❌ messagesContainer not found!');
+      return;
+    }
+    
     this.addMessageWithId(thinkingMessageId, '@AI_Bot', '🤔 Thinking...', false);
+    
+    // Verify message was added
+    const addedMessage = this.messagesContainer.querySelector(`[data-message-id="${thinkingMessageId}"]`);
+    console.log('✓ Thinking message added?', !!addedMessage);
 
     try {
       // ===== Call AI API =====
+      console.log('📞 Calling AI API...');
       const response = await this.callAIAPI(prompt);
+      console.log('📥 AI API returned response:', response);
 
       // ===== Replace "Thinking" with Response =====
-      this.updateMessage(thinkingMessageId, response);
-      
-      console.log('✅ AI response delivered');
+      console.log('🔄 Updating message with response...');
+      const updateResult = this.updateMessage(thinkingMessageId, response);
+      console.log('✓ Message update result:', updateResult);
+
+      // Verify the update worked
+      const updatedMessage = this.messagesContainer.querySelector(`[data-message-id="${thinkingMessageId}"]`);
+      if (updatedMessage) {
+        const textContent = updatedMessage.querySelector('.message-text')?.textContent;
+        console.log('✅ Updated message text:', textContent);
+      } else {
+        console.error('❌ Could not find updated message in DOM');
+      }
 
     } catch (error) {
       console.error('❌ AI Command Error:', error);
-
-      // ===== Show Error Message =====
       const errorMsg = this.getErrorMessage(error);
+      console.log('📝 Showing error message:', errorMsg);
       this.updateMessage(thinkingMessageId, `❌ ${errorMsg}`);
     }
   }
@@ -731,18 +770,22 @@ class AIEnhancedLiveChat extends LiveChat {
    * Generate AI response to a user's question
    */
   async generateAIResponse(question) {
-    if (!this.checkRateLimit()) return;
+    console.log('🔮 generateAIResponse called for:', question);
+    
+    if (!this.checkRateLimit()) {
+      console.log('⚠️ Rate limit check failed');
+      return;
+    }
 
-    // Build context from recent chat messages
     const context = this.buildContext(question);
+    console.log('📚 Built context for question');
 
     try {
       const response = await this.callAIAPI(context);
+      console.log('✅ Got auto-response:', response);
       this.addMessage('@AI_Bot', response, false);
-      console.log('✅ AI auto-response delivered');
     } catch (error) {
-      console.error('❌ AI Auto-Response Error:', error);
-      // Silently fail for auto-responses (don't spam errors)
+      console.error('❌ Auto-Response Error:', error);
     }
   }
 
@@ -750,7 +793,6 @@ class AIEnhancedLiveChat extends LiveChat {
    * Build context prompt from recent chat history
    */
   buildContext(question) {
-    // Get last 10 messages for context
     const messages = this.messagesContainer.querySelectorAll('.chat-message');
     const recentMessages = Array.from(messages)
       .slice(-10)
@@ -762,7 +804,6 @@ class AIEnhancedLiveChat extends LiveChat {
       .filter(msg => !msg.includes('Thinking...') && !msg.includes('❌'))
       .join('\n');
 
-    // Create focused prompt
     return `You are a helpful financial markets assistant in a live chat. 
 Answer briefly (1-2 sentences max) in a conversational tone.
 
@@ -778,22 +819,28 @@ Response:`;
    * Call the AI API endpoint with proper error handling
    */
   async callAIAPI(prompt) {
+    console.log('🌐 callAIAPI started');
+    console.log('  - Endpoint:', this.aiConfig.apiEndpoint);
+    console.log('  - Prompt length:', prompt.length);
+
     // ===== Rate Limit Check =====
     if (!this.checkRateLimit()) {
       throw new Error('Rate limit exceeded');
     }
 
-    // ===== Increment Request Counter =====
     this.aiConfig.rateLimit.requestCount++;
+    console.log('  - Rate limit count:', this.aiConfig.rateLimit.requestCount);
 
     // ===== Create Request with Timeout =====
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.aiConfig.timeout);
+    const timeoutId = setTimeout(() => {
+      console.warn('⏰ Request timeout triggered');
+      controller.abort();
+    }, this.aiConfig.timeout);
 
     try {
-      console.log(`📤 Calling AI API: ${this.aiConfig.apiEndpoint}`);
-
-      // ===== Make API Request =====
+      console.log('📤 Sending fetch request...');
+      
       const response = await fetch(this.aiConfig.apiEndpoint, {
         method: 'POST',
         headers: { 
@@ -806,33 +853,45 @@ Response:`;
 
       clearTimeout(timeoutId);
 
+      console.log('📥 Fetch response received:', {
+        status: response.status,
+        ok: response.ok,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
       // ===== Parse Response =====
       const data = await response.json();
-
-      console.log('📥 API Response:', {
-        status: response.status,
-        success: data.success,
-        hasReply: !!data.reply
-      });
+      console.log('📦 Parsed JSON data:', data);
 
       // ===== Handle Error Responses =====
       if (!response.ok) {
+        console.error('❌ Response not OK:', {
+          status: response.status,
+          error: data.error,
+          details: data.details
+        });
         throw new Error(data.details || data.error || `HTTP ${response.status}`);
       }
 
       // ===== Validate Response Data =====
       if (!data.reply || typeof data.reply !== 'string') {
-        console.error('Invalid response structure:', data);
+        console.error('❌ Invalid response structure:', data);
         throw new Error('Invalid response format from AI');
       }
 
-      // ===== Return Clean Response =====
-      return data.reply.trim();
+      const cleanReply = data.reply.trim();
+      console.log('✅ Clean reply:', cleanReply);
+      return cleanReply;
 
     } catch (error) {
       clearTimeout(timeoutId);
+      console.error('❌ callAIAPI error:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
 
-      // ===== Handle Different Error Types =====
       if (error.name === 'AbortError') {
         throw new Error('Request timeout - AI took too long to respond');
       }
@@ -841,7 +900,6 @@ Response:`;
         throw new Error('Network error - unable to reach AI service');
       }
 
-      // Re-throw with context
       throw error;
     }
   }
@@ -852,18 +910,20 @@ Response:`;
   checkRateLimit() {
     const now = Date.now();
     
-    // Reset counter if minute has passed
     if (now > this.aiConfig.rateLimit.resetTime) {
       this.aiConfig.rateLimit.requestCount = 0;
       this.aiConfig.rateLimit.resetTime = now + 60000;
+      console.log('🔄 Rate limit reset');
     }
 
-    // Check if under limit
     const allowed = this.aiConfig.rateLimit.requestCount < 
                     this.aiConfig.rateLimit.maxRequestsPerMinute;
 
     if (!allowed) {
-      console.warn('⚠️ Rate limit reached');
+      console.warn('⚠️ Rate limit reached:', {
+        count: this.aiConfig.rateLimit.requestCount,
+        max: this.aiConfig.rateLimit.maxRequestsPerMinute
+      });
     }
 
     return allowed;
@@ -873,6 +933,13 @@ Response:`;
    * Add a message with a unique ID for later updates
    */
   addMessageWithId(id, username, text, isOwnMessage = false) {
+    console.log('➕ addMessageWithId called:', { id, username, text, isOwnMessage });
+    
+    if (!this.messagesContainer) {
+      console.error('❌ messagesContainer is null!');
+      return;
+    }
+
     const messageDiv = document.createElement('div');
     messageDiv.className = 'chat-message';
     messageDiv.setAttribute('data-message-id', id);
@@ -892,7 +959,10 @@ Response:`;
       <span class="message-text">${this.escapeHtml(text)}</span>
     `;
 
+    console.log('  - Appending to messagesContainer');
     this.messagesContainer.appendChild(messageDiv);
+    
+    console.log('  - Message added. Total messages:', this.messagesContainer.children.length);
 
     if (this.autoScroll) {
       this.scrollToBottom();
@@ -905,16 +975,43 @@ Response:`;
    * Update an existing message by ID
    */
   updateMessage(messageId, newText) {
+    console.log('🔄 updateMessage called:', { messageId, newText });
+    
+    if (!this.messagesContainer) {
+      console.error('❌ messagesContainer is null!');
+      return false;
+    }
+
     const messageDiv = this.messagesContainer.querySelector(
       `[data-message-id="${messageId}"]`
     );
 
+    console.log('  - Found message div?', !!messageDiv);
+
     if (messageDiv) {
       const textSpan = messageDiv.querySelector('.message-text');
+      console.log('  - Found text span?', !!textSpan);
+      
       if (textSpan) {
+        const oldText = textSpan.textContent;
         textSpan.textContent = newText;
+        console.log('  - Text updated from:', oldText, 'to:', newText);
+        
+        // Verify update
+        console.log('  - Verification:', textSpan.textContent === newText ? '✅' : '❌');
+        return true;
+      } else {
+        console.error('❌ .message-text span not found in message div');
       }
+    } else {
+      console.error('❌ Message div not found with ID:', messageId);
+      console.log('  - Available message IDs:', 
+        Array.from(this.messagesContainer.querySelectorAll('[data-message-id]'))
+          .map(el => el.getAttribute('data-message-id'))
+      );
     }
+    
+    return false;
   }
 
   /**
@@ -968,18 +1065,35 @@ Response:`;
 
 // ===== Initialize AI Chat on Page Load =====
 document.addEventListener('DOMContentLoaded', async function() {
-  // ... your existing initialization code ...
+  console.log('🚀 DOMContentLoaded - Initializing chat...');
 
-  // Initialize AI-enhanced live chat with slight delay
+  // Wait for other initializations
   setTimeout(() => {
     try {
+      console.log('🎬 Creating AIEnhancedLiveChat instance...');
       window.chatInstance = new AIEnhancedLiveChat();
-      console.log('✅ AI-Enhanced Live Chat initialized');
+      console.log('✅ window.chatInstance created:', window.chatInstance);
+      
+      // Expose methods for debugging
+      window.testAI = (prompt) => {
+        console.log('🧪 Manual test triggered with prompt:', prompt);
+        window.chatInstance.handleAICommand(prompt);
+      };
+      
+      console.log('💡 You can test AI by typing: window.testAI("Hello")');
+      console.log('💡 Or type "/ai Hello" in the chat input');
+      
     } catch (error) {
       console.error('❌ Failed to initialize AI chat:', error);
-      // Fallback to basic LiveChat
-      window.chatInstance = new LiveChat();
-      console.log('⚠️ Fallback to basic LiveChat');
+      console.error('Stack trace:', error.stack);
+      
+      // Try fallback to basic LiveChat
+      try {
+        window.chatInstance = new LiveChat();
+        console.log('⚠️ Fallback to basic LiveChat successful');
+      } catch (fallbackError) {
+        console.error('❌ Fallback also failed:', fallbackError);
+      }
     }
   }, 500);
 });
