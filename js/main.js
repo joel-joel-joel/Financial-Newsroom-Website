@@ -573,3 +573,145 @@ document.addEventListener('DOMContentLoaded', async function() {
     new LiveChat();
   }, 500);
 });
+
+
+class AIEnhancedLiveChat extends LiveChat {
+  constructor() {
+  super();
+
+  this.aiConfig = {
+    provider: 'openai',
+    model: 'gpt-3.5-turbo',
+    maxTokens: 150,
+    temperature: 0.7,
+    enabled: true,          // ← rely on serverless route
+    rateLimit: {
+      maxRequestsPerMinute: 5,
+      requestCount: 0,
+      resetTime: Date.now() + 60000
+    }
+  };
+
+  this.conversationContext = [];
+  this.pendingQuestions = new Set();
+
+  // Optional: log if the serverless endpoint isn’t reachable
+  fetch('/api/chat', { method: 'HEAD' })
+    .catch(() => console.warn('AIEnhancedLiveChat: /api/chat not reachable. AI will be disabled.'));
+}
+  
+  // Override sendMessage to handle AI commands
+  sendMessage() {
+    const message = this.input.value.trim();
+    if (!message) return;
+    
+    if (this.aiConfig.enabled && message.startsWith('/ai ')) {
+      this.handleAICommand(message.slice(4));
+      this.input.value = '';
+      return;
+    }
+    
+    // Regular message handling
+    super.sendMessage();
+    
+    // Check if message is a question and queue for AI response
+    if (this.aiConfig.enabled && this.isQuestion(message)) {
+      this.pendingQuestions.add(message);
+      setTimeout(() => {
+        if (this.pendingQuestions.has(message)) {
+          this.pendingQuestions.delete(message);
+          this.generateAIResponse(message);
+        }
+      }, Math.random() * 30000 + 15000); // 15-45 second delay
+    }
+  }
+  
+  handleAICommand(prompt) {
+    if (!this.checkRateLimit()) {
+      this.addMessage('@AI_Bot', 'Rate limit exceeded. Please wait a moment.', false);
+      return;
+    }
+    
+    this.addMessage(this.username, `/ai ${prompt}`, true);
+    this.addMessage('@AI_Bot', 'Thinking... 🤔', false);
+    
+    this.callAIAPI(prompt).then(response => {
+      // Replace "Thinking..." with actual response
+      const messages = this.messagesContainer.querySelectorAll('.chat-message');
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage && lastMessage.textContent.includes('Thinking...')) {
+        lastMessage.querySelector('.message-text').textContent = response;
+      }
+    }).catch(error => {
+      this.addMessage('@AI_Bot', `Error: ${error.message}`, false);
+    });
+  }
+  
+  async generateAIResponse(question) {
+    if (!this.checkRateLimit()) return;
+    
+    const context = this.buildContext(question);
+    try {
+      const response = await this.callAIAPI(context);
+      this.addMessage('@AI_Bot', response, false);
+    } catch (error) {
+      console.error('AI Response Error:', error);
+    }
+  }
+  
+  buildContext(question) {
+    // Get recent chat context (last 10 messages)
+    const recentMessages = Array.from(
+      this.messagesContainer.querySelectorAll('.chat-message')
+    ).slice(-10).map(msg => {
+      const username = msg.querySelector('strong')?.textContent?.replace(':', '') || '';
+      const text = msg.querySelector('.message-text')?.textContent || '';
+      return `${username}: ${text}`;
+    }).join('\n');
+    
+    return `You are a helpful financial markets assistant in a live stream chat. 
+    Answer this question briefly (1-2 sentences). Recent context:\n${recentMessages}\n\nQuestion: ${question}`;
+  }
+  
+  async callAIAPI(prompt) {
+  if (!this.checkRateLimit()) throw new Error('Rate-limit');
+
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt }),
+  });
+
+  if (!res.ok) throw new Error('AI network error');
+  const data = await res.json();
+  return data.reply;
+}
+  
+  checkRateLimit() {
+    const now = Date.now();
+    if (now > this.aiConfig.rateLimit.resetTime) {
+      this.aiConfig.rateLimit.requestCount = 0;
+      this.aiConfig.rateLimit.resetTime = now + 60000;
+    }
+    return this.aiConfig.rateLimit.requestCount < this.aiConfig.rateLimit.maxRequestsPerMinute;
+  }
+  
+  isQuestion(text) {
+    return text.includes('?') || 
+           text.toLowerCase().startsWith('what') ||
+           text.toLowerCase().startsWith('how') ||
+           text.toLowerCase().startsWith('why') ||
+           text.toLowerCase().startsWith('when') ||
+           text.toLowerCase().startsWith('who');
+  }
+}
+
+// Replace the original LiveChat initialization
+document.addEventListener('DOMContentLoaded', async function() {
+  // ... your existing initialization code ...
+  
+  // Initialize AI-enhanced live chat
+  setTimeout(() => {
+    new AIEnhancedLiveChat();
+  }, 500);
+});
