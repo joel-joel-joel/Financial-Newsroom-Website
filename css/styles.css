@@ -623,10 +623,10 @@
   padding-bottom: 0px;
   text-align: center;
   font-size: 28px;
-  margin: 0 auto 25px auto;
+  margin: 0 auto 10px auto;
   color: black;
   font-family: 'Audrey', sans-serif;
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 /* ===== CRITICAL: Chat Messages Container ===== */
@@ -719,8 +719,9 @@
   font-size: 12px;
   color: #666;
   text-align: right;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
   display: none; /* Hidden by default */
   font-family: 'Apple Garamond', sans-serif;
   flex-shrink: 0; /* Prevent counter from shrinking */
