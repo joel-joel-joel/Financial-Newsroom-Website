@@ -1,12 +1,11 @@
-// api/chat.js  –  Vercel serverless function
-import { OpenAI } from 'openai';          // npm i openai
+// api/chat.js  –  Gemini version
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,     // injected by Vercel
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 export default async function handler(req, res) {
-  // CORS headers so your front-end can call it
+  // CORS for local & prod
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -21,17 +20,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 150,
-      temperature: 0.7,
-    });
-
-    const reply = completion.choices[0].message.content.trim();
+    const result = await model.generateContent(prompt);
+    const reply = result.response.text();
     return res.status(200).json({ reply });
   } catch (err) {
-    console.error('OpenAI error:', err);
+    console.error('Gemini error:', err);
     return res.status(500).json({ error: 'AI service unavailable' });
   }
 }
