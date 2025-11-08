@@ -63,7 +63,7 @@ async function loadHomepageData() {
         picks.articles.map(a => apiService.getEnrichedArticle(a, false))
       );
       uiRenderer.renderEditorsPicksAPI(enriched);
-      console.log('✓ Editor's picks loaded from API');
+      console.log('✓ Editors picks loaded from API');
     }
 
     // ----- News Ticker -----
