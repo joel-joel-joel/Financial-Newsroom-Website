@@ -28,3 +28,8 @@ const API_CONFIG = (() => {
   };
   return (window.location.hostname === 'localhost') ? dev : prod;
 })();
+
+
+proxyUrl: window.location.hostname === 'localhost'
+          ? 'http://localhost:3000/api'
+          : 'https://your-real-vercel.app/api'
