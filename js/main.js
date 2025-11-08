@@ -580,11 +580,11 @@ class AIEnhancedLiveChat extends LiveChat {
   super();
 
   this.aiConfig = {
-    provider: 'openai',
-    model: 'gpt-3.5-turbo',
+    provider: 'gemini',        // ← was 'openai'
+    model: 'gemini-1.5-flash', // ← was 'gpt-3.5-turbo'
     maxTokens: 150,
     temperature: 0.7,
-    enabled: true,          // ← rely on serverless route
+    enabled: true,         // ← rely on serverless route
     rateLimit: {
       maxRequestsPerMinute: 5,
       requestCount: 0,
