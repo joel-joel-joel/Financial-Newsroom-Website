@@ -56,6 +56,16 @@ async function loadHomepageData() {
     renderHeroArticle(enriched);          // ← new tiny renderer
   }
 
+  // ----- Editor’s Picks (3 articles) -----
+const picks = await apiService.searchArticles('market analysis', 3, 1);
+if (picks.articles && picks.articles.length === 3) {
+  const enriched = await Promise.all(
+    picks.articles.map(a => apiService.getEnrichedArticle(a, false)) // no video
+  );
+  uiRenderer.renderEditorsPicksAPI(enriched);
+  console.log('✓ Editor’s picks loaded from API');
+}
+
     // Fetch top headlines for news ticker
     const headlines = await apiService.getTopHeadlines('business', 15);
     if (headlines.length > 0) {

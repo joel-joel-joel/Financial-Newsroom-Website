@@ -28,6 +28,46 @@ class UIRenderer {
   }
 
   /**
+ * Render Editor's Picks (3-article grid with comment above/below)
+ * @param {Array} articles - exactly 3 enriched articles
+ */
+renderEditorsPicksAPI(articles) {
+  if (!articles || articles.length < 3) return;
+
+  const box = document.querySelector('.third-section');
+  if (!box) return;
+
+  box.innerHTML = ''; // dump the static placeholders
+
+  articles.forEach((art, i) => {
+    const id   = btoa(art.url).slice(0, 12).replace(/\//g,'-');
+    const isEven = i % 2 === 0; // 0 & 2 → comment below
+    const pick = `
+      <div class="pick-column">
+        ${!isEven ? `
+          <p class="comment-${i+1}">
+            “${art.description?.slice(0,120)}…”
+            <br><span class="comment-author-${i+1}">— ${art.author || 'Staff'}</span>
+          </p>` : ''}
+
+        <div class="editors-pick-${i+1}">
+          <img src="${art.image || art.urlToImage}" alt="" class="editor-img">
+          <a href="article.html?id=${id}" class="editor-pick-caption-${i+1}">
+            ${art.title}
+          </a>
+        </div>
+
+        ${isEven ? `
+          <p class="comment-${i+1}">
+            “${art.description?.slice(0,120)}…”
+            <br><span class="comment-author-${i+1}">— ${art.author || 'Staff'}</span>
+          </p>` : ''}
+      </div>`;
+    box.insertAdjacentHTML('beforeend', pick);
+  });
+}
+
+  /**
    * Display loading state in container
    */
   showLoading(container) {
