@@ -276,3 +276,300 @@ function handleAPIError(error, context = 'API') {
 
   return message;
 }
+
+/**
+ * LiveChat - YouTube-style live chat functionality
+ * Features:
+ * - Real-time message posting with Enter key or send button
+ * - Auto-scroll that pauses when user scrolls up
+ * - Character counter (200 character limit)
+ * - Relative timestamps ("just now", "1 min ago")
+ * - Persistent username via localStorage
+ * - XSS protection and message cleanup
+ */
+class LiveChat {
+  constructor() {
+    this.messagesContainer = document.querySelector('.chat-messages');
+    this.input = document.querySelector('.comments-box input');
+    this.sendButton = document.querySelector('.comments-box button');
+    
+    // Exit if elements not found
+    if (!this.messagesContainer || !this.input || !this.sendButton) {
+      console.warn('LiveChat: Required DOM elements not found');
+      return;
+    }
+    
+    this.username = this.getStoredUsername();
+    this.autoScroll = true;
+    this.maxChars = 200;
+    
+    this.init();
+  }
+  
+  init() {
+    // Add dynamic styles for chat elements
+    this.addChatStyles();
+    
+    // Event listeners
+    this.sendButton.addEventListener('click', () => this.sendMessage());
+    this.input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    });
+    
+    // Character counter
+    this.input.addEventListener('input', () => this.updateCharacterCount());
+    
+    // Scroll detection for auto-scroll control
+    this.messagesContainer.addEventListener('scroll', () => this.handleScroll());
+    
+    // Simulate initial activity
+    this.simulateInitialMessages();
+    
+    // Start periodic random messages
+    this.startRandomMessages();
+  }
+  
+  addChatStyles() {
+    const styleId = 'live-chat-styles';
+    if (document.getElementById(styleId)) return;
+    
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      .chat-message {
+        padding: 4px 8px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        line-height: 1.4;
+      }
+      
+      .chat-message:hover {
+        background-color: #2a2a2a;
+      }
+      
+      .chat-message.own-message {
+        background-color: #1a1a1a;
+        border-left: 2px solid crimson;
+      }
+      
+      .message-header {
+        flex-shrink: 0;
+        margin-right: 8px;
+      }
+      
+      .message-text {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        flex: 1;
+        min-width: 0;
+        font-family: 'Apple Garamond', sans-serif;
+      }
+      
+      .timestamp {
+        font-size: 11px;
+        color: #aaa;
+        margin-left: 8px;
+        flex-shrink: 0;
+        font-family: 'Apple Garamond Light', sans-serif;
+
+      }
+      
+      .character-counter {
+        font-size: 12px;
+        color: #aaa;
+        text-align: right;
+        margin-top: -8px;
+        margin-bottom: 5px;
+        display: none;
+      }
+      
+      .character-counter.warning {
+        color: #ff6b6b;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  getStoredUsername() {
+    try {
+      const stored = localStorage.getItem('ff_chat_username');
+      if (stored) return stored;
+      
+      const randomNum = Math.floor(Math.random() * 10000);
+      const username = `@user${randomNum}`;
+      localStorage.setItem('ff_chat_username', username);
+      return username;
+    } catch (e) {
+      return '@guest';
+    }
+  }
+  
+  formatRelativeTime(timestamp) {
+    const now = new Date();
+    const diffMs = now - timestamp;
+    const diffMins = Math.floor(diffMs / 60000);
+    
+    if (diffMins < 1) return 'just now';
+    if (diffMins === 1) return '1 min ago';
+    if (diffMins < 60) return `${diffMins} mins ago`;
+    
+    return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  
+  sendMessage() {
+    const message = this.input.value.trim();
+    if (!message) return;
+    
+    if (message.length > this.maxChars) {
+      alert(`Message too long! Maximum ${this.maxChars} characters.`);
+      return;
+    }
+    
+    this.addMessage(this.username, message, true);
+    this.input.value = '';
+    this.updateCharacterCount();
+    
+    // Simulate a response from another user
+    setTimeout(() => {
+      this.simulateRandomMessage();
+    }, Math.random() * 3000 + 1000);
+  }
+  
+  addMessage(username, text, isOwnMessage = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message';
+    if (isOwnMessage) {
+      messageDiv.classList.add('own-message');
+    }
+    
+    const timestamp = new Date();
+    const timeStr = this.formatRelativeTime(timestamp);
+    
+    messageDiv.innerHTML = `
+      <span class="message-header">
+        <strong>${this.escapeHtml(username)}:</strong>
+        <span class="timestamp">${timeStr}</span>
+      </span>
+      <span class="message-text">${this.escapeHtml(text)}</span>
+    `;
+    
+    this.messagesContainer.appendChild(messageDiv);
+    
+    if (this.autoScroll) {
+      this.scrollToBottom();
+    }
+    
+    // Keep only last 100 messages
+    this.cleanupOldMessages();
+  }
+  
+  handleScroll() {
+    const container = this.messagesContainer;
+    const scrollHeight = container.scrollHeight;
+    const scrollTop = container.scrollTop;
+    const clientHeight = container.clientHeight;
+    
+    // Enable auto-scroll if within 100px of bottom
+    this.autoScroll = (scrollHeight - scrollTop - clientHeight) < 100;
+  }
+  
+  updateCharacterCount() {
+    const length = this.input.value.length;
+    let counter = document.querySelector('.character-counter');
+    
+    if (!counter) {
+      counter = document.createElement('div');
+      counter.className = 'character-counter';
+      this.input.parentNode.insertBefore(counter, this.input);
+    }
+    
+    if (length > 0) {
+      counter.style.display = 'block';
+      counter.textContent = `${length}/${this.maxChars}`;
+      counter.classList.toggle('warning', length > this.maxChars * 0.9);
+    } else {
+      counter.style.display = 'none';
+    }
+  }
+  
+  scrollToBottom() {
+    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+  }
+  
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+  
+  simulateInitialMessages() {
+    const messages = [
+      { user: '@anna738748', text: 'This is amazing!' },
+      { user: '@jonahjjames', text: 'Loving the stream 🔥' },
+      { user: '@trader_pro', text: 'Market looking bullish today' },
+      { user: '@investor_2025', text: 'Great analysis, thanks for the insights!' }
+    ];
+    
+    messages.forEach((msg, index) => {
+      setTimeout(() => {
+        this.addMessage(msg.user, msg.text);
+      }, index * 1200);
+    });
+  }
+  
+  simulateRandomMessage() {
+    const messages = [
+      'Thanks for the update!',
+      'This is really helpful',
+      'What do you think about crypto?',
+      'Market volatility is crazy today',
+      'Great stream, keep it up!',
+      'Just joined, what did I miss?',
+      'Any thoughts on the Fed announcement?'
+    ];
+    
+    const users = ['@investor_jane', '@trader_mike', '@analyst_sarah', '@finance_guru', '@market_watcher'];
+    
+    const user = users[Math.floor(Math.random() * users.length)];
+    const message = messages[Math.floor(Math.random() * messages.length)];
+    
+    this.addMessage(user, message);
+  }
+  
+  startRandomMessages() {
+    setInterval(() => {
+      if (Math.random() > 0.6) { // 40% chance
+        this.simulateRandomMessage();
+      }
+    }, Math.random() * 7000 + 8000);
+  }
+  
+  cleanupOldMessages() {
+    const messages = this.messagesContainer.querySelectorAll('.chat-message');
+    const maxMessages = 100;
+    
+    if (messages.length > maxMessages) {
+      for (let i = 0; i < messages.length - maxMessages; i++) {
+        messages[i].remove();
+      }
+    }
+  }
+}
+
+// Add to your existing DOMContentLoaded listener
+document.addEventListener('DOMContentLoaded', async function() {
+  // ... your existing initialization code ...
+  
+  // Initialize live chat
+  setTimeout(() => {
+    new LiveChat();
+  }, 500);
+});
