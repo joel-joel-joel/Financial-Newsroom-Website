@@ -36,6 +36,8 @@ class UIRenderer {
 
     trendingList.innerHTML = articles.slice(0, 5).map(article => {
       const articleId = btoa(article.url).slice(0, 12).replace(/\//g, '-');
+      // Store article data for article page
+      sessionStorage.setItem(`art_${articleId}`, JSON.stringify(article));
       return `
         <li>
           <img src="${article.image || article.urlToImage || 'https://via.placeholder.com/100'}" 
@@ -84,11 +86,15 @@ class UIRenderer {
     const pick1Link = pick1Container?.querySelector('.editor-pick-caption-1');
     const pick1Img = pick1Container?.querySelector('.editor-img');
     
-    if (pick1Img) pick1Img.src = pick1.image || pick1.urlToImage || 'https://via.placeholder.com/640x400';
-    if (pick1Img) pick1Img.alt = pick1.title;
+    if (pick1Img) {
+      pick1Img.src = pick1.image || pick1.urlToImage || 'https://via.placeholder.com/640x400';
+      pick1Img.alt = pick1.title;
+    }
     if (pick1Link) {
       pick1Link.textContent = pick1.title;
       pick1Link.href = `article.html?id=${id1}`;
+      // Store article data for article page
+      sessionStorage.setItem(`art_${id1}`, JSON.stringify(pick1));
     }
 
     // Pick 2 - comment above
@@ -98,11 +104,15 @@ class UIRenderer {
     const pick2Link = pick2Container?.querySelector('.editor-pick-caption-2');
     const pick2Img = pick2Container?.querySelector('.editor-img');
     
-    if (pick2Img) pick2Img.src = pick2.image || pick2.urlToImage || 'https://via.placeholder.com/640x400';
-    if (pick2Img) pick2Img.alt = pick2.title;
+    if (pick2Img) {
+      pick2Img.src = pick2.image || pick2.urlToImage || 'https://via.placeholder.com/640x400';
+      pick2Img.alt = pick2.title;
+    }
     if (pick2Link) {
       pick2Link.textContent = pick2.title;
       pick2Link.href = `article.html?id=${id2}`;
+      // Store article data for article page
+      sessionStorage.setItem(`art_${id2}`, JSON.stringify(pick2));
     }
 
     // Pick 3 - comment below
@@ -112,14 +122,21 @@ class UIRenderer {
     const pick3Link = pick3Container?.querySelector('.editor-pick-caption-3');
     const pick3Img = pick3Container?.querySelector('.editor-img');
     
-    if (pick3Img) pick3Img.src = pick3.image || pick3.urlToImage || 'https://via.placeholder.com/640x400';
-    if (pick3Img) pick3Img.alt = pick3.title;
+    if (pick3Img) {
+      pick3Img.src = pick3.image || pick3.urlToImage || 'https://via.placeholder.com/640x400';
+      pick3Img.alt = pick3.title;
+    }
     if (pick3Link) {
       pick3Link.textContent = pick3.title;
       pick3Link.href = `article.html?id=${id3}`;
+      // Store article data for article page
+      sessionStorage.setItem(`art_${id3}`, JSON.stringify(pick3));
     }
 
     console.log('✓ Editor\'s picks updated from API');
+    console.log('Pick 1:', pick1.title);
+    console.log('Pick 2:', pick2.title);
+    console.log('Pick 3:', pick3.title);
   }
 
   /**
