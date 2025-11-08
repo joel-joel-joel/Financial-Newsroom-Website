@@ -607,10 +607,11 @@ class AIEnhancedLiveChat extends LiveChat {
     if (!message) return;
     
     if (this.aiConfig.enabled && message.startsWith('/ai ')) {
-      this.handleAICommand(message.slice(4));
-      this.input.value = '';
-      return;
-    }
+  console.log('Entering /ai branch, prompt:', message.slice(4));
+  this.handleAICommand(message.slice(4));
+  this.input.value = '';
+  return;
+}
     
     // Regular message handling
     super.sendMessage();
