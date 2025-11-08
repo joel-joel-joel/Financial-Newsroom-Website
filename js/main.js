@@ -1,4 +1,4 @@
-// Global instances (will be initialized on page load)
+// Global instances
 let apiService = null;
 let uiRenderer = null;
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Initialize carousel
   await initializeCarousel();
 
-  // Set up auto-refresh (optional)
+  // Set up auto-refresh
   setUpAutoRefresh();
 
   console.log('✅ Application fully loaded');
@@ -46,52 +46,52 @@ async function loadHomepageData() {
   try {
     console.log('📰 Loading homepage data...');
 
+    // Load all sections in parallel for faster loading
+    const [heroData, picksData, headlinesData, trendingData, topStoriesData] = await Promise.all([
+      apiService.searchArticles('global market crash', 1, 1),
+      apiService.searchArticles('market analysis', 3, 1),
+      apiService.getTopHeadlines('business', 15),
+      apiService.searchArticles('stock market', 10, 1),
+      apiService.searchArticles('finance technology', 15, 1)
+    ]);
+
     // ----- Hero Article -----
-    const hero = await apiService.searchArticles('global market crash', 1, 1);
-    if (hero.articles?.length) {
-      const [enriched] = await Promise.all(
-        hero.articles.map(a => apiService.getEnrichedArticle(a))
-      );
-      renderHeroArticle(enriched);
+    if (heroData.articles?.length) {
+      const enrichedHero = await apiService.getEnrichedArticle(heroData.articles[0]);
+      renderHeroArticle(enrichedHero);
       console.log('✓ Hero article loaded');
     }
 
     // ----- Editor's Picks (3 articles) -----
-    const picks = await apiService.searchArticles('market analysis', 3, 1);
-    if (picks.articles && picks.articles.length >= 3) {
-      const enriched = await Promise.all(
-        picks.articles.map(a => apiService.getEnrichedArticle(a, false))
+    if (picksData.articles?.length >= 3) {
+      const enrichedPicks = await Promise.all(
+        picksData.articles.slice(0, 3).map(a => apiService.getEnrichedArticle(a, false))
       );
-      uiRenderer.renderEditorsPicksAPI(enriched);
-      console.log('✓ Editors picks loaded from API');
+      uiRenderer.renderEditorsPicksAPI(enrichedPicks);
     }
 
     // ----- News Ticker -----
-    const headlines = await apiService.getTopHeadlines('business', 15);
-    if (headlines.length > 0) {
-      uiRenderer.renderNewsTicker(headlines);
-      console.log(`✓ News ticker updated with ${headlines.length} headlines`);
+    if (headlinesData?.length) {
+      uiRenderer.renderNewsTicker(headlinesData);
     }
 
     // ----- Trending Section -----
-    const trendingArticles = await apiService.searchArticles('stock market', 10, 1);
-    if (trendingArticles.articles && trendingArticles.articles.length > 0) {
+    if (trendingData.articles?.length) {
       const enrichedTrending = await Promise.all(
-        trendingArticles.articles.map(article => apiService.getEnrichedArticle(article))
+        trendingData.articles.map(a => apiService.getEnrichedArticle(a))
       );
       uiRenderer.renderTrendingSection(enrichedTrending);
-      console.log(`✓ Trending section updated with ${enrichedTrending.length} articles`);
     }
 
     // ----- Top Stories Carousel -----
-    const topStories = await apiService.searchArticles('finance technology', 15, 1);
-    if (topStories.articles && topStories.articles.length > 0) {
+    if (topStoriesData.articles?.length) {
       const enrichedStories = await Promise.all(
-        topStories.articles.map(article => apiService.getEnrichedArticle(article, false))
+        topStoriesData.articles.map(a => apiService.getEnrichedArticle(a, false))
       );
       uiRenderer.renderTopStories(enrichedStories);
-      console.log(`✓ Top stories loaded: ${enrichedStories.length} articles`);
     }
+
+    console.log('✅ All homepage data loaded successfully');
 
   } catch (error) {
     console.error('❌ Error loading homepage data:', error);
@@ -107,19 +107,28 @@ async function loadHomepageData() {
  */
 function renderHeroArticle(article) {
   const box = document.querySelector('.main-content');
-  if (!box) return;
+  if (!box) {
+    console.warn('⚠️ Hero article: .main-content container not found');
+    return;
+  }
   
   const id = btoa(article.url).slice(0, 12).replace(/\//g, '-');
-  
-  // Store article data for article page
   sessionStorage.setItem(`art_${id}`, JSON.stringify(article));
   
+  const imageUrl = article.image || article.urlToImage || 'https://via.placeholder.com/800x600';
+  const author = article.author || 'Staff Writer';
+  const source = article.source?.name || 'Staff';
+  const description = article.description || '';
+  
   box.innerHTML = `
-    <img src="${article.image || article.urlToImage}" alt="${article.title}" class="main-img">
+    <img src="${imageUrl}" 
+         alt="${article.title}" 
+         class="main-img"
+         onerror="this.src='https://via.placeholder.com/800x600'">
     <a href="article.html?id=${id}">${article.title}</a>
     <div class="text-container">
-      <p class="author">${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}</p>
-      <p class="description">${article.description || ''}</p>
+      <p class="author">${author}<br>Photographed by ${source}</p>
+      <p class="description">${description}</p>
     </div>
   `;
 }
@@ -132,16 +141,19 @@ async function initializeCarousel() {
     const storiesContainer = document.querySelector(".top-stories");
 
     if (!storiesContainer) {
-      console.warn('⚠️  Stories container not found');
+      console.warn('⚠️ Carousel: Stories container not found');
       return;
     }
+
+    // Wait a bit for DOM to fully render
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     const stories = Array.from(document.querySelectorAll(".story"));
     const storiesPerView = 5;
     const totalStories = stories.length;
 
     if (totalStories === 0) {
-      console.warn('⚠️  No stories to carousel');
+      console.warn('⚠️ Carousel: No stories found');
       return;
     }
 
@@ -177,14 +189,12 @@ async function initializeCarousel() {
     // Pause/resume on hover
     const wrapper = document.querySelector(".top-stories-wrapper");
     if (wrapper) {
-      wrapper.addEventListener('mouseenter', function() {
+      wrapper.addEventListener('mouseenter', () => {
         clearInterval(carouselInterval);
-        console.log('⏸️  Carousel paused');
       });
 
-      wrapper.addEventListener('mouseleave', function() {
+      wrapper.addEventListener('mouseleave', () => {
         carouselInterval = setInterval(slideStories, 3000);
-        console.log('▶️  Carousel resumed');
       });
     }
 
@@ -210,7 +220,6 @@ function setUpAutoRefresh() {
 
 /**
  * Global function to navigate to article
- * Called from article links
  */
 function navigateToArticle(article) {
   const hash = btoa(article.url).slice(0, 12).replace(/\//g, '-');
@@ -220,32 +229,30 @@ function navigateToArticle(article) {
 
 /**
  * Global function to search articles
- * Can be called from search form
  */
 async function searchArticles(query) {
-  if (!query || query.trim().length === 0) {
+  if (!query?.trim()) {
     alert('Please enter a search term');
     return;
   }
 
   try {
-    uiRenderer.showLoading(document.querySelector('.main-container'));
+    const container = document.querySelector('.main-container');
+    uiRenderer.showLoading(container);
 
     const results = await apiService.searchArticles(query, 20, 1);
-    if (results.articles && results.articles.length > 0) {
+    
+    if (results.articles?.length) {
       const enriched = await Promise.all(
         results.articles.map(article => apiService.getEnrichedArticle(article))
       );
       uiRenderer.renderTopStories(enriched);
-      console.log(`✓ Search results: ${enriched.length} articles found`);
+      console.log(`✓ Search: ${enriched.length} articles found for "${query}"`);
     } else {
-      uiRenderer.showError(
-        document.querySelector('.main-container'),
-        `No articles found for "${query}"`
-      );
+      uiRenderer.showError(container, `No articles found for "${query}"`);
     }
   } catch (error) {
-    console.error('Search error:', error);
+    console.error('❌ Search error:', error);
     uiRenderer.showError(
       document.querySelector('.main-container'),
       'Search failed. Please try again.'
@@ -254,17 +261,15 @@ async function searchArticles(query) {
 }
 
 /**
- * Global function to handle errors gracefully
+ * Global error handler
  */
 function handleAPIError(error, context = 'API') {
   console.error(`${context} Error:`, error);
 
-  if (API_CONFIG.app.enableLogging) {
-    // Could send to error tracking service
+  if (API_CONFIG?.app?.enableLogging) {
     console.error(`[${new Date().toISOString()}] ${context}: ${error.message}`);
   }
 
-  // Optionally show user-friendly message
   const message = error.message?.includes('API') 
     ? 'API Error - Please check your configuration' 
     : 'An error occurred. Please try again.';

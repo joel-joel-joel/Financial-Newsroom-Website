@@ -1,171 +1,165 @@
 /**
- * article.js
- * Handles article.html page functionality
- * Dynamically loads article content based on URL parameter
- * Features: URL parameter parsing, related articles, sharing
+ * article.js - Article Page Handler
+ * Loads and displays individual article pages with related content
  */
 
-/* article.js – replace top-level query with: */
-let articleContainer; // global
-
+// Global instances
+let apiService = null;
+let uiRenderer = null;
+let currentArticle = null;
 
 /**
- * Initialize article page on load
+ * Initialize article page
  */
 document.addEventListener('DOMContentLoaded', async function() {
   console.log('📄 Article page initializing...');
 
-  // Initialize services
-  apiService = new APIService(API_CONFIG);
-  uiRenderer = new UIRenderer();
+  try {
+    // Initialize services
+    apiService = new APIService(API_CONFIG);
+    uiRenderer = new UIRenderer();
 
-  // Display current date
-  displayCurrentDate();
+    // Display current date
+    displayCurrentDate();
 
-  // Get article ID from URL parameter
-  const articleId = getArticleIdFromURL();
+    // Get article ID from URL
+    const articleId = getArticleIdFromURL();
+    
+    if (!articleId) {
+      throw new Error('No article ID provided');
+    }
 
-  if (!articleId) {
-    uiRenderer.showError(
-      document.querySelector('.article-container') || document.body,
-      'No article ID provided. Please go back to the homepage.'
-    );
-    return;
+    // Load and display article
+    await loadArticle(articleId);
+
+    // Load related articles
+    await loadRelatedArticles();
+
+    console.log('✅ Article page loaded successfully');
+
+  } catch (error) {
+    console.error('❌ Article page error:', error);
+    const container = document.querySelector('.article-container') || document.body;
+    uiRenderer.showError(container, error.message || 'Failed to load article');
   }
-
-  // Load and display the article
-  await loadArticle(articleId);
-
-  // Load related articles
-  await loadRelatedArticles();
-
-  console.log('✅ Article page loaded');
 });
 
 /**
- * Extract article ID from URL query parameter
- * URL format: article.html?id=articleId
- * @returns {string|null} Article ID or null
+ * Get article ID from URL parameter
  */
 function getArticleIdFromURL() {
   const params = new URLSearchParams(window.location.search);
-  return params.get('id') || null;
+  const id = params.get('id');
+  console.log('Article ID from URL:', id);
+  return id;
 }
 
 /**
- * Load article by ID and display it
- * @param {string} articleId - Article identifier
+ * Load and display article
  */
 async function loadArticle(articleId) {
+  const container = document.querySelector('.article-container');
+  
   try {
     console.log(`🔍 Loading article: ${articleId}`);
-
+    
     // Show loading state
-    uiRenderer.showLoading(
-      document.querySelector('.article-container') || document.body
-    );
+    if (container) {
+      uiRenderer.showLoading(container);
+    }
 
-    // Try to load from cache first (stored in sessionStorage)
+    // Try to load from cache first
     let article = loadArticleFromCache(articleId);
 
+    // If not in cache, fetch from API
     if (!article) {
-      // If not in cache, fetch from API
+      console.log('Article not in cache, fetching from API...');
       article = await fetchArticleFromAPI(articleId);
-
+      
       if (!article) {
         throw new Error('Article not found');
       }
-
-      // Store in cache
+      
+      // Store in cache for future use
       cacheArticle(articleId, article);
+    } else {
+      console.log('✓ Article loaded from cache');
     }
 
-    // Enrich article with additional data (video, etc.)
+    // Enrich article with additional data
     currentArticle = await apiService.getEnrichedArticle(article, true);
 
     // Render the article
     uiRenderer.renderFullArticle(currentArticle);
 
-    // Update page meta
-    uiRenderer.updatePageMeta(
-      currentArticle.title,
-      currentArticle.description
-    );
+    // Update page meta tags
+    uiRenderer.updatePageMeta(currentArticle.title, currentArticle.description);
 
-    // Set up interactions
-    setUpArticleInteractions();
-
-    console.log('✓ Article loaded successfully');
+    console.log('✓ Article rendered successfully');
 
   } catch (error) {
-    console.error('❌ Error loading article:', error);
-    uiRenderer.showError(
-      document.querySelector('.article-container') || document.body,
-      'Failed to load article. Please try again or return to homepage.'
-    );
+    console.error('Error loading article:', error);
+    
+    if (container) {
+      uiRenderer.showError(
+        container,
+        'Unable to load article. Please try again or return to homepage.'
+      );
+    }
+    
+    throw error;
   }
 }
 
 /**
- * Try to load article from cache (sessionStorage)
- * @param {string} articleId - Article identifier
- * @returns {Object|null} Cached article or null
+ * Load article from sessionStorage cache
  */
 function loadArticleFromCache(articleId) {
   try {
-    const cached = sessionStorage.getItem(`article_${articleId}`);
+    const cached = sessionStorage.getItem(`art_${articleId}`);
     if (cached) {
-      console.log('📦 Loading article from cache');
       return JSON.parse(cached);
     }
   } catch (error) {
-    console.warn('⚠️  Error reading cache:', error);
+    console.warn('Error reading from cache:', error);
   }
   return null;
 }
 
 /**
- * Store article in cache (sessionStorage)
- * @param {string} articleId - Article identifier
- * @param {Object} article - Article object to cache
+ * Store article in sessionStorage cache
  */
 function cacheArticle(articleId, article) {
   try {
-    sessionStorage.setItem(`article_${articleId}`, JSON.stringify(article));
+    sessionStorage.setItem(`art_${articleId}`, JSON.stringify(article));
     console.log('💾 Article cached');
   } catch (error) {
-    console.warn('⚠️  Error caching article:', error);
+    console.warn('Error caching article:', error);
   }
 }
 
 /**
- * Fetch article from API by searching for it
- * Since NewsAPI doesn't provide direct article retrieval,
- * we search for articles matching the ID
- * @param {string} articleId - Article identifier
- * @returns {Promise<Object|null>} Article object or null
+ * Fetch article from API
+ * Since we can't get articles by ID directly from NewsAPI,
+ * we search for recent articles and try to match
  */
 async function fetchArticleFromAPI(articleId) {
   try {
-    // If articleId is a URL hash, decode it
-    let searchTerm = articleId;
-    if (articleId.length < 20) {
-      // Likely a hash, use a generic search
-      searchTerm = 'finance';
-    }
-
-    // Try to search for article
-    const results = await apiService.searchArticles(searchTerm, 50, 1);
-
+    console.log('Fetching article from API...');
+    
+    // Try a general business/finance search
+    const results = await apiService.searchArticles('finance business', 50, 1);
+    
     if (results.articles && results.articles.length > 0) {
-      // For demo purposes, return first article
-      // In production, match by URL hash or specific identifier
+      // For demo purposes, return first relevant article
+      // In production, you'd match by a proper identifier
+      console.log(`Found ${results.articles.length} articles`);
       return results.articles[0];
     }
 
     return null;
   } catch (error) {
-    console.error('Error fetching from API:', error);
+    console.error('API fetch error:', error);
     return null;
   }
 }
@@ -175,132 +169,41 @@ async function fetchArticleFromAPI(articleId) {
  */
 async function loadRelatedArticles() {
   try {
-    if (!currentArticle) return;
+    if (!currentArticle) {
+      console.warn('No current article to find related content');
+      return;
+    }
 
     console.log('🔗 Loading related articles...');
 
     // Extract topic from current article
     const topic = apiService.extractMainTopic(currentArticle.title);
+    console.log('Searching related articles for topic:', topic);
 
     // Search for related articles
-    const relatedResults = await apiService.searchArticles(topic, 5, 1);
+    const results = await apiService.searchArticles(topic, 6, 1);
 
-    if (relatedResults.articles && relatedResults.articles.length > 0) {
-      // Enrich articles
+    if (results.articles && results.articles.length > 0) {
+      // Filter out current article and enrich the rest
+      const relatedArticles = results.articles
+        .filter(article => article.url !== currentArticle.url)
+        .slice(0, 3);
+
       const enriched = await Promise.all(
-        relatedResults.articles
-          .filter(article => article.url !== currentArticle.url) // Exclude current article
-          .slice(0, 3)
-          .map(article => apiService.getEnrichedArticle(article))
+        relatedArticles.map(article => apiService.getEnrichedArticle(article))
       );
 
-      renderRelatedArticles(enriched);
+      // Render related articles
+      uiRenderer.renderRelatedArticles(enriched);
+      
       console.log(`✓ Loaded ${enriched.length} related articles`);
+    } else {
+      console.log('No related articles found');
     }
 
   } catch (error) {
     console.error('Error loading related articles:', error);
-  }
-}
-
-/**
- * Render related articles section
- * @param {Array} articles - Array of related article objects
- */
-function renderRelatedArticles(articles) {
-  // Create related articles section
-  const container = document.querySelector('.article-container');
-  if (!container) return;
-
-  const relatedSection = document.createElement('section');
-  relatedSection.className = 'related-articles';
-  relatedSection.innerHTML = '<h3>Related Articles</h3><div class="related-articles-grid"></div>';
-
-  const grid = relatedSection.querySelector('.related-articles-grid');
-
-  articles.forEach(article => {
-    const articleCard = document.createElement('div');
-    articleCard.className = 'related-article-card';
-    articleCard.innerHTML = `
-      <img src="${article.image || article.urlToImage}" alt="${article.title}" />
-      <h4><a href="article.html?id=${uiRenderer.hashUrl(article.url)}">${article.title}</a></h4>
-      <p>${article.description?.substring(0, 100)}...</p>
-      <small>${uiRenderer.formatDate(article.publishedAt)}</small>
-    `;
-    grid.appendChild(articleCard);
-  });
-
-  container.appendChild(relatedSection);
-}
-
-/**
- * Set up article interactions (sharing, etc.)
- */
-function setUpArticleInteractions() {
-  if (!currentArticle) return;
-
-  // Share functionality
-  const shareButtons = document.querySelectorAll('[data-share-action]');
-  shareButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const action = this.getAttribute('data-share-action');
-      shareArticle(action);
-    });
-  });
-
-  // Print functionality
-  const printBtn = document.querySelector('[data-action="print"]');
-  if (printBtn) {
-    printBtn.addEventListener('click', () => window.print());
-  }
-}
-
-/**
- * Share article to social media or copy link
- * @param {string} platform - Platform to share to (twitter, facebook, copy, etc.)
- */
-function shareArticle(platform) {
-  const url = window.location.href;
-  const title = currentArticle.title;
-  const text = `${title} - The Financial Frontier`;
-
-  switch(platform) {
-    case 'twitter':
-      window.open(
-        `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
-        'twitter-share',
-        'width=550,height=235'
-      );
-      break;
-
-    case 'facebook':
-      window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-        'facebook-share',
-        'width=550,height=235'
-      );
-      break;
-
-    case 'linkedin':
-      window.open(
-        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-        'linkedin-share',
-        'width=550,height=235'
-      );
-      break;
-
-    case 'copy':
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Link copied to clipboard!');
-      });
-      break;
-
-    case 'email':
-      window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`);
-      break;
-
-    default:
-      console.warn(`Unknown share platform: ${platform}`);
+    // Don't throw - related articles are not critical
   }
 }
 
@@ -317,16 +220,17 @@ function displayCurrentDate() {
 }
 
 /**
- * Go back to homepage or previous page
+ * Navigate back to previous page or homepage
  */
 function goBack() {
-  if (document.referrer.includes('index.html') || document.referrer.includes(window.location.hostname)) {
+  if (document.referrer && 
+      (document.referrer.includes('index.html') || 
+       document.referrer.includes(window.location.hostname))) {
     window.history.back();
   } else {
     window.location.href = 'index.html';
   }
 }
 
-/* article.js – inside loadArticle */
-let article = JSON.parse(sessionStorage.getItem(`art_${articleId}`));
-if (!article) article = await fetchArticleFromAPI(articleId);
+// Make goBack available globally for back button
+window.goBack = goBack;

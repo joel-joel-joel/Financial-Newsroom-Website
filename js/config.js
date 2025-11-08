@@ -1,15 +1,29 @@
-// config.js  ––  works for localhost dev + production proxy
+/**
+ * config.js - API Configuration
+ * IMPORTANT: Replace YOUR_VERCEL_URL with your actual deployment URL
+ * For production, move API keys to environment variables
+ */
+
 const API_CONFIG = (() => {
-  const prod = {
-    proxyUrl: 'https://financial-newsroom-website.vercel.app/api', // << deploy your own
+  // Detect environment
+  const isLocalhost = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1';
+  
+  // Production configuration (uses Vercel proxy)
+  const production = {
+    proxyUrl: 'https://financial-newsroom-website.vercel.app/api', // REPLACE THIS!
     app: {
-      cacheDuration: 5 * 60 * 1000,
+      cacheDuration: 5 * 60 * 1000, // 5 minutes
       articlesPerPage: 20,
       fallbackDataPath: './json/fallback-articles.json',
-      enableLogging: true
+      enableLogging: true,
+      imageRetryAttempts: 3,
+      apiTimeout: 10000 // 10 seconds
     }
   };
-  const dev = {
+
+  // Development configuration (direct API calls)
+  const development = {
     newsApi: {
       key: '6c78148a30b049718defe0e8cdde97f7',
       baseUrl: 'https://newsapi.org/v2',
@@ -18,18 +32,31 @@ const API_CONFIG = (() => {
     },
     unsplash: {
       key: 'CYba8ZHeC66hwyANph4Zn8l6jzvcVUZsP9zbFy8g238',
-      baseUrl: 'https://api.unsplash.com'
+      baseUrl: 'https://api.unsplash.com',
+      fallbackUrl: 'https://source.unsplash.com'
     },
     youtube: {
       key: 'AIzaSyD7_hcYEEuFnewhqmeg-UNT5PXPxUV9FMw',
       baseUrl: 'https://www.googleapis.com/youtube/v3'
     },
-    app: prod.app
+    app: production.app
   };
-  return (window.location.hostname === 'localhost') ? dev : prod;
+
+  // Return appropriate config
+  return isLocalhost ? development : production;
 })();
 
-
-proxyUrl: window.location.hostname === 'localhost'
-          ? 'http://localhost:3000/api'
-          : 'https://your-real-vercel.app/api'
+// Validate configuration on load
+(function validateConfig() {
+  if (!API_CONFIG.proxyUrl && !API_CONFIG.newsApi) {
+    console.error('❌ API Configuration Error: No valid API endpoint found');
+  }
+  
+  if (!window.location.hostname.includes('localhost') && 
+      API_CONFIG.proxyUrl?.includes('financial-newsroom-website.vercel.app')) {
+    console.warn('⚠️ Warning: Update proxyUrl in config.js with your actual Vercel URL');
+  }
+  
+  console.log('✓ API Config loaded:', 
+    API_CONFIG.proxyUrl ? 'Production (Proxy)' : 'Development (Direct)');
+})();
