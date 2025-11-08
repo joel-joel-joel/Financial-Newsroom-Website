@@ -1,7 +1,7 @@
 // config.js  ––  works for localhost dev + production proxy
 const API_CONFIG = (() => {
   const prod = {
-    proxyUrl: 'https://your-app.vercel.app/api', // << deploy your own
+    proxyUrl: 'https://financial-newsroom-website.vercel.app/api', // << deploy your own
     app: {
       cacheDuration: 5 * 60 * 1000,
       articlesPerPage: 20,
