@@ -425,6 +425,7 @@ class LiveChat {
   }
   
   sendMessage() {
+    console.log('AI sendMessage fired, text:', message);
     const message = this.input.value.trim();
     if (!message) return;
     
