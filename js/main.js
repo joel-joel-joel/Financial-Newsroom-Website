@@ -425,7 +425,6 @@ class LiveChat {
   }
   
   sendMessage() {
-    console.log('AI sendMessage fired, text:', message);
     const message = this.input.value.trim();
     if (!message) return;
     
@@ -603,6 +602,7 @@ class AIEnhancedLiveChat extends LiveChat {
   
   // Override sendMessage to handle AI commands
   sendMessage() {
+    console.log('AI sendMessage fired, text:', message);
     const message = this.input.value.trim();
     if (!message) return;
     
