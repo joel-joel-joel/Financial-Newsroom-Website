@@ -602,8 +602,8 @@ class AIEnhancedLiveChat extends LiveChat {
   
   // Override sendMessage to handle AI commands
   sendMessage() {
-    console.log('AI sendMessage fired, text:', message);
     const message = this.input.value.trim();
+    console.log('AI sendMessage fired, text:', message);
     if (!message) return;
     
     if (this.aiConfig.enabled && message.startsWith('/ai ')) {
