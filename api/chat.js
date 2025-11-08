@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     const reply = result.response.text();
     return res.status(200).json({ reply });
   } catch (err) {
-    console.error('Gemini error:', err);
-    return res.status(500).json({ error: 'AI service unavailable' });
-  }
+  console.error('Gemini raw error:', err);   // ← log full object
+  return res.status(500).json({ error: err.message }); // send it back
+}
 }
