@@ -43,40 +43,39 @@ function displayCurrentDate() {
  * Load all homepage data from APIs
  */
 async function loadHomepageData() {
-
-    
   try {
     console.log('📰 Loading homepage data...');
 
+    // ----- Hero Article -----
     const hero = await apiService.searchArticles('global market crash', 1, 1);
-  if (hero.articles?.length) {
-    const [enriched] = await Promise.all(
-      hero.articles.map(a => apiService.getEnrichedArticle(a))
-    );
-    renderHeroArticle(enriched);          // ← new tiny renderer
-  }
+    if (hero.articles?.length) {
+      const [enriched] = await Promise.all(
+        hero.articles.map(a => apiService.getEnrichedArticle(a))
+      );
+      renderHeroArticle(enriched);
+      console.log('✓ Hero article loaded');
+    }
 
-  // ----- Editor’s Picks (3 articles) -----
-const picks = await apiService.searchArticles('market analysis', 3, 1);
-if (picks.articles && picks.articles.length === 3) {
-  const enriched = await Promise.all(
-    picks.articles.map(a => apiService.getEnrichedArticle(a, false)) // no video
-  );
-  uiRenderer.renderEditorsPicksAPI(enriched);
-  console.log('✓ Editor’s picks loaded from API');
-}
+    // ----- Editor's Picks (3 articles) -----
+    const picks = await apiService.searchArticles('market analysis', 3, 1);
+    if (picks.articles && picks.articles.length >= 3) {
+      const enriched = await Promise.all(
+        picks.articles.map(a => apiService.getEnrichedArticle(a, false))
+      );
+      uiRenderer.renderEditorsPicksAPI(enriched);
+      console.log('✓ Editor's picks loaded from API');
+    }
 
-    // Fetch top headlines for news ticker
+    // ----- News Ticker -----
     const headlines = await apiService.getTopHeadlines('business', 15);
     if (headlines.length > 0) {
       uiRenderer.renderNewsTicker(headlines);
       console.log(`✓ News ticker updated with ${headlines.length} headlines`);
     }
 
-    // Fetch articles for trending section
+    // ----- Trending Section -----
     const trendingArticles = await apiService.searchArticles('stock market', 10, 1);
     if (trendingArticles.articles && trendingArticles.articles.length > 0) {
-      // Enrich articles with images
       const enrichedTrending = await Promise.all(
         trendingArticles.articles.map(article => apiService.getEnrichedArticle(article))
       );
@@ -84,25 +83,14 @@ if (picks.articles && picks.articles.length === 3) {
       console.log(`✓ Trending section updated with ${enrichedTrending.length} articles`);
     }
 
-    // Fetch articles for top stories carousel
+    // ----- Top Stories Carousel -----
     const topStories = await apiService.searchArticles('finance technology', 15, 1);
     if (topStories.articles && topStories.articles.length > 0) {
-      // Enrich articles with images
       const enrichedStories = await Promise.all(
         topStories.articles.map(article => apiService.getEnrichedArticle(article, false))
       );
       uiRenderer.renderTopStories(enrichedStories);
       console.log(`✓ Top stories loaded: ${enrichedStories.length} articles`);
-    }
-
-    // Fetch featured articles for editor's picks
-    const featured = await apiService.searchArticles('market analysis', 5, 1);
-    if (featured.articles && featured.articles.length > 0) {
-      const enrichedFeatured = await Promise.all(
-        featured.articles.map(article => apiService.getEnrichedArticle(article, true))
-      );
-      uiRenderer.renderEditorsPicks(enrichedFeatured);
-      console.log(`✓ Editor's picks updated with ${enrichedFeatured.length} articles`);
     }
 
   } catch (error) {
@@ -114,21 +102,27 @@ if (picks.articles && picks.articles.length === 3) {
   }
 }
 
+/**
+ * Render the hero article at the top of the page
+ */
 function renderHeroArticle(article) {
   const box = document.querySelector('.main-content');
   if (!box) return;
-  const id = btoa(article.url).slice(0,12).replace(/\//g,'-');
+  
+  const id = btoa(article.url).slice(0, 12).replace(/\//g, '-');
+  
+  // Store article data for article page
+  sessionStorage.setItem(`art_${id}`, JSON.stringify(article));
+  
   box.innerHTML = `
     <img src="${article.image || article.urlToImage}" alt="${article.title}" class="main-img">
     <a href="article.html?id=${id}">${article.title}</a>
     <div class="text-container">
-      <p class="author">${article.author || 'Staff Writer'}</p>
+      <p class="author">${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}</p>
       <p class="description">${article.description || ''}</p>
     </div>
   `;
 }
-
-
 
 /**
  * Initialize carousel with infinite scroll
@@ -218,14 +212,11 @@ function setUpAutoRefresh() {
  * Global function to navigate to article
  * Called from article links
  */
-
-
 function navigateToArticle(article) {
-  const hash = btoa(article.url).slice(0, 12);
+  const hash = btoa(article.url).slice(0, 12).replace(/\//g, '-');
   sessionStorage.setItem(`art_${hash}`, JSON.stringify(article));
   location.href = `article.html?id=${hash}`;
 }
-
 
 /**
  * Global function to search articles
@@ -280,4 +271,3 @@ function handleAPIError(error, context = 'API') {
 
   return message;
 }
-
