@@ -577,143 +577,409 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 class AIEnhancedLiveChat extends LiveChat {
   constructor() {
-  super();
+    super();
 
-  this.aiConfig = {
-    provider: 'gemini',        // ← was 'openai'
-    model: 'gemini-1.5-flash', // ← was 'gpt-3.5-turbo'
-    maxTokens: 150,
-    temperature: 0.7,
-    enabled: true,         // ← rely on serverless route
-    rateLimit: {
-      maxRequestsPerMinute: 5,
-      requestCount: 0,
-      resetTime: Date.now() + 60000
+    // ===== AI Configuration =====
+    this.aiConfig = {
+      provider: 'gemini',
+      model: 'gemini-2.0-flash-exp',
+      apiEndpoint: '/api/chat', // Vercel serverless function
+      maxTokens: 150,
+      temperature: 0.7,
+      enabled: true,
+      // Client-side rate limiting (per user)
+      rateLimit: {
+        maxRequestsPerMinute: 5,
+        requestCount: 0,
+        resetTime: Date.now() + 60000
+      },
+      // Request timeout (15 seconds)
+      timeout: 15000
+    };
+
+    // ===== State Management =====
+    this.conversationContext = [];
+    this.pendingQuestions = new Set();
+    this.activeRequests = new Map(); // Track in-flight requests
+    this.messageQueue = []; // Queue for sequential processing
+
+    // ===== Health Check =====
+    this.checkAPIHealth();
+  }
+
+  /**
+   * Check if the API endpoint is accessible
+   */
+  async checkAPIHealth() {
+    try {
+      const response = await fetch(this.aiConfig.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: 'test' })
+      });
+      
+      if (response.ok) {
+        console.log('✅ AI API endpoint is healthy');
+      } else {
+        console.warn(`⚠️ AI API returned status ${response.status}`);
+        this.aiConfig.enabled = false;
+      }
+    } catch (error) {
+      console.error('❌ AI API health check failed:', error);
+      this.aiConfig.enabled = false;
     }
-  };
+  }
 
-  this.conversationContext = [];
-  this.pendingQuestions = new Set();
-
-  // Optional: log if the serverless endpoint isn’t reachable
-  fetch('/api/chat', { method: 'HEAD' })
-    .catch(() => console.warn('AIEnhancedLiveChat: /api/chat not reachable. AI will be disabled.'));
-}
-  
-  // Override sendMessage to handle AI commands
+  /**
+   * Override sendMessage to handle AI commands
+   */
   sendMessage() {
     const message = this.input.value.trim();
-    console.log('AI sendMessage fired, text:', message);
+    
     if (!message) return;
-    
+
+    // Check character limit
+    if (message.length > this.maxChars) {
+      alert(`Message too long! Maximum ${this.maxChars} characters.`);
+      return;
+    }
+
+    // ===== Handle AI Commands =====
+    // User can type "/ai [question]" to directly query AI
     if (this.aiConfig.enabled && message.startsWith('/ai ')) {
-  console.log('Entering /ai branch, prompt:', message.slice(4));
-  this.handleAICommand(message.slice(4));
-  this.input.value = '';
-  return;
-}
-    
-    // Regular message handling
-    super.sendMessage();
-    
-    // Check if message is a question and queue for AI response
+      const prompt = message.slice(4).trim();
+      
+      if (!prompt) {
+        this.addMessage('@System', 'Please provide a question after /ai', false);
+        return;
+      }
+
+      console.log('🤖 Processing AI command:', prompt);
+      this.handleAICommand(prompt);
+      this.input.value = '';
+      this.updateCharacterCount();
+      return;
+    }
+
+    // ===== Regular Message =====
+    // Add user's message to chat
+    this.addMessage(this.username, message, true);
+    this.input.value = '';
+    this.updateCharacterCount();
+
+    // ===== Auto-AI Response for Questions =====
+    // If message looks like a question, queue it for AI response
     if (this.aiConfig.enabled && this.isQuestion(message)) {
       this.pendingQuestions.add(message);
+      
+      // Random delay to simulate natural conversation (15-45 seconds)
       setTimeout(() => {
         if (this.pendingQuestions.has(message)) {
           this.pendingQuestions.delete(message);
           this.generateAIResponse(message);
         }
-      }, Math.random() * 30000 + 15000); // 15-45 second delay
+      }, Math.random() * 30000 + 15000);
+    }
+
+    // Simulate other users responding occasionally
+    if (Math.random() > 0.7) {
+      setTimeout(() => {
+        this.simulateRandomMessage();
+      }, Math.random() * 3000 + 1000);
     }
   }
-  
-  handleAICommand(prompt) {
+
+  /**
+   * Handle direct AI command (/ai command)
+   */
+  async handleAICommand(prompt) {
+    // ===== Rate Limit Check =====
     if (!this.checkRateLimit()) {
-      this.addMessage('@AI_Bot', 'Rate limit exceeded. Please wait a moment.', false);
+      this.addMessage('@AI_Bot', 
+        '⏱️ Rate limit exceeded. Please wait a moment before asking another question.', 
+        false
+      );
       return;
     }
-    
+
+    // ===== Show User's Command =====
     this.addMessage(this.username, `/ai ${prompt}`, true);
-    this.addMessage('@AI_Bot', 'Thinking... 🤔', false);
-    
-    this.callAIAPI(prompt).then(response => {
-      // Replace "Thinking..." with actual response
-      const messages = this.messagesContainer.querySelectorAll('.chat-message');
-      const lastMessage = messages[messages.length - 1];
-      if (lastMessage && lastMessage.textContent.includes('Thinking...')) {
-        lastMessage.querySelector('.message-text').textContent = response;
-      }
-    }).catch(error => {
-      this.addMessage('@AI_Bot', `Error: ${error.message}`, false);
-    });
+
+    // ===== Add "Thinking" Placeholder =====
+    const thinkingMessageId = `thinking-${Date.now()}`;
+    this.addMessageWithId(thinkingMessageId, '@AI_Bot', '🤔 Thinking...', false);
+
+    try {
+      // ===== Call AI API =====
+      const response = await this.callAIAPI(prompt);
+
+      // ===== Replace "Thinking" with Response =====
+      this.updateMessage(thinkingMessageId, response);
+      
+      console.log('✅ AI response delivered');
+
+    } catch (error) {
+      console.error('❌ AI Command Error:', error);
+
+      // ===== Show Error Message =====
+      const errorMsg = this.getErrorMessage(error);
+      this.updateMessage(thinkingMessageId, `❌ ${errorMsg}`);
+    }
   }
-  
+
+  /**
+   * Generate AI response to a user's question
+   */
   async generateAIResponse(question) {
     if (!this.checkRateLimit()) return;
-    
+
+    // Build context from recent chat messages
     const context = this.buildContext(question);
+
     try {
       const response = await this.callAIAPI(context);
       this.addMessage('@AI_Bot', response, false);
+      console.log('✅ AI auto-response delivered');
     } catch (error) {
-      console.error('AI Response Error:', error);
+      console.error('❌ AI Auto-Response Error:', error);
+      // Silently fail for auto-responses (don't spam errors)
     }
   }
-  
+
+  /**
+   * Build context prompt from recent chat history
+   */
   buildContext(question) {
-    // Get recent chat context (last 10 messages)
-    const recentMessages = Array.from(
-      this.messagesContainer.querySelectorAll('.chat-message')
-    ).slice(-10).map(msg => {
-      const username = msg.querySelector('strong')?.textContent?.replace(':', '') || '';
-      const text = msg.querySelector('.message-text')?.textContent || '';
-      return `${username}: ${text}`;
-    }).join('\n');
-    
-    return `You are a helpful financial markets assistant in a live stream chat. 
-    Answer this question briefly (1-2 sentences). Recent context:\n${recentMessages}\n\nQuestion: ${question}`;
+    // Get last 10 messages for context
+    const messages = this.messagesContainer.querySelectorAll('.chat-message');
+    const recentMessages = Array.from(messages)
+      .slice(-10)
+      .map(msg => {
+        const username = msg.querySelector('strong')?.textContent?.replace(':', '') || '';
+        const text = msg.querySelector('.message-text')?.textContent || '';
+        return `${username}: ${text}`;
+      })
+      .filter(msg => !msg.includes('Thinking...') && !msg.includes('❌'))
+      .join('\n');
+
+    // Create focused prompt
+    return `You are a helpful financial markets assistant in a live chat. 
+Answer briefly (1-2 sentences max) in a conversational tone.
+
+Recent chat context:
+${recentMessages}
+
+Question: ${question}
+
+Response:`;
   }
-  
+
+  /**
+   * Call the AI API endpoint with proper error handling
+   */
   async callAIAPI(prompt) {
-  if (!this.checkRateLimit()) throw new Error('Rate-limit');
+    // ===== Rate Limit Check =====
+    if (!this.checkRateLimit()) {
+      throw new Error('Rate limit exceeded');
+    }
 
-  const res = await fetch('/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt }),
-  });
+    // ===== Increment Request Counter =====
+    this.aiConfig.rateLimit.requestCount++;
 
-  if (!res.ok) throw new Error('AI network error');
-  const data = await res.json();
-  return data.reply;
-}
-  
+    // ===== Create Request with Timeout =====
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.aiConfig.timeout);
+
+    try {
+      console.log(`📤 Calling AI API: ${this.aiConfig.apiEndpoint}`);
+
+      // ===== Make API Request =====
+      const response = await fetch(this.aiConfig.apiEndpoint, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ prompt }),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      // ===== Parse Response =====
+      const data = await response.json();
+
+      console.log('📥 API Response:', {
+        status: response.status,
+        success: data.success,
+        hasReply: !!data.reply
+      });
+
+      // ===== Handle Error Responses =====
+      if (!response.ok) {
+        throw new Error(data.details || data.error || `HTTP ${response.status}`);
+      }
+
+      // ===== Validate Response Data =====
+      if (!data.reply || typeof data.reply !== 'string') {
+        console.error('Invalid response structure:', data);
+        throw new Error('Invalid response format from AI');
+      }
+
+      // ===== Return Clean Response =====
+      return data.reply.trim();
+
+    } catch (error) {
+      clearTimeout(timeoutId);
+
+      // ===== Handle Different Error Types =====
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout - AI took too long to respond');
+      }
+
+      if (error.message?.includes('fetch')) {
+        throw new Error('Network error - unable to reach AI service');
+      }
+
+      // Re-throw with context
+      throw error;
+    }
+  }
+
+  /**
+   * Check and manage rate limiting
+   */
   checkRateLimit() {
     const now = Date.now();
+    
+    // Reset counter if minute has passed
     if (now > this.aiConfig.rateLimit.resetTime) {
       this.aiConfig.rateLimit.requestCount = 0;
       this.aiConfig.rateLimit.resetTime = now + 60000;
     }
-    return this.aiConfig.rateLimit.requestCount < this.aiConfig.rateLimit.maxRequestsPerMinute;
+
+    // Check if under limit
+    const allowed = this.aiConfig.rateLimit.requestCount < 
+                    this.aiConfig.rateLimit.maxRequestsPerMinute;
+
+    if (!allowed) {
+      console.warn('⚠️ Rate limit reached');
+    }
+
+    return allowed;
   }
-  
+
+  /**
+   * Add a message with a unique ID for later updates
+   */
+  addMessageWithId(id, username, text, isOwnMessage = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message';
+    messageDiv.setAttribute('data-message-id', id);
+    
+    if (isOwnMessage) {
+      messageDiv.classList.add('own-message');
+    }
+
+    const timestamp = new Date();
+    const timeStr = this.formatRelativeTime(timestamp);
+
+    messageDiv.innerHTML = `
+      <span class="message-header">
+        <strong>${this.escapeHtml(username)}:</strong>
+        <span class="timestamp">${timeStr}</span>
+      </span>
+      <span class="message-text">${this.escapeHtml(text)}</span>
+    `;
+
+    this.messagesContainer.appendChild(messageDiv);
+
+    if (this.autoScroll) {
+      this.scrollToBottom();
+    }
+
+    this.cleanupOldMessages();
+  }
+
+  /**
+   * Update an existing message by ID
+   */
+  updateMessage(messageId, newText) {
+    const messageDiv = this.messagesContainer.querySelector(
+      `[data-message-id="${messageId}"]`
+    );
+
+    if (messageDiv) {
+      const textSpan = messageDiv.querySelector('.message-text');
+      if (textSpan) {
+        textSpan.textContent = newText;
+      }
+    }
+  }
+
+  /**
+   * Check if a message is likely a question
+   */
   isQuestion(text) {
+    const lowerText = text.toLowerCase();
+    
     return text.includes('?') || 
-           text.toLowerCase().startsWith('what') ||
-           text.toLowerCase().startsWith('how') ||
-           text.toLowerCase().startsWith('why') ||
-           text.toLowerCase().startsWith('when') ||
-           text.toLowerCase().startsWith('who');
+           lowerText.startsWith('what') ||
+           lowerText.startsWith('how') ||
+           lowerText.startsWith('why') ||
+           lowerText.startsWith('when') ||
+           lowerText.startsWith('who') ||
+           lowerText.startsWith('where') ||
+           lowerText.startsWith('can') ||
+           lowerText.startsWith('could') ||
+           lowerText.startsWith('would') ||
+           lowerText.startsWith('should') ||
+           lowerText.startsWith('is') ||
+           lowerText.startsWith('are') ||
+           lowerText.startsWith('does') ||
+           lowerText.startsWith('do');
+  }
+
+  /**
+   * Get user-friendly error messages
+   */
+  getErrorMessage(error) {
+    const message = error.message || '';
+
+    if (message.includes('timeout')) {
+      return 'Request timed out. Please try again.';
+    }
+    if (message.includes('network') || message.includes('fetch')) {
+      return 'Connection error. Please check your internet.';
+    }
+    if (message.includes('rate limit')) {
+      return 'Too many requests. Please wait a moment.';
+    }
+    if (message.includes('authentication') || message.includes('API key')) {
+      return 'Service configuration error.';
+    }
+    if (message.includes('quota')) {
+      return 'Service quota exceeded. Please try later.';
+    }
+
+    return 'Something went wrong. Please try again.';
   }
 }
 
-// Replace the original LiveChat initialization
+// ===== Initialize AI Chat on Page Load =====
 document.addEventListener('DOMContentLoaded', async function() {
   // ... your existing initialization code ...
-  
-  // Initialize AI-enhanced live chat
+
+  // Initialize AI-enhanced live chat with slight delay
   setTimeout(() => {
-    window.chatInstance = new AIEnhancedLiveChat();
+    try {
+      window.chatInstance = new AIEnhancedLiveChat();
+      console.log('✅ AI-Enhanced Live Chat initialized');
+    } catch (error) {
+      console.error('❌ Failed to initialize AI chat:', error);
+      // Fallback to basic LiveChat
+      window.chatInstance = new LiveChat();
+      console.log('⚠️ Fallback to basic LiveChat');
+    }
   }, 500);
 });
