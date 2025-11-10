@@ -541,79 +541,85 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // ===== Load All Regional Content =====
+// ===== Load All Regional Content =====
 async function loadRegionalContent(region) {
-    try {
-        console.log(`📰 Loading content for ${region}...`);
-        
-        // Show loading state
-        const storyGrid = document.querySelector('.story-grid');
-        if (storyGrid) {
-            storyGrid.innerHTML = '<div style="padding: 40px; text-align: center; grid-column: 1 / -1;">Loading news...</div>';
-        }
-        
-        // Fetch articles
-        const newsData = await fetchRegionalNews(region, 20, 1);
-        
-        if (!newsData.success || !newsData.articles || newsData.articles.length === 0) {
-            throw new Error('No articles found for this region');
-        }
-        
-        console.log(`✅ Received ${newsData.articles.length} articles`);
-        
-        // Filter out articles without titles
-        const validArticles = newsData.articles.filter(article => article && article.title);
-        
-        if (validArticles.length === 0) {
-            throw new Error('No valid articles found');
-        }
-        
-        // Render content
-        await renderStandardRegionalLayout(validArticles);
-        
-        // Update news ticker
-        updateNewsTicker(validArticles);
-        
-        // Load videos (parallel, non-blocking)
-        loadRegionalVideos(region).catch(err => 
-            console.warn('⚠️ Video loading failed (non-critical):', err)
-        );
-        
-        console.log('✅ All content loaded successfully');
-        
-    } catch (error) {
-        console.error('❌ Content loading error:', error);
-        showError(error.message || 'Unable to load content. Please try again.');
+  try {
+    console.log(`📰 Loading content for ${region}...`);
+
+    // ✅ FIX: Don't destroy the HTML structure - just show loading in place
+    const mainTitle = document.querySelector('.main-story-title');
+    const substory1Title = document.querySelector('.substory-1 .substory-title');
+    const substory2Title = document.querySelector('.substory-2 .substory-title');
+    
+    if (mainTitle) mainTitle.textContent = 'Loading news...';
+    if (substory1Title) substory1Title.textContent = 'Loading...';
+    if (substory2Title) substory2Title.textContent = 'Loading...';
+
+    // Fetch articles
+    const newsData = await fetchRegionalNews(region, 20, 1);
+
+    if (!newsData.success || !newsData.articles || newsData.articles.length === 0) {
+      throw new Error('No articles found for this region');
     }
+
+    console.log(`✅ Received ${newsData.articles.length} articles`);
+
+    // Filter out articles without titles
+    const validArticles = newsData.articles.filter(article => article && article.title);
+
+    if (validArticles.length === 0) {
+      throw new Error('No valid articles found');
+    }
+
+    // Render content - NOW the elements will exist!
+    await renderStandardRegionalLayout(validArticles);
+
+    // Update news ticker
+    updateNewsTicker(validArticles);
+
+    // Load videos (parallel, non-blocking)
+    loadRegionalVideos(region).catch(err => 
+      console.warn('⚠️ Video loading failed (non-critical):', err)
+    );
+
+    console.log('✅ All content loaded successfully');
+
+  } catch (error) {
+    console.error('❌ Content loading error:', error);
+    showError(error.message || 'Unable to load content. Please try again.');
+  }
 }
 
 // ===== Render Standard Regional Layout =====
+// ===== Render Standard Regional Layout =====
 async function renderStandardRegionalLayout(articles) {
-    console.log('🏗️ Rendering Standard Regional layout');
-    
-    if (articles.length < 3) {
-        console.warn('⚠️ Not enough articles for full layout, using fallback');
-        const fallback = getFallbackArticles(currentRegion || 'australia');
-        articles = [...articles, ...fallback].slice(0, 7);
-    }
-    
-    // Main story (first article)
-    await renderMainStory(articles[0]);
-    
-    // Substory 1 (second article)
-    const substory1 = document.querySelector('.substory-1');
-    if (substory1 && articles[1]) {
-        await renderSubstory(substory1, articles[1], false);
-    }
-    
-    // Substory 2 (third article - special layout)
-    const substory2 = document.querySelector('.substory-2');
-    if (substory2 && articles[2]) {
-        await renderSubstory(substory2, articles[2], true);
-    }
-    
-    // Additional articles (rest)
-    const additionalArticles = articles.slice(3, 11); // Take up to 8 more
-    renderArticlesList(additionalArticles);
-    
-    console.log('✅ Standard layout rendered successfully');
+  console.log('🏗️ Rendering Standard Regional layout');
+
+  // Ensure we have enough articles
+  if (articles.length < 3) {
+    console.warn('⚠️ Not enough articles for full layout, using fallback');
+    const fallback = getFallbackArticles(currentRegion || 'australia');
+    articles = [...articles, ...fallback].slice(0, 7);
+  }
+
+  // Render main story
+  await renderMainStory(articles[0]);
+
+  // Render substory 1
+  const substory1 = document.querySelector('.substory-1');
+  if (substory1 && articles[1]) {
+    await renderSubstory(substory1, articles[1], false);
+  }
+
+  // Render substory 2
+  const substory2 = document.querySelector('.substory-2');
+  if (substory2 && articles[2]) {
+    await renderSubstory(substory2, articles[2], true);
+  }
+
+  // Render additional articles
+  const additionalArticles = articles.slice(3, 11);
+  renderArticlesList(additionalArticles);
+
+  console.log('✅ Standard layout rendered successfully');
 }
