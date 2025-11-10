@@ -1,7 +1,6 @@
 /**
- * regional-loader.js - COMPLETE Regional Page Loader (FIXED)
- * Handles: Australia, Europe, Asia, Americas, Africa (standard layout)
- * World page uses separate logic due to different layout
+ * regional-loader.js - FIXED Regional Page Loader
+ * Fixed: Substory-2 rendering and Search functionality
  */
 
 // ===== Global Variables =====
@@ -27,7 +26,6 @@ async function fetchRegionalNews(region, pageSize = 20, page = 1) {
     try {
         console.log(`📡 Fetching news for ${region}...`);
         
-        // Try Vercel serverless function first
         const response = await fetch('/api/regional-news', {
             method: 'POST',
             headers: {
@@ -51,8 +49,6 @@ async function fetchRegionalNews(region, pageSize = 20, page = 1) {
         
     } catch (error) {
         console.error('❌ Regional news fetch error:', error);
-        
-        // Fallback: use direct API call
         console.log('🔄 Trying fallback with apiService...');
         return await fetchRegionalNewsFallback(region, pageSize);
     }
@@ -105,11 +101,9 @@ async function renderMainStory(article, selector = '.main-story') {
     const text = mainStory.querySelector('.main-story-text');
     const author = mainStory.querySelector('.main-story-author');
     
-    // Generate article ID and store
     const articleId = generateArticleId(article);
     storeArticleData(articleId, article);
     
-    // Update content
     if (title) title.textContent = article.title || 'Untitled Article';
     
     if (img) {
@@ -130,13 +124,12 @@ async function renderMainStory(article, selector = '.main-story') {
         author.innerHTML = `By ${authorName}<br>Photographed by ${sourceName}`;
     }
     
-    // Update link
     mainStory.href = `article.html?id=${articleId}`;
     
     console.log('✅ Main story rendered:', article.title?.substring(0, 50));
 }
 
-// ===== Render Substory =====
+// ===== Render Substory (FIXED for Type 2) =====
 async function renderSubstory(substoryEl, article, isType2 = false) {
     if (!substoryEl) {
         console.warn('⚠️ Substory element not found');
@@ -153,16 +146,25 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
     if (text) text.textContent = article.description || 'Read more...';
     
     if (isType2) {
-        // Type 2: Text + square thumbnail layout
+        // 🔧 FIXED: Type 2 layout (text + square thumbnail on right)
         const img = substoryEl.querySelector('.sub-img.square-right');
         const authorEl = substoryEl.querySelector('.substory-author-under');
         
         if (img) {
-            img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800';
+            const imageUrl = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400';
+            console.log('🖼️ Setting substory-2 image:', imageUrl);
+            
+            img.src = imageUrl;
             img.alt = article.title || 'Article thumbnail';
-            img.onerror = () => { 
-                img.src = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800'; 
+            
+            // Force image reload if it fails
+            img.onerror = function() {
+                console.warn('⚠️ Substory-2 image failed, using fallback');
+                this.onerror = null; // Prevent infinite loop
+                this.src = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400';
             };
+        } else {
+            console.warn('⚠️ Could not find .sub-img.square-right element');
         }
         
         if (authorEl) {
@@ -176,10 +178,10 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
         const authorEl = substoryEl.querySelector('.substory-author');
         
         if (img) {
-            img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800';
+            img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400';
             img.alt = article.title || 'Article image';
             img.onerror = () => { 
-                img.src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800'; 
+                img.src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400'; 
             };
         }
         
@@ -190,7 +192,6 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
         }
     }
     
-    // Update link
     substoryEl.href = `article.html?id=${articleId}`;
     
     console.log('✅ Substory rendered:', article.title?.substring(0, 40));
@@ -240,7 +241,7 @@ function renderArticlesList(articles, containerSelector = '.article-wrapper') {
     console.log(`✅ Rendered ${articles.length} articles in list`);
 }
 
-// ===== Search Functionality =====
+// ===== Search Functionality (FIXED) =====
 function setupSearchFunctionality() {
     const searchForm = document.querySelector('#search-form');
     const searchInput = document.querySelector('#search-input');
@@ -259,40 +260,64 @@ function setupSearchFunctionality() {
             return;
         }
         
-        console.log(`🔍 Searching for: ${query}`);
+        console.log(`🔍 Searching for: "${query}"`);
         
-        // Show loading state
+        // Show loading state in story grid
         const storyGrid = document.querySelector('.story-grid');
-        const articleWrapper = document.querySelector('.article-wrapper');
-        
         if (storyGrid) {
-            storyGrid.innerHTML = '<div style="padding: 40px; text-align: center;">Searching...</div>';
+            storyGrid.innerHTML = `
+                <div style="padding: 40px; text-align: center; grid-column: 1 / -1;">
+                    <div style="display: inline-block; border: 4px solid #f3f3f3; border-top: 4px solid crimson; 
+                                border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+                    <p style="margin-top: 20px;">Searching for "${escapeHtml(query)}"...</p>
+                    <style>
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                    </style>
+                </div>
+            `;
         }
+        
+        // Show loading in articles section
+        const articleWrapper = document.querySelector('.article-wrapper');
         if (articleWrapper) {
             articleWrapper.innerHTML = '<div style="padding: 40px; text-align: center;">Loading results...</div>';
         }
         
         try {
-            // Use apiService to search
+            // 🔧 FIXED: Properly call search API
             const result = await apiService.searchArticles(query, 20, 1);
             
+            console.log('📊 Search result:', result);
+            
+            // Check if we got articles
             if (!result.articles || result.articles.length === 0) {
-                showError('No articles found for your search');
+                showSearchNoResults(query);
                 return;
             }
             
-            console.log(`✅ Found ${result.articles.length} articles`);
+            console.log(`✅ Found ${result.articles.length} articles for "${query}"`);
             
-            // Render search results
-            await renderStandardRegionalLayout(result.articles);
+            // 🔧 FIXED: Rebuild the entire story grid HTML with search results
+            await rebuildStoryGridForSearch(result.articles);
             
-            // Update ticker with search results
+            // Update ticker
             updateNewsTicker(result.articles);
             
-            // Show search results count
+            // Update header to show search results
             const mainHeader = document.querySelector('.main-header h2');
             if (mainHeader) {
-                mainHeader.textContent = `Search Results: "${query}" (${result.articles.length} found)`;
+                mainHeader.innerHTML = `
+                    Search Results: "${escapeHtml(query)}" 
+                    <span style="font-size: 24px; color: #666;">(${result.articles.length} found)</span>
+                    <button onclick="location.reload()" 
+                            style="margin-left: 20px; padding: 8px 16px; background: crimson; color: white; 
+                                   border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                        ← Back to ${currentRegion.charAt(0).toUpperCase() + currentRegion.slice(1)}
+                    </button>
+                `;
             }
             
         } catch (error) {
@@ -302,6 +327,97 @@ function setupSearchFunctionality() {
     });
     
     console.log('✅ Search functionality enabled');
+}
+
+// ===== Rebuild Story Grid for Search Results (NEW) =====
+async function rebuildStoryGridForSearch(articles) {
+    const storyGrid = document.querySelector('.story-grid');
+    if (!storyGrid) {
+        console.error('❌ Story grid not found');
+        return;
+    }
+    
+    // Ensure we have enough articles
+    if (articles.length < 3) {
+        const fallback = getFallbackArticles(currentRegion || 'australia');
+        articles = [...articles, ...fallback];
+    }
+    
+    // 🔧 FIXED: Rebuild the entire HTML structure with search results
+    storyGrid.innerHTML = `
+        <!-- Main Story (search result 1) -->
+        <a href="#" class="main-story" data-article="0">
+            <h4 class="main-story-title">Loading...</h4>
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800" alt="Loading" class="main-img">
+            <p class="main-story-text">Loading...</p>
+            <p class="main-story-author">By Staff Writer<br>Photographed by Staff</p>
+        </a>
+
+        <!-- Substory 1 (search result 2) -->
+        <a href="#" class="substory-1" data-article="1">
+            <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400" alt="Loading" class="main-img">
+            <h4 class="substory-title">Loading...</h4>
+            <p class="substory-text">Loading...</p>
+            <p class="substory-author">By Staff Writer<br>Photographed by Staff</p>
+        </a>
+
+        <!-- Substory 2 (search result 3) -->
+        <a href="#" class="substory-2" data-article="2">
+            <h4 class="substory-title">Loading...</h4>
+            <div class="substory-body">
+                <div class="substory-text-wrap">
+                    <p class="substory-text">Loading...</p>
+                </div>
+                <div class="sub-img-col">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=120" 
+                         alt="Loading" class="sub-img square-right">
+                    <p class="substory-author-under">By Staff Writer<br>Photographed by Staff</p>
+                </div>
+            </div>
+        </a>
+    `;
+    
+    // Now render the articles into the rebuilt structure
+    await renderMainStory(articles[0], '.main-story');
+    
+    const substory1 = document.querySelector('.substory-1');
+    if (substory1 && articles[1]) {
+        await renderSubstory(substory1, articles[1], false);
+    }
+    
+    const substory2 = document.querySelector('.substory-2');
+    if (substory2 && articles[2]) {
+        await renderSubstory(substory2, articles[2], true);
+    }
+    
+    // Render remaining articles in the articles section
+    const remainingArticles = articles.slice(3, 11);
+    renderArticlesList(remainingArticles);
+    
+    console.log('✅ Search results rendered in story grid');
+}
+
+// ===== Show No Results Message =====
+function showSearchNoResults(query) {
+    const storyGrid = document.querySelector('.story-grid');
+    if (storyGrid) {
+        storyGrid.innerHTML = `
+            <div style="padding: 60px 40px; text-align: center; grid-column: 1 / -1;">
+                <h3 style="color: #666; margin-bottom: 10px;">No results found for "${escapeHtml(query)}"</h3>
+                <p style="color: #999; margin-bottom: 20px;">Try different keywords or browse our regional news</p>
+                <button onclick="location.reload()" 
+                        style="padding: 10px 20px; background: crimson; color: white; border: none; 
+                               border-radius: 4px; cursor: pointer; font-size: 16px;">
+                    ← Back to ${currentRegion.charAt(0).toUpperCase() + currentRegion.slice(1)}
+                </button>
+            </div>
+        `;
+    }
+    
+    const articleWrapper = document.querySelector('.article-wrapper');
+    if (articleWrapper) {
+        articleWrapper.innerHTML = '';
+    }
 }
 
 // ===== Load Regional Videos =====
@@ -432,7 +548,8 @@ function showError(message) {
                 <h3>⚠️ ${escapeHtml(message)}</h3>
                 <p style="color: #666;">Please try refreshing the page.</p>
                 <button onclick="window.location.reload()" 
-                        style="margin-top: 20px; padding: 10px 20px; background: crimson; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        style="margin-top: 20px; padding: 10px 20px; background: crimson; color: white; 
+                               border: none; border-radius: 4px; cursor: pointer;">
                     Refresh
                 </button>
             </div>
@@ -499,20 +616,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Regional page initializing...');
     
     try {
-        // Check if API_CONFIG exists
         if (typeof API_CONFIG === 'undefined') {
             throw new Error('API_CONFIG not found. Make sure config.js is loaded first.');
         }
         
-        // Check if APIService exists
         if (typeof APIService === 'undefined') {
             throw new Error('APIService not found. Make sure api-service.js is loaded first.');
         }
         
-        // Create service instance
         apiService = new APIService(API_CONFIG);
         
-        // Detect region
         currentRegion = detectRegion();
         console.log(`📍 Detected region: ${currentRegion}`);
         
@@ -520,16 +633,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             throw new Error('Could not detect region from URL');
         }
         
-        // Display date
         displayCurrentDate();
-        
-        // Setup search functionality
         setupSearchFunctionality();
         
-        // Load content
         await loadRegionalContent(currentRegion);
         
-        // Setup auto-refresh
         setUpAutoRefresh(currentRegion);
         
         console.log('✅ Regional page fully loaded and functional');
@@ -541,85 +649,72 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // ===== Load All Regional Content =====
-// ===== Load All Regional Content =====
 async function loadRegionalContent(region) {
-  try {
-    console.log(`📰 Loading content for ${region}...`);
-
-    // ✅ FIX: Don't destroy the HTML structure - just show loading in place
-    const mainTitle = document.querySelector('.main-story-title');
-    const substory1Title = document.querySelector('.substory-1 .substory-title');
-    const substory2Title = document.querySelector('.substory-2 .substory-title');
-    
-    if (mainTitle) mainTitle.textContent = 'Loading news...';
-    if (substory1Title) substory1Title.textContent = 'Loading...';
-    if (substory2Title) substory2Title.textContent = 'Loading...';
-
-    // Fetch articles
-    const newsData = await fetchRegionalNews(region, 20, 1);
-
-    if (!newsData.success || !newsData.articles || newsData.articles.length === 0) {
-      throw new Error('No articles found for this region');
+    try {
+        console.log(`📰 Loading content for ${region}...`);
+        
+        const mainTitle = document.querySelector('.main-story-title');
+        const substory1Title = document.querySelector('.substory-1 .substory-title');
+        const substory2Title = document.querySelector('.substory-2 .substory-title');
+        
+        if (mainTitle) mainTitle.textContent = 'Loading news...';
+        if (substory1Title) substory1Title.textContent = 'Loading...';
+        if (substory2Title) substory2Title.textContent = 'Loading...';
+        
+        const newsData = await fetchRegionalNews(region, 20, 1);
+        
+        if (!newsData.success || !newsData.articles || newsData.articles.length === 0) {
+            throw new Error('No articles found for this region');
+        }
+        
+        console.log(`✅ Received ${newsData.articles.length} articles`);
+        
+        const validArticles = newsData.articles.filter(article => article && article.title);
+        
+        if (validArticles.length === 0) {
+            throw new Error('No valid articles found');
+        }
+        
+        await renderStandardRegionalLayout(validArticles);
+        
+        updateNewsTicker(validArticles);
+        
+        loadRegionalVideos(region).catch(err => 
+            console.warn('⚠️ Video loading failed (non-critical):', err)
+        );
+        
+        console.log('✅ All content loaded successfully');
+        
+    } catch (error) {
+        console.error('❌ Content loading error:', error);
+        showError(error.message || 'Unable to load content. Please try again.');
     }
-
-    console.log(`✅ Received ${newsData.articles.length} articles`);
-
-    // Filter out articles without titles
-    const validArticles = newsData.articles.filter(article => article && article.title);
-
-    if (validArticles.length === 0) {
-      throw new Error('No valid articles found');
-    }
-
-    // Render content - NOW the elements will exist!
-    await renderStandardRegionalLayout(validArticles);
-
-    // Update news ticker
-    updateNewsTicker(validArticles);
-
-    // Load videos (parallel, non-blocking)
-    loadRegionalVideos(region).catch(err => 
-      console.warn('⚠️ Video loading failed (non-critical):', err)
-    );
-
-    console.log('✅ All content loaded successfully');
-
-  } catch (error) {
-    console.error('❌ Content loading error:', error);
-    showError(error.message || 'Unable to load content. Please try again.');
-  }
 }
 
 // ===== Render Standard Regional Layout =====
-// ===== Render Standard Regional Layout =====
 async function renderStandardRegionalLayout(articles) {
-  console.log('🏗️ Rendering Standard Regional layout');
-
-  // Ensure we have enough articles
-  if (articles.length < 3) {
-    console.warn('⚠️ Not enough articles for full layout, using fallback');
-    const fallback = getFallbackArticles(currentRegion || 'australia');
-    articles = [...articles, ...fallback].slice(0, 7);
-  }
-
-  // Render main story
-  await renderMainStory(articles[0]);
-
-  // Render substory 1
-  const substory1 = document.querySelector('.substory-1');
-  if (substory1 && articles[1]) {
-    await renderSubstory(substory1, articles[1], false);
-  }
-
-  // Render substory 2
-  const substory2 = document.querySelector('.substory-2');
-  if (substory2 && articles[2]) {
-    await renderSubstory(substory2, articles[2], true);
-  }
-
-  // Render additional articles
-  const additionalArticles = articles.slice(3, 11);
-  renderArticlesList(additionalArticles);
-
-  console.log('✅ Standard layout rendered successfully');
+    console.log('🏗️ Rendering Standard Regional layout');
+    
+    if (articles.length < 3) {
+        console.warn('⚠️ Not enough articles for full layout, using fallback');
+        const fallback = getFallbackArticles(currentRegion || 'australia');
+        articles = [...articles, ...fallback].slice(0, 7);
+    }
+    
+    await renderMainStory(articles[0]);
+    
+    const substory1 = document.querySelector('.substory-1');
+    if (substory1 && articles[1]) {
+        await renderSubstory(substory1, articles[1], false);
+    }
+    
+    const substory2 = document.querySelector('.substory-2');
+    if (substory2 && articles[2]) {
+        await renderSubstory(substory2, articles[2], true);
+    }
+    
+    const additionalArticles = articles.slice(3, 11);
+    renderArticlesList(additionalArticles);
+    
+    console.log('✅ Standard layout rendered successfully');
 }

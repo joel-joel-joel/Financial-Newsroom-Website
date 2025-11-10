@@ -166,13 +166,15 @@ body {
     display: inline-block;
 }
 
+/* ===== COMPLETE STORY GRID STYLES - REPLACE IN YOUR CSS ===== */
+
 /* A wrapper for the stories inside */
 .story-grid {
     display: flex;
     gap: 20px;
 }
 
-
+/* Base styles for all story boxes */
 .main-story, .substory-1, .substory-2 {
     background-color: #f4f4f4;
     border-radius: 8px;
@@ -186,29 +188,18 @@ body {
     height: 350px;
     box-sizing: border-box;
     text-align: left;
-    
+    flex-shrink: 0;    /* prevent flex from compressing text box widths */
+    min-width: 0;      /* allows ellipsis to work inside flex context */
 }
 
-.main-story, .substory-1, .substory-2 {
-  flex-shrink: 0;    /* prevent flex from compressing text box widths */
-  min-width: 0;      /* allows ellipsis to work inside flex context */
-}
-
-/* Set the widths - main story takes 50%, substories each take 25% */
+/* ⭐ FIXED: Set the correct widths - main story 50%, substories 25% each */
 .main-story {
     flex: 2;  /* Takes 2 parts out of 4 total = 50% */
-    min-width: 0;
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
-    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
-.substory-1, .substory-2 {
+.substory-1,
+.substory-2 {
     flex: 1;  /* Each takes 1 part out of 4 total = 25% each */
-    min-width: 0;
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
-    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
 /* Hover effect */
@@ -218,45 +209,168 @@ body {
     border-color: crimson;
 }
 
-/* Typography */
-/* Fix ellipsis behavior for titles */
-.main-story-title,
-.substory-title {
-  font-size: 22px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  border-bottom: 4px solid crimson;
-  padding-bottom: 5px;
-  color: #222;
-  font-family: 'Apple Garamond', sans-serif;
-  font-weight: bold;
-  display: block;              /* ensure block context */
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 100%;                 /* required for ellipsis to render */
-  box-sizing: border-box;      /* avoids overflow due to padding */
+/* Main story title */
+.main-story-title {
+    font-size: 22px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 4px solid crimson;
+    padding-bottom: 5px;
+    color: #222;
+    font-family: 'Apple Garamond', sans-serif;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Fix ellipsis for main and substory body text */
-.main-story-text,
-.substory-text {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #444;
-  font-family: 'Apple Garamond', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: block;              /* important */
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 100%;                 /* ensures text has defined limit */
-  box-sizing: border-box;
+/* Main story text */
+.main-story-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    font-family: 'Apple Garamond', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* Main story & substory 1 text (nowrap) */
+.substory-1 .substory-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    font-family: 'Apple Garamond', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-.main-story-author, .substory-author {
+/* Substory 1 title */
+.substory-1 .substory-title {
+    font-size: 22px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 4px solid crimson;
+    padding-bottom: 5px;
+    color: #222;
+    font-family: 'Apple Garamond', sans-serif;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ⭐ SUBSTORY-2 SPECIFIC STYLES */
+
+/* Substory-2 title (single line) */
+.substory-2 .substory-title {
+    font-size: 22px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-bottom: 4px solid crimson;
+    padding-bottom: 5px;
+    color: #222;
+    font-family: 'Apple Garamond', sans-serif;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Substory-2 body container (text + image side by side) */
+.substory-2 .substory-body {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    height: auto;
+}
+
+/* Substory-2 text wrapper (takes remaining space) */
+.substory-2 .substory-text-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* Substory-2 text (allows wrapping to 4 lines) */
+.substory-2 .substory-text {
+    margin: 0;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    font-family: 'Apple Garamond', sans-serif;
+    
+    /* Allow wrapping for substory-2 */
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;    /* Show 4 lines max */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+/* Image column (image + author underneath) */
+.sub-img-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;  /* Don't let it shrink */
+}
+
+/* Substory-2 square image */
+.substory-2 .sub-img.square-right {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Author info under substory-2 image */
+.substory-author-under {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #777;
+    text-align: center;
+    font-family: 'Apple Garamond', sans-serif;
+}
+
+/* Main image for main-story and substory-1 */
+.main-img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Author styles for main story and substory-1 */
+.main-story-author, 
+.substory-author {
     font-size: 12px;
     color: #777;
     margin-top: 5px;
@@ -264,57 +378,22 @@ body {
     text-decoration: none;
 }
 
-.main-img {
-    width: 100%;
-    height: 60%; /* takes up top 60% of box, leaving 40% for text */
-    object-fit: cover; /* crops image neatly to fill area */
-    border-radius: 8px;
-    display: block;
+/* ===== RESPONSIVE ADJUSTMENTS (Optional) ===== */
+
+/* On smaller screens, stack stories vertically */
+@media (max-width: 1024px) {
+    .story-grid {
+        flex-direction: column;
+    }
+    
+    .main-story,
+    .substory-1,
+    .substory-2 {
+        flex: 1 1 100%;
+        width: 100%;
+    }
 }
 
-.substory-body {
-    display: flex;                 /* image | text */
-    gap: 15px;
-    align-items: flex-start;       /* align top */
-}
-
-/* author sits under the square image */
-.sub-img-col {
-    display: flex;
-    flex-direction: column;       /* image on top, author under */
-    align-items: center;          /* center image */
-    justify-content: flex-start;  /* start author under image */
-}
-
-.sub-img.square-right {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.substory-author-under {
-    margin-top: 8px;              /* small gap between image & author */
-    font-size: 12px;
-    color: #777;
-    text-align: center;           /* center it under the square */
-}
-
-.substory-text-wrap {
-    flex: 1;                       /* take remaining width */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;       /* center text vertically */
-}
-
-.substory-text {
-    margin: 0;
-    font-size: 16px;
-    color: #444;
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
-    text-overflow: ellipsis; /* Show "..." for overflowing text */
-}
 
 .secondary-container{
     flex-direction: column; /* stack the title on top of the stories */
