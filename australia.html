@@ -11,10 +11,7 @@
 </head>
 
 <body>
-    <!-- Configuration file (SAME as main page) -->
-    <script src="js/config.js"></script>
-
-    <!-- Header Section -->
+    <!-- Header -->
     <div class="header">
         <div class="date-container">
             <p class="date" id="current-date"></p>
@@ -24,7 +21,7 @@
         </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- Navigation -->
     <nav class="navbar">
         <a href="index.html" class="nav-link">Home</a>
         <a href="australia.html" class="nav-link">Australia</a>
@@ -35,14 +32,14 @@
 
     <!-- News Ticker -->
     <div class="news-ticker">
-        <p>Loading regional headlines...</p>
+        <p id="ticker-content">Loading Australian headlines...</p>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <div class="main-container">
         <div class="main-header">
             <h2>Australia</h2>
-
+            
             <form id="search-form">
                 <input type="text" placeholder="Search for an article..." id="search-input">
             </form>
@@ -50,21 +47,21 @@
             <div class="story-section">
                 <h3>Top Stories</h3>
                 <div class="story-grid">
-                    <!-- Stories will be dynamically loaded here -->
+                    <!-- Standard regional layout: 1 main + 2 substories -->
                     <a href="#" class="main-story">
                         <h4 class="main-story-title">Loading...</h4>
                         <img src="https://via.placeholder.com/800x400" alt="Loading" class="main-img">
                         <p class="main-story-text">Loading article content...</p>
                         <p class="main-story-author">By Staff Writer<br>Photographed by Staff</p>
                     </a>
-
+                
                     <a href="#" class="substory-1">
                         <img src="https://via.placeholder.com/400x300" alt="Loading" class="main-img">
                         <h4 class="substory-title">Loading...</h4>
                         <p class="substory-text">Loading content...</p>
                         <p class="substory-author">By Staff Writer<br>Photographed by Staff</p>
                     </a>
-
+                
                     <a href="#" class="substory-2">
                         <h4 class="substory-title">Loading...</h4>
                         <div class="substory-body">
@@ -82,23 +79,23 @@
         </div>
     </div>
 
-    <!-- Secondary Container -->
+    <!-- Videos Section -->
     <div class="secondary-container">
-        <h4>Featured Videos</h4>
+        <h4>Videos</h4>
         <div class="videos-wrapper">
-            <!-- Video content would go here -->
+            <!-- Regional videos can be loaded here -->
         </div>
     </div>
 
-    <!-- Articles List Container -->
+    <!-- More Articles -->
     <div class="third-container">
-        <h6>More Articles</h6>
+        <h6>Articles</h6>
         <div class="article-wrapper">
-            <!-- Articles will be dynamically loaded here -->
+            <!-- Additional articles loaded dynamically -->
         </div>
     </div>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <div class="subscribe-section">
         <h3>Stay Updated</h3>
         <p>Subscribe to our newsletter for weekly insights.</p>
@@ -111,17 +108,10 @@
         <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
 
-   <script src="js/config.js"></script>
-   <script src="js/api-service.js"></script>
-   <script src="js/ui-renderer.js"></script>
-   <script src="js/regional-loader.js"></script>
-
-    <!-- CSS animation for loading spinner -->
-    <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <!-- Scripts (same as main page) -->
+    <script src="js/config.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/ui-renderer.js"></script>
+    <script src="js/regional-loader.js"></script>
 </body>
 </html>
