@@ -435,12 +435,15 @@
 
 /* ===== Section ===== */
 .third-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 20px;
-    width: 100%;
-    text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  text-align: center;
+  overflow: hidden; /* prevents content from escaping horizontally */
 }
+
 
 /* ===== Each Story Box ===== */
 .editors-pick,
@@ -470,18 +473,26 @@
     border-color: crimson;
 }
 
-.editor-img{
+.editor-img {
   width: 100%;
-  height: 200px;              /* fixed height */
-  object-fit: cover;          /* crop to fit */
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  max-width: 100%;
+  border-radius: 0; /* optional: prevent extra rounding */
 }
 
-.pick-column {         /* equal-height columns */
+
+.pick-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  flex: 1 1 33.33%;
+  max-width: 33.33%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
+
 
 
 /* ===== Caption ===== */

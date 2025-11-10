@@ -192,11 +192,17 @@ body {
 .main-story {
     flex: 2;  /* Takes 2 parts out of 4 total = 50% */
     min-width: 0;
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
 .substory-1, .substory-2 {
     flex: 1;  /* Each takes 1 part out of 4 total = 25% each */
     min-width: 0;
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
 /* Hover effect */
