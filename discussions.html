@@ -203,28 +203,33 @@
                     </div>
                 </section>
 
-
-                <div class="reply-form">
-                <h3>Start a Discussion</h3>
-                <form id="reply-form">
-                    <div class="form-group">
-                        <label for="reply-name">Name</label>
-                        <input type="text" id="reply-name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reply-content">Your Reply</label>
-                        <textarea id="reply-content" name="content" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Post Reply</button>
-                </form>
-            </div>
-
         </div>
 
+        <!-- ===== NEW THREAD FORM ===== -->
+<div class="new-thread-form">
+    <h3>Start a New Thread</h3>
+    <form id="new-thread-form">
+        <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="new-thread-name" required>
+        </div>
+        <div class="form-group">
+            <label>Thread Title</label>
+            <input type="text" id="new-thread-title" required>
+        </div>
+        <div class="form-group">
+            <label>First Post</label>
+            <textarea id="new-thread-content" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Create Thread</button>
+    </form>
+</div>
+
         
         
         
-        <script src="js/discussions.js"></script>
+        <script src="js/discussions.js" type="module"></script>
+
 
     </body>
          

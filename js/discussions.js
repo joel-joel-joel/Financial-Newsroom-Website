@@ -152,3 +152,41 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(updateStockTicker, 10000); // Update every 10 seconds
 });
 
+import { getAllThreads, addThread } from './persist.js';
+
+function buildCard(t) {
+    return `
+    <a href="thread.html?id=${t.id}" class="thread-card">
+        <div class="thread-header">
+            <h5 class="thread-title">${t.title}</h5>
+            <i class="fa-solid fa-message"></i>
+        </div>
+        <p class="thread-blurb">${t.content}</p>
+        <span class="thread-reply">${t.replies} replies</span>
+        <span class="thread-meta">·</span>
+        <span class="thread-time">last post ${t.lastPost}</span>
+        <span class="thread-meta">·</span>
+        <span class="thread-author">${t.author}</span>
+    </a>`;
+}
+
+function renderThreads() {
+    const container = document.querySelector('#news .tab-content');
+    container.innerHTML = '';                     // clear static placeholders
+    getAllThreads().forEach(t => container.insertAdjacentHTML('beforeend', buildCard(t)));
+}
+
+document.getElementById('new-thread-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const title   = document.getElementById('new-thread-title').value.trim();
+    const author  = document.getElementById('new-thread-name').value.trim();
+    const content = document.getElementById('new-thread-content').value.trim();
+    if (!title || !author || !content) return;
+    addThread({ title, author, content });
+    e.target.reset();
+    renderThreads();          // show immediately in “New”
+    // optional: switch to the “New” tab
+    document.querySelector('[data-target="news"]').click();
+});
+renderThreads();   // initial load
+

@@ -398,28 +398,6 @@ text-decoration: underline;
 }
 
 
-/* Reply Form */
-.reply-form {
-    background: white;
-    border: 1px solid #ddd;
-    max-width: 700px;
-    width: 100%;
-    border-radius: 6px;
-    padding: 40px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 0 auto; /* top/bottom 0, left/right auto */
-
-}
-
-.reply-form h3 {
-    font-family: 'Audrey', sans-serif;
-    font-size: 20px;
-    color: black;
-    margin-bottom: 15px;
-    border-bottom: 3px solid crimson;
-    padding-bottom: 8px;
-}
-
 .form-group {
     margin-bottom: 15px;
 }
@@ -467,4 +445,24 @@ text-decoration: underline;
 
 .submit-btn:hover {
     background-color: darkred;
+}
+
+.new-thread-form {
+    background: white;
+    border: 1px solid #ddd;
+    max-width: 700px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    margin: 40px auto 0 auto;
+}
+
+.new-thread-form h3{
+    font-family: 'Audrey', sans-serif;
+    font-size: 20px;
+    color: black;
+    margin-bottom: 15px;
+    border-bottom: 3px solid crimson;
+    padding-bottom: 8px;
 }
