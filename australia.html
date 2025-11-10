@@ -107,11 +107,16 @@
         <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
         <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
-
-    <!-- Scripts (same as main page) -->
+    
+    <!-- 1. Configuration (API keys) -->
     <script src="js/config.js"></script>
+    
+    <!-- 2. Service modules (must load before regional-loader) -->
     <script src="js/api-service.js"></script>
     <script src="js/ui-renderer.js"></script>
+    
+    <!-- 3. Regional page logic (last) -->
     <script src="js/regional-loader.js"></script>
+
 </body>
 </html>
