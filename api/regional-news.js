@@ -1,5 +1,5 @@
 // api/regional-news.js - Regional news endpoint with proper error handling
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   console.log('🎯 Function invoked with region:', req.body?.region);
   console.log('🔑 NEWS_KEY present:', !!process.env.NEWS_KEY);
   // ===== CORS Configuration =====
