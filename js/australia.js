@@ -231,9 +231,9 @@ function renderMainStory(article) {
 
   if (titleEl) titleEl.textContent = article.title;
   if (imgEl) {
-    imgEl.src = article.image || article.urlToImage || 'https://via.placeholder.com/800x400';
+    imgEl.src = article.image || article.urlToImage || 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800';
     imgEl.alt = article.title;
-    imgEl.onerror = () => { imgEl.src = 'https://via.placeholder.com/800x400'; };
+    imgEl.onerror = () => { imgEl.src = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800'; };
   }
   if (textEl) textEl.textContent = article.description || '';
   if (authorEl) {
@@ -299,9 +299,9 @@ function renderSubstory(element, article, hasSpecialLayout = false) {
   if (titleEl) titleEl.textContent = article.title;
   if (textEl) textEl.textContent = article.description || '';
   if (imgEl) {
-    imgEl.src = article.image || article.urlToImage || 'https://via.placeholder.com/400x300';
+    imgEl.src = article.image || article.urlToImage || 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400';
     imgEl.alt = article.title;
-    imgEl.onerror = () => { imgEl.src = 'https://via.placeholder.com/400x300'; };
+    imgEl.onerror = () => { imgEl.src = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400'; };
   }
   if (authorEl) {
     authorEl.innerHTML = `By ${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}`;
@@ -339,9 +339,9 @@ function renderRegionalColumns(articles) {
       const link = topStory.querySelector('.mainstory-title');
 
       if (img) {
-        img.src = article.image || article.urlToImage || 'https://via.placeholder.com/400x300';
+        img.src = article.image || article.urlToImage || 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400';
         img.alt = article.title;
-        img.onerror = () => { img.src = 'https://via.placeholder.com/400x300'; };
+        img.onerror = () => { img.src = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400'; };
       }
       if (link) {
         link.textContent = article.title;
@@ -384,10 +384,10 @@ function renderArticlesList(articles) {
 
     return `
       <a href="article.html?id=${articleId}" class="article">
-        <img src="${article.image || article.urlToImage || 'https://via.placeholder.com/140x100'}" 
+        <img src="${article.image || article.urlToImage || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=140'}" 
              alt="${article.title}" 
              class="article-thumbnail"
-             onerror="this.src='https://via.placeholder.com/140x100'">
+             onerror="this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=140'">
         <div class="article-text-block">
           <p class="article-date">${dateStr}</p>
           <h5 class="article-title">${article.title}</h5>
