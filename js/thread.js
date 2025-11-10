@@ -62,20 +62,17 @@
                 document.getElementById('current-date').textContent = today;
             }
 
-            // Handle form submission
-            document.getElementById('reply-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('reply-name').value;
-                const content = document.getElementById('reply-content').value;
-                
-                // Here you would typically send this to a server
-                alert(`Reply from ${name} submitted!\n\n"${content}"`);
-                
-                this.reset();
-            });
+        
 
             // Initialize on page load
             window.addEventListener('DOMContentLoaded', function() {
                 displayDate();
                 loadThread();
             });
+
+        const threadId = new URLSearchParams(location.search).get('id');
+            if (!threadId) {
+            document.querySelector('.thread-header-section').innerHTML =
+                '<h2 class="thread-title-large">Thread not found</h2>';
+            return;
+            }
