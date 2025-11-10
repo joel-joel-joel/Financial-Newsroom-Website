@@ -26,7 +26,7 @@ const API_CONFIG = (() => {
   const development = {
     newsApi: {
       key: '6c78148a30b049718defe0e8cdde97f7',
-      baseUrl: 'https://newsapi.org/v2',
+      baseUrl: 'https://newsapi.org',
       category: 'business',
       pageSize: 20
     },
