@@ -441,7 +441,6 @@
   gap: 20px;
   width: 100%;
   text-align: center;
-  overflow: hidden; /* prevents content from escaping horizontally */
 }
 
 
@@ -490,7 +489,6 @@
   flex: 1 1 33.33%;
   max-width: 33.33%;
   box-sizing: border-box;
-  overflow: hidden;
 }
 
 
