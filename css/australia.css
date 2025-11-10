@@ -3,6 +3,10 @@
     src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
 }
 
+body {
+  font-family: 'Newsreader', serif;
+}
+
 
 /* Header styles */
 .header {
