@@ -186,6 +186,12 @@ body {
     height: 350px;
     box-sizing: border-box;
     text-align: left;
+    
+}
+
+.main-story, .substory-1, .substory-2 {
+  flex-shrink: 0;    /* prevent flex from compressing text box widths */
+  min-width: 0;      /* allows ellipsis to work inside flex context */
 }
 
 /* Set the widths - main story takes 50%, substories each take 25% */
@@ -213,35 +219,42 @@ body {
 }
 
 /* Typography */
-.main-story-title, .substory-title {
-    font-size: 22px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-bottom: 4px solid crimson;
-    padding-bottom: 5px;
-    display: inline-block;
-    color: #222;
-    font-family: 'Apple Garamond', sans-serif;
-    text-decoration: none;
-    font-weight: bold;
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
-    text-overflow: ellipsis; /* Show "..." for overflowing text */
-
+/* Fix ellipsis behavior for titles */
+.main-story-title,
+.substory-title {
+  font-size: 22px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-bottom: 4px solid crimson;
+  padding-bottom: 5px;
+  color: #222;
+  font-family: 'Apple Garamond', sans-serif;
+  font-weight: bold;
+  display: block;              /* ensure block context */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;                 /* required for ellipsis to render */
+  box-sizing: border-box;      /* avoids overflow due to padding */
 }
 
-.main-story-text, .substory-text {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #444;
-    font-family: 'Apple Garamond', sans-serif;
-    text-decoration: none;
-    padding:0px;
-    margin: 0px;
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
-    text-overflow: ellipsis; /* Show "..." for overflowing text */
+/* Fix ellipsis for main and substory body text */
+.main-story-text,
+.substory-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  font-family: 'Apple Garamond', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: block;              /* important */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;                 /* ensures text has defined limit */
+  box-sizing: border-box;
 }
+
 
 .main-story-author, .substory-author {
     font-size: 12px;

@@ -43,3 +43,14 @@ export function addReply({threadId, author, content}) {
     t.lastPost = 'just now';
     setDB(db);
 }
+
+
+// Expose for debugging/testing in browser console
+if (typeof window !== 'undefined') {
+    window.ffdb = {
+        getAllThreads,
+        getThread,
+        addThread,
+        addReply
+    };
+}
