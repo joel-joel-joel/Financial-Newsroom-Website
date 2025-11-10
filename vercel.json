@@ -13,6 +13,6 @@
     }
   ],
   "env": {
-    "NEWS_KEY": "@news_api_key"
+    "NEWS_KEY": "@NEWS_KEY"
   }
 }
