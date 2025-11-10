@@ -218,6 +218,10 @@ body {
     font-family: 'Apple Garamond', sans-serif;
     text-decoration: none;
     font-weight: bold;
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
+
 }
 
 .main-story-text, .substory-text {
@@ -228,6 +232,9 @@ body {
     text-decoration: none;
     padding:0px;
     margin: 0px;
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
 .main-story-author, .substory-author {
@@ -285,6 +292,9 @@ body {
     margin: 0;
     font-size: 16px;
     color: #444;
+    overflow: hidden;        /* Hide overflowing text */
+    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
 .secondary-container{
