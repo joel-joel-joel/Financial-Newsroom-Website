@@ -32,32 +32,33 @@ document.addEventListener('DOMContentLoaded', async function() {
 /**
  * ✅ FIXED: Load top stories for both grids
  */
+/**
+ * world-loader.js - Style-Aware World Page Loader
+ * Handles intentional different grid layouts
+ */
+
+// ... keep rest of file unchanged up to loadTopStories ...
+
+/**
+ * ✅ STYLE-AWARE: Loads top stories respecting grid layout
+ */
 async function loadTopStories(apiService) {
     console.log('📰 Starting top stories load...');
     
     try {
-        const grid1 = document.querySelector('.story-grid-1');
-        const grid2 = document.querySelector('.story-grid-2');
-        
-        if (!grid1 || !grid2) {
-            throw new Error(`Story grids not found!`);
-        }
-        
-        // Fetch world news
-        console.log('📡 Fetching world news...');
-        const worldNews = await apiService.searchArticles('global economy finance market international', 10, 1);
+        const worldNews = await apiService.searchArticles('global economy finance market', 10, 1);
         
         if (!worldNews.articles || worldNews.articles.length < 6) {
             throw new Error(`Insufficient articles: got ${worldNews.articles?.length || 0}`);
         }
         
-        console.log(`✅ Received ${worldNews.articles.length} articles`);
+        // Grid 1: Main → Sub-1 → Sub-2 (standard order)
+        await renderStoryGrid('.story-grid-1', worldNews.articles.slice(0, 3), 'standard');
         
-        // ✅ FIXED: Grid 1 has 3 slots, Grid 2 has 3 slots
-        await renderStoryGrid('.story-grid-1', worldNews.articles.slice(0, 3));
-        await renderStoryGrid('.story-grid-2', worldNews.articles.slice(3, 6));
+        // Grid 2: Sub-2 → Main → Sub-1 (intentional different order)
+        await renderStoryGrid('.story-grid-2', worldNews.articles.slice(3, 6), 'inverted');
         
-        console.log('✅ Top stories rendered successfully');
+        console.log('✅ Top stories rendered');
         
     } catch (error) {
         console.error('❌ Top stories failed:', error);
@@ -65,31 +66,29 @@ async function loadTopStories(apiService) {
 }
 
 /**
- * ✅ FIXED: Render story grid with correct mapping
+ * ✅ STYLE-AWARE: Renders grid based on layout type
+ * @param {string} layout - 'standard' or 'inverted'
  */
-async function renderStoryGrid(gridSelector, articles) {
+async function renderStoryGrid(gridSelector, articles, layout = 'standard') {
     const grid = document.querySelector(gridSelector);
-    if (!grid) {
-        console.error(`❌ Grid not found: ${gridSelector}`);
-        return;
-    }
+    if (!grid) return;
     
-    console.log(`🏗️ Rendering ${gridSelector} with ${articles.length} articles`);
+    console.log(`🏗️ Rendering ${gridSelector} in ${layout} mode`);
     
-    // ✅ FIXED: Both grids have same structure (main-story, substory-1, substory-2)
-    const elements = [
-        grid.querySelector('.main-story'),
-        grid.querySelector('.substory-1'),
-        grid.querySelector('.substory-2')
-    ];
+    // Define element order based on layout
+    const elementSelectors = layout === 'inverted' 
+        ? ['.substory-2', '.main-story', '.substory-1'] // Grid 2 order
+        : ['.main-story', '.substory-1', '.substory-2']; // Grid 1 order
     
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i] && articles[i]) {
-            const isType2 = elements[i].classList.contains('substory-2');
-            await renderWorldStory(elements[i], articles[i], isType2, i);
+    for (let i = 0; i < elementSelectors.length; i++) {
+        const element = grid.querySelector(elementSelectors[i]);
+        if (element && articles[i]) {
+            const isType2 = element.classList.contains('substory-2');
+            await renderWorldStory(element, articles[i], isType2, i);
         }
     }
 }
+
 
 /**
  * ✅ Render individual story
