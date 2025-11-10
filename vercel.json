@@ -11,6 +11,8 @@
       "src": "/api/(.*)",
       "dest": "/api/$1"
     }
-  ]
-
+  ],
+  "env": {
+    "NEWS_KEY": "@NEWS_KEY"
+  }
 }
