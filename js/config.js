@@ -1,7 +1,6 @@
 /**
- * config.js - API Configuration
- * IMPORTANT: Replace YOUR_VERCEL_URL with your actual deployment URL
- * For production, move API keys to environment variables
+ * config.js - API Configuration (FIXED)
+ * For production deployment on Vercel
  */
 
 const API_CONFIG = (() => {
@@ -11,14 +10,15 @@ const API_CONFIG = (() => {
   
   // Production configuration (uses Vercel proxy)
   const production = {
-    proxyUrl: 'https://financial-newsroom-website.vercel.app/api', // REPLACE THIS!
+    // Use relative path for same-origin API calls on Vercel
+    proxyUrl: '/api',
     app: {
       cacheDuration: 5 * 60 * 1000, // 5 minutes
       articlesPerPage: 20,
       fallbackDataPath: './json/fallback-articles.json',
       enableLogging: true,
       imageRetryAttempts: 3,
-      apiTimeout: 10000 // 10 seconds
+      apiTimeout: 15000 // 15 seconds for API calls
     }
   };
 
@@ -52,11 +52,10 @@ const API_CONFIG = (() => {
     console.error('❌ API Configuration Error: No valid API endpoint found');
   }
   
-  if (!window.location.hostname.includes('localhost') && 
-      API_CONFIG.proxyUrl?.includes('financial-newsroom-website.vercel.app')) {
-    console.warn('⚠️ Warning: Update proxyUrl in config.js with your actual Vercel URL');
-  }
+  const configType = API_CONFIG.proxyUrl ? 'Production (Proxy)' : 'Development (Direct)';
+  console.log('✅ API Config loaded:', configType);
   
-  console.log('✓ API Config loaded:', 
-    API_CONFIG.proxyUrl ? 'Production (Proxy)' : 'Development (Direct)');
+  if (API_CONFIG.proxyUrl) {
+    console.log('📡 API Endpoint:', API_CONFIG.proxyUrl);
+  }
 })();

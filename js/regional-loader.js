@@ -1,12 +1,11 @@
 /**
- * regional-loader.js - COMPLETE Regional Page Loader
+ * regional-loader.js - COMPLETE Regional Page Loader (FIXED)
  * Handles: Australia, Europe, Asia, Americas, Africa (standard layout)
  * World page uses separate logic due to different layout
  */
 
 // ===== Global Variables =====
 let apiService = null;
-let uiRenderer = null;
 let currentRegion = null;
 
 // ===== Region Detection =====
@@ -28,7 +27,7 @@ async function fetchRegionalNews(region, pageSize = 20, page = 1) {
     try {
         console.log(`📡 Fetching news for ${region}...`);
         
-        // Call your Vercel serverless function
+        // Try Vercel serverless function first
         const response = await fetch('/api/regional-news', {
             method: 'POST',
             headers: {
@@ -46,7 +45,7 @@ async function fetchRegionalNews(region, pageSize = 20, page = 1) {
         }
         
         const data = await response.json();
-        console.log(`✅ Received ${data.articles?.length || 0} articles`);
+        console.log(`✅ Received ${data.articles?.length || 0} articles from API`);
         
         return data;
         
@@ -62,7 +61,6 @@ async function fetchRegionalNews(region, pageSize = 20, page = 1) {
 // ===== Fallback API Call (Direct) =====
 async function fetchRegionalNewsFallback(region, pageSize = 20) {
     try {
-        // Use apiService for direct API call
         const query = getRegionalQuery(region);
         const result = await apiService.searchArticles(query, pageSize, 1);
         
@@ -108,30 +106,34 @@ async function renderMainStory(article, selector = '.main-story') {
     const author = mainStory.querySelector('.main-story-author');
     
     // Generate article ID and store
-    const articleId = apiService._generateArticleId(article);
+    const articleId = generateArticleId(article);
     storeArticleData(articleId, article);
     
     // Update content
-    if (title) title.textContent = article.title;
+    if (title) title.textContent = article.title || 'Untitled Article';
     
     if (img) {
-        img.src = article.image || article.urlToImage || 'https://via.placeholder.com/800x400';
-        img.alt = article.title;
-        img.onerror = () => { img.src = 'https://via.placeholder.com/800x400'; };
+        img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800';
+        img.alt = article.title || 'Article image';
+        img.onerror = () => { 
+            img.src = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800'; 
+        };
     }
     
     if (text) {
-        text.textContent = article.description || article.content || 'Read full article...';
+        text.textContent = article.description || article.content || 'Read full article for more details...';
     }
     
     if (author) {
-        author.innerHTML = `By ${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}`;
+        const authorName = article.author || 'Staff Writer';
+        const sourceName = article.source?.name || 'The Financial Frontier';
+        author.innerHTML = `By ${authorName}<br>Photographed by ${sourceName}`;
     }
     
     // Update link
     mainStory.href = `article.html?id=${articleId}`;
     
-    console.log('✅ Main story rendered:', article.title.substring(0, 50));
+    console.log('✅ Main story rendered:', article.title?.substring(0, 50));
 }
 
 // ===== Render Substory =====
@@ -141,13 +143,13 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
         return;
     }
     
-    const articleId = apiService._generateArticleId(article);
+    const articleId = generateArticleId(article);
     storeArticleData(articleId, article);
     
     const title = substoryEl.querySelector('.substory-title');
     const text = substoryEl.querySelector('.substory-text');
     
-    if (title) title.textContent = article.title;
+    if (title) title.textContent = article.title || 'Untitled Article';
     if (text) text.textContent = article.description || 'Read more...';
     
     if (isType2) {
@@ -156,13 +158,17 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
         const authorEl = substoryEl.querySelector('.substory-author-under');
         
         if (img) {
-            img.src = article.image || article.urlToImage || 'https://via.placeholder.com/120x120';
-            img.alt = article.title;
-            img.onerror = () => { img.src = 'https://via.placeholder.com/120x120'; };
+            img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800';
+            img.alt = article.title || 'Article thumbnail';
+            img.onerror = () => { 
+                img.src = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800'; 
+            };
         }
         
         if (authorEl) {
-            authorEl.innerHTML = `By ${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}`;
+            const authorName = article.author || 'Staff Writer';
+            const sourceName = article.source?.name || 'Staff';
+            authorEl.innerHTML = `By ${authorName}<br>Photographed by ${sourceName}`;
         }
     } else {
         // Type 1: Image on top layout
@@ -170,32 +176,41 @@ async function renderSubstory(substoryEl, article, isType2 = false) {
         const authorEl = substoryEl.querySelector('.substory-author');
         
         if (img) {
-            img.src = article.image || article.urlToImage || 'https://via.placeholder.com/400x300';
-            img.alt = article.title;
-            img.onerror = () => { img.src = 'https://via.placeholder.com/400x300'; };
+            img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800';
+            img.alt = article.title || 'Article image';
+            img.onerror = () => { 
+                img.src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800'; 
+            };
         }
         
         if (authorEl) {
-            authorEl.innerHTML = `By ${article.author || 'Staff Writer'}<br>Photographed by ${article.source?.name || 'Staff'}`;
+            const authorName = article.author || 'Staff Writer';
+            const sourceName = article.source?.name || 'Staff';
+            authorEl.innerHTML = `By ${authorName}<br>Photographed by ${sourceName}`;
         }
     }
     
     // Update link
     substoryEl.href = `article.html?id=${articleId}`;
     
-    console.log('✅ Substory rendered:', article.title.substring(0, 40));
+    console.log('✅ Substory rendered:', article.title?.substring(0, 40));
 }
 
 // ===== Render Articles List =====
 function renderArticlesList(articles, containerSelector = '.article-wrapper') {
     const container = document.querySelector(containerSelector);
-    if (!container || !articles || articles.length === 0) {
-        console.warn('⚠️ Articles list: container not found or no articles');
+    if (!container) {
+        console.warn('⚠️ Articles list container not found:', containerSelector);
+        return;
+    }
+    
+    if (!articles || articles.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #666;">No additional articles available</p>';
         return;
     }
     
     container.innerHTML = articles.map(article => {
-        const articleId = apiService._generateArticleId(article);
+        const articleId = generateArticleId(article);
         storeArticleData(articleId, article);
         
         const date = new Date(article.publishedAt).toLocaleDateString('en-US', {
@@ -204,16 +219,18 @@ function renderArticlesList(articles, containerSelector = '.article-wrapper') {
             year: 'numeric'
         });
         
+        const imageUrl = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800';
+        
         return `
             <a href="article.html?id=${articleId}" class="article">
-                <img src="${article.image || article.urlToImage || 'https://via.placeholder.com/140x100'}" 
-                     alt="${escapeHtml(article.title)}" 
+                <img src="${imageUrl}" 
+                     alt="${escapeHtml(article.title || 'Article')}" 
                      class="article-thumbnail"
-                     onerror="this.src='https://via.placeholder.com/140x100'">
+                     onerror="this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800'">
                 <div class="article-text-block">
                     <p class="article-date">${date}</p>
-                    <h5 class="article-title">${escapeHtml(article.title)}</h5>
-                    <p class="article-description">${escapeHtml(article.description || '')}</p>
+                    <h5 class="article-title">${escapeHtml(article.title || 'Untitled')}</h5>
+                    <p class="article-description">${escapeHtml(article.description || 'No description available')}</p>
                     <p class="article-author">By ${escapeHtml(article.author || 'Staff Writer')}</p>
                 </div>
             </a>
@@ -221,6 +238,70 @@ function renderArticlesList(articles, containerSelector = '.article-wrapper') {
     }).join('');
     
     console.log(`✅ Rendered ${articles.length} articles in list`);
+}
+
+// ===== Search Functionality =====
+function setupSearchFunctionality() {
+    const searchForm = document.querySelector('#search-form');
+    const searchInput = document.querySelector('#search-input');
+    
+    if (!searchForm || !searchInput) {
+        console.warn('⚠️ Search form not found');
+        return;
+    }
+    
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const query = searchInput.value.trim();
+        if (!query) {
+            alert('Please enter a search term');
+            return;
+        }
+        
+        console.log(`🔍 Searching for: ${query}`);
+        
+        // Show loading state
+        const storyGrid = document.querySelector('.story-grid');
+        const articleWrapper = document.querySelector('.article-wrapper');
+        
+        if (storyGrid) {
+            storyGrid.innerHTML = '<div style="padding: 40px; text-align: center;">Searching...</div>';
+        }
+        if (articleWrapper) {
+            articleWrapper.innerHTML = '<div style="padding: 40px; text-align: center;">Loading results...</div>';
+        }
+        
+        try {
+            // Use apiService to search
+            const result = await apiService.searchArticles(query, 20, 1);
+            
+            if (!result.articles || result.articles.length === 0) {
+                showError('No articles found for your search');
+                return;
+            }
+            
+            console.log(`✅ Found ${result.articles.length} articles`);
+            
+            // Render search results
+            await renderStandardRegionalLayout(result.articles);
+            
+            // Update ticker with search results
+            updateNewsTicker(result.articles);
+            
+            // Show search results count
+            const mainHeader = document.querySelector('.main-header h2');
+            if (mainHeader) {
+                mainHeader.textContent = `Search Results: "${query}" (${result.articles.length} found)`;
+            }
+            
+        } catch (error) {
+            console.error('❌ Search error:', error);
+            showError('Search failed. Please try again.');
+        }
+    });
+    
+    console.log('✅ Search functionality enabled');
 }
 
 // ===== Load Regional Videos =====
@@ -288,7 +369,7 @@ function handleVideoError(region) {
 function storeArticleData(articleId, article) {
     try {
         if (!articleId || !article || !article.title) {
-            console.warn('⚠️ Invalid article data');
+            console.warn('⚠️ Invalid article data for storage');
             return false;
         }
         
@@ -313,6 +394,20 @@ function storeArticleData(articleId, article) {
     }
 }
 
+// ===== Generate Article ID =====
+function generateArticleId(article) {
+    try {
+        const baseString = article.url || article.title || Date.now().toString();
+        return btoa(baseString)
+            .slice(0, 16)
+            .replace(/[/+=]/g, match => {
+                return { '/': '-', '+': '_', '=': '' }[match];
+            });
+    } catch {
+        return 'article_' + Date.now();
+    }
+}
+
 // ===== Utility Functions =====
 function escapeHtml(text) {
     const div = document.createElement('div');
@@ -330,10 +425,10 @@ function displayCurrentDate() {
 }
 
 function showError(message) {
-    const container = document.querySelector('.main-container, .story-section');
-    if (container) {
-        container.innerHTML = `
-            <div style="padding: 40px; text-align: center; color: crimson;">
+    const storyGrid = document.querySelector('.story-grid');
+    if (storyGrid) {
+        storyGrid.innerHTML = `
+            <div style="padding: 40px; text-align: center; color: crimson; grid-column: 1 / -1;">
                 <h3>⚠️ ${escapeHtml(message)}</h3>
                 <p style="color: #666;">Please try refreshing the page.</p>
                 <button onclick="window.location.reload()" 
@@ -349,29 +444,39 @@ function updateNewsTicker(articles) {
     const ticker = document.querySelector('#ticker-content');
     if (!ticker || !articles || articles.length === 0) return;
     
-    const headlines = articles.slice(0, 5).map(a => a.title);
-    ticker.textContent = headlines.join(' | ');
+    const headlines = articles.slice(0, 5).map(a => a.title || 'Breaking News');
+    ticker.textContent = headlines.join(' • ');
 }
 
 function getFallbackArticles(region) {
+    const regionName = region.charAt(0).toUpperCase() + region.slice(1);
     return [
         {
-            title: `${region.charAt(0).toUpperCase() + region.slice(1)} Markets Update`,
-            description: `Latest financial news from ${region}`,
-            author: 'Regional Correspondent',
+            title: `${regionName} Markets Show Resilience Amid Global Uncertainty`,
+            description: `Financial markets in ${regionName} demonstrated stability today as investors carefully monitor economic indicators and central bank policies.`,
+            author: 'Financial Correspondent',
             source: { name: 'The Financial Frontier' },
             publishedAt: new Date().toISOString(),
             url: '#',
-            urlToImage: 'https://via.placeholder.com/800x400'
+            urlToImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800'
         },
         {
-            title: `Economic Outlook for ${region}`,
-            description: 'Analysis of current economic conditions',
-            author: 'Financial Analyst',
+            title: `Economic Growth Projections for ${regionName} Remain Positive`,
+            description: 'Economists forecast continued expansion despite headwinds from inflation and geopolitical tensions affecting the region.',
+            author: 'Economic Analyst',
             source: { name: 'The Financial Frontier' },
             publishedAt: new Date().toISOString(),
             url: '#',
-            urlToImage: 'https://via.placeholder.com/800x400'
+            urlToImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800'
+        },
+        {
+            title: `${regionName} Central Bank Maintains Current Policy Stance`,
+            description: 'Regional monetary authorities signal patience in adjusting interest rates as they assess ongoing economic conditions.',
+            author: 'Policy Reporter',
+            source: { name: 'The Financial Frontier' },
+            publishedAt: new Date().toISOString(),
+            url: '#',
+            urlToImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800'
         }
     ];
 }
@@ -394,20 +499,32 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Regional page initializing...');
     
     try {
-        // Create service instances
+        // Check if API_CONFIG exists
+        if (typeof API_CONFIG === 'undefined') {
+            throw new Error('API_CONFIG not found. Make sure config.js is loaded first.');
+        }
+        
+        // Check if APIService exists
+        if (typeof APIService === 'undefined') {
+            throw new Error('APIService not found. Make sure api-service.js is loaded first.');
+        }
+        
+        // Create service instance
         apiService = new APIService(API_CONFIG);
-        uiRenderer = new UIRenderer();
         
         // Detect region
         currentRegion = detectRegion();
         console.log(`📍 Detected region: ${currentRegion}`);
         
         if (!currentRegion) {
-            throw new Error('Could not detect region');
+            throw new Error('Could not detect region from URL');
         }
         
         // Display date
         displayCurrentDate();
+        
+        // Setup search functionality
+        setupSearchFunctionality();
         
         // Load content
         await loadRegionalContent(currentRegion);
@@ -415,11 +532,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Setup auto-refresh
         setUpAutoRefresh(currentRegion);
         
-        console.log('✅ Regional page fully loaded');
+        console.log('✅ Regional page fully loaded and functional');
         
     } catch (error) {
-        console.error('❌ Regional page error:', error);
-        showError(error.message || 'Failed to load regional content');
+        console.error('❌ Regional page initialization error:', error);
+        showError(error.message || 'Failed to initialize page');
     }
 });
 
@@ -428,42 +545,44 @@ async function loadRegionalContent(region) {
     try {
         console.log(`📰 Loading content for ${region}...`);
         
-        // Show loading states
+        // Show loading state
         const storyGrid = document.querySelector('.story-grid');
         if (storyGrid) {
-            storyGrid.innerHTML = '<div style="padding: 40px; text-align: center;">Loading news...</div>';
+            storyGrid.innerHTML = '<div style="padding: 40px; text-align: center; grid-column: 1 / -1;">Loading news...</div>';
         }
         
         // Fetch articles
         const newsData = await fetchRegionalNews(region, 20, 1);
         
         if (!newsData.success || !newsData.articles || newsData.articles.length === 0) {
-            throw new Error('No articles found');
+            throw new Error('No articles found for this region');
         }
         
-        // Enrich articles with images
-        const enrichedArticles = await Promise.all(
-            newsData.articles.map(article => apiService.getEnrichedArticle(article))
-        );
+        console.log(`✅ Received ${newsData.articles.length} articles`);
         
-        console.log(`✅ Enriched ${enrichedArticles.length} articles`);
+        // Filter out articles without titles
+        const validArticles = newsData.articles.filter(article => article && article.title);
         
-        // Render content based on layout
-        await renderStandardRegionalLayout(enrichedArticles);
+        if (validArticles.length === 0) {
+            throw new Error('No valid articles found');
+        }
+        
+        // Render content
+        await renderStandardRegionalLayout(validArticles);
         
         // Update news ticker
-        updateNewsTicker(enrichedArticles);
+        updateNewsTicker(validArticles);
         
         // Load videos (parallel, non-blocking)
         loadRegionalVideos(region).catch(err => 
-            console.warn('⚠️ Video loading failed:', err)
+            console.warn('⚠️ Video loading failed (non-critical):', err)
         );
         
         console.log('✅ All content loaded successfully');
         
     } catch (error) {
         console.error('❌ Content loading error:', error);
-        showError('Unable to load content. Please try again.');
+        showError(error.message || 'Unable to load content. Please try again.');
     }
 }
 
@@ -472,8 +591,9 @@ async function renderStandardRegionalLayout(articles) {
     console.log('🏗️ Rendering Standard Regional layout');
     
     if (articles.length < 3) {
-        console.error('❌ Need at least 3 articles for layout');
-        return;
+        console.warn('⚠️ Not enough articles for full layout, using fallback');
+        const fallback = getFallbackArticles(currentRegion || 'australia');
+        articles = [...articles, ...fallback].slice(0, 7);
     }
     
     // Main story (first article)
@@ -492,8 +612,8 @@ async function renderStandardRegionalLayout(articles) {
     }
     
     // Additional articles (rest)
-    const additionalArticles = articles.slice(3, 7); // Take 4 more
+    const additionalArticles = articles.slice(3, 11); // Take up to 8 more
     renderArticlesList(additionalArticles);
     
-    console.log('✅ Standard layout rendered');
+    console.log('✅ Standard layout rendered successfully');
 }
