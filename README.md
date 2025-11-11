@@ -40,23 +40,6 @@ A multi-region financial news platform that ingests real-time content from NewsA
 
 ---
 
-## 📁 Project Structure
-├── api/
-│   └── regional-news.cjs          # Vercel serverless function (CORS proxy)
-├── css/
-│   ├── australia.css
-│   └── world.css
-├── js/
-│   ├── config.js                  # Environment configuration
-│   ├── api-service.js             # API abstraction & caching layer
-│   ├── ui-renderer.js             # DOM manipulation & rendering
-│   ├── regional-loader.js         # Australia/Africa/Asia/Europe pages
-│   └── world-loader.js            # World page orchestrator
-├── *.html                         # Static entry points
-└── README.md
-
----
-
 ## ⚡ Key Features & Implementation Details
 
 ### 1. **Intelligent API Orchestration**
