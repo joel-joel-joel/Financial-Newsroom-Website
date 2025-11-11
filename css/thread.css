@@ -1,18 +1,14 @@
-/* =========================================================
-   ================== FONT IMPORT =========================
-   ========================================================= */
+/* Font Import */
 @font-face {
     font-family: Newsroom;
     src: url(https://fonts.google.com/specimen/Newsreader);
 }
 
-/* =========================================================
-   ================== HEADER STYLES =======================
-   ========================================================= */
+/* Header Styles */
 .header {
     background-color: white;
     padding: 10px 10px;
-    display: flex;
+    display: flex; 
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally */
     position: relative; /* For absolute positioning of date */
@@ -41,9 +37,7 @@
     font-style: italic;
 }
 
-/* =========================================================
-   ================== NAVBAR STYLES =======================
-   ========================================================= */
+/* Navbar Styles */
 .navbar {
     display: flex; /* Flex container for nav links */
     gap: 40px; /* Spacing between links */
@@ -60,14 +54,13 @@
     color: black;
     text-decoration: none;
 }
+
 .nav-link:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* =========================================================
-   ================== NEWS TICKER =========================
-   ========================================================= */
+/* News Ticker */
 .news-ticker {
     width: 100%;
     overflow: hidden; /* Hide overflow text */
@@ -95,9 +88,7 @@
     100% { transform: translateX(-100%); }
 }
 
-/* =========================================================
-   ================== MAIN CONTAINER ======================
-   ========================================================= */
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: column;
@@ -106,7 +97,7 @@
     padding: 40px 20px;
 }
 
-/* ---------------- Thread Header Section ---------------- */
+/* Thread Header Section */
 .thread-header-section {
     width: 100%;
     max-width: 900px;
@@ -123,7 +114,7 @@
     text-align: center;
 }
 
-/* Thread info (author, date, etc.) */
+/* Thread Info (author, date, etc.) */
 .thread-info {
     display: flex;
     gap: 20px;
@@ -132,7 +123,7 @@
     font-style: italic;
 }
 
-/* Back button */
+/* Back Button */
 .back-btn {
     display: inline-flex;
     align-items: center;
@@ -144,20 +135,19 @@
     font-family: 'Audrey', sans-serif;
     cursor: pointer;
 }
+
 .back-btn:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* =========================================================
-   ================== POSTS CONTAINER =====================
-   ========================================================= */
+/* Posts Container */
 .posts-container {
     width: 100%;
     max-width: 900px;
 }
 
-/* Individual post card */
+/* Individual Post Card */
 .post {
     background: white;
     border: 1px solid #ddd;
@@ -167,12 +157,13 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .post:hover {
     transform: scale(1.02); /* Slight enlarge on hover */
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* Post header: author & timestamp */
+/* Post Header: author & timestamp */
 .post-header {
     display: flex;
     justify-content: space-between;
@@ -192,7 +183,7 @@
     font-style: italic;
 }
 
-/* Post content */
+/* Post Content */
 .post-content {
     font-size: 15px;
     line-height: 1.6;
@@ -200,7 +191,7 @@
     margin-bottom: 12px;
 }
 
-/* Post actions (reply, like, etc.) */
+/* Post Actions (reply, like, etc.) */
 .post-actions {
     display: flex;
     gap: 20px;
@@ -213,14 +204,13 @@
     cursor: pointer;
     transition: color 0.2s ease;
 }
+
 .post-action:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* =========================================================
-   ================== REPLY FORM ==========================
-   ========================================================= */
+/* Reply Form */
 .reply-form {
     background: white;
     border: 1px solid #ddd;
@@ -232,7 +222,6 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Reply form heading */
 .reply-form h3 {
     font-family: 'Audrey', sans-serif;
     font-size: 20px;
@@ -242,7 +231,7 @@
     padding-bottom: 8px;
 }
 
-/* Form groups */
+/* Form Groups */
 .form-group {
     margin-bottom: 15px;
 }
@@ -269,7 +258,7 @@
     min-height: 120px;
 }
 
-/* Focus styles */
+/* Focus Styles */
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
@@ -277,7 +266,7 @@
     box-shadow: 0 0 0 2px rgba(220, 20, 60, 0.1);
 }
 
-/* Submit button */
+/* Submit Button */
 .submit-btn {
     background-color: crimson;
     color: white;

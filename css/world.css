@@ -1,44 +1,34 @@
-/* ==========================================================================
-   ============================= FONT FACES =================================
-   ========================================================================== */
-
-/* Custom font faces for headings and body text */
+/* Font Faces */
 @font-face {
     font-family: Newsroom; /* Main header font */
     src: url(https://fonts.google.com/specimen/Newsreader); /* URL to font */
 }
 
-/* ==========================================================================
-   ============================= HEADER STYLES ==============================
-   ========================================================================== */
-
+/* Header Styles */
 .header {
-    background-color: white;            /* Header background */
-    padding: 10px 10px;                 /* Inner spacing */
-    display: flex;                      /* Flex container */
-    flex-direction: column;             /* Stack children vertically */
-    align-items: center;                /* Center children horizontally */
-    position: relative;                 /* Needed for absolute children (like date) */
+    background-color: white;           
+    padding: 10px 10px;                
+    display: flex;                     
+    flex-direction: column;            
+    align-items: center;               
+    position: relative;                
 }
 
-/* Main site title */
 .header h1 {
     margin: 0;
-    font-size: 35px;                    /* Reduced from 70px */
+    font-size: 35px;                   
     font-family: 'Newsroom';
     color: crimson;
     text-align: center;
-    text-decoration: underline black;   /* Underline with black */
+    text-decoration: underline black;  
 }
 
-/* Date display container (top-left corner) */
 .date-container {
     position: absolute;
     top: 10px;
     left: 20px;
 }
 
-/* Individual date text */
 .date {
     font-size: 16px;
     color: black;
@@ -46,37 +36,30 @@
     font-style: italic;
 }
 
-/* ==========================================================================
-   ============================= NAVBAR STYLES ==============================
-   ========================================================================== */
-
-/* Standard navigation bar */
+/* Navbar Styles */
 .navbar {
-    display: flex;                     /* Flex container */
-    gap: 40px;                         /* Space between links */
+    display: flex;                     
+    gap: 40px;                         
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
-    align-items: center;               /* Vertically center items */
+    align-items: center;               
     text-align: center;
-    justify-content: center;           /* Horizontally center items */
-    border-bottom: 2px solid black;    /* Bottom border */
+    justify-content: center;           
+    border-bottom: 2px solid black;    
     padding: 10px 0;
 }
 
-/* Individual nav links */
 .nav-link {
     color: black;
     text-decoration: none;
 }
 
-/* Hover effect for nav links */
 .nav-link:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* Secondary world navbar */
 .world-navbar {
     display: flex;
     gap: 80px;
@@ -89,29 +72,24 @@
     margin-top: 20px;
 }
 
-/* Individual world link */
 .world-link {
     color: black;
     text-decoration: none;
 }
 
-/* Hover effect for world links */
 .world-link:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* ==========================================================================
-   ============================= NEWS TICKER ================================
-   ========================================================================== */
-
+/* News Ticker */
 .news-ticker {
-    width: 100%;                       /* Full width */
-    overflow: hidden;                   /* Hide overflowing text */
+    width: 100%;                       
+    overflow: hidden;                   
     background-color: rgb(255,255,255);
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;                /* Prevent line breaks */
+    white-space: nowrap;                
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
@@ -123,20 +101,16 @@
 .news-ticker p {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 100%;                /* Start outside screen */
+    padding-left: 100%;                
     animation: scroll-right 20s linear infinite;
 }
 
-/* News ticker animation keyframes */
 @keyframes scroll-right {
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
 
-/* ==========================================================================
-   ============================= MAIN CONTAINER =============================
-   ========================================================================== */
-
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: column;
@@ -144,7 +118,6 @@
     width: 100%;
 }
 
-/* Main page header */
 .main-header {
     display: flex;
     flex-direction: column;
@@ -160,7 +133,6 @@
     margin-bottom: 30px;
 }
 
-/* Search form styling */
 #search-form {
     width: 100%;
     display: flex;
@@ -178,10 +150,7 @@
     box-sizing: border-box;
 }
 
-/* ==========================================================================
-   ============================= SECOND CONTAINER ===========================
-   ========================================================================== */
-
+/* Second Container */
 .second-container {
     display: flex;
     flex-direction: column;
@@ -189,7 +158,6 @@
     width: 100%;
 }
 
-/* Top-Stories section block */
 .story-section {
     display: inline-block;
     width: 90%;
@@ -205,13 +173,11 @@
     position: relative;
 }
 
-/* Hover effect for story section */
 .story-section:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
-/* Story section title */
 .story-section h3 {
     font-family: 'Audrey', sans-serif;
     color: #000;
@@ -221,7 +187,7 @@
     display: inline-block;
 }
 
-/* Story grid rows */
+/* Story Grids and Cards */
 .story-grid-1,
 .story-grid-2 {
     display: flex;
@@ -229,7 +195,6 @@
     margin: 30px;
 }
 
-/* Individual story cards */
 .main-story,
 .substory-1,
 .substory-2 {
@@ -247,7 +212,6 @@
     text-align: left;
 }
 
-/* Hover effect for story cards */
 .main-story:hover,
 .substory-1:hover,
 .substory-2:hover {
@@ -256,11 +220,9 @@
     border-color: crimson;
 }
 
-/* Card widths */
 .main-story { flex: 2; min-width: 0; }
 .substory-1, .substory-2 { flex: 1; min-width: 0; }
 
-/* Story card typography */
 .main-story-title,
 .substory-title {
     font-size: 22px;
@@ -291,7 +253,7 @@
     font-family: 'Apple Garamond', sans-serif;
 }
 
-/* Main story image */
+/* Main Story Image */
 .main-img {
     width: 100%;
     height: 60%;
@@ -300,7 +262,7 @@
     display: block;
 }
 
-/* Substory layout */
+/* Substory Layout */
 .substory-2 {
     display: flex;
     flex-direction: column;
@@ -330,7 +292,6 @@
     overflow: hidden;
 }
 
-/* Thumbnail & author column */
 .sub-img-col {
     flex: 0 0 auto;
     display: flex;
@@ -352,10 +313,7 @@
     text-align: center;
 }
 
-/* ==========================================================================
-   ============================= THIRD CONTAINER ============================
-   ========================================================================== */
-
+/* Third Container */
 .third-container {
     display: flex;
     flex-direction: column;
@@ -363,7 +321,7 @@
     width: 100%;
 }
 
-/* Third section block (world news columns) */
+/* Third Section Columns */
 .third-section {
     display: flex;
     width: 90%;
@@ -378,13 +336,11 @@
     box-sizing: border-box;
 }
 
-/* Hover effect for third section */
 .third-section:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
-/* Equal width columns */
 .africa,
 .americas,
 .asia,
@@ -397,7 +353,6 @@
     list-style: none;
 }
 
-/* Column title */
 .africa h6,
 .americas h6,
 .asia h6,
@@ -412,7 +367,6 @@
     text-align: center;
 }
 
-/* Stories in columns */
 .topmost-story,
 .bottommost-story {
     padding: 10px 0;
@@ -424,7 +378,6 @@
     border-bottom: none;
 }
 
-/* Optional image sizing */
 .trend-img {
     width: 100%;
     height: auto;
@@ -432,10 +385,7 @@
     margin-bottom: 8px;
 }
 
-/* ==========================================================================
-   ============================= FOURTH CONTAINER ===========================
-   ========================================================================== */
-
+/* Fourth Container */
 .fourth-container {
     flex-direction: column;
     width: 90%;
@@ -458,7 +408,6 @@
     box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
-/* Fourth container title */
 .fourth-container h6 {
     font-family: 'Audrey', sans-serif;
     color: black;
@@ -468,7 +417,6 @@
     display: inline-block;
 }
 
-/* Article bars */
 .article-wrapper {
     display: flex;
     flex-direction: column;
@@ -541,10 +489,7 @@
     color: #888;
 }
 
-/* ==========================================================================
-   ============================= FOOTER & SUBSCRIBE =========================
-   ========================================================================== */
-
+/* Subscribe & Footer */
 .subscribe-section {
     background-color: #f4f4f4;
     padding: 40px 20px;
@@ -559,7 +504,7 @@
 
 .subscribe-section:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
 .subscribe-section h3 {
@@ -610,7 +555,6 @@
     background-color: crimson;
 }
 
-/* Footer styling */
 .footer {
     background-color: #111;
     color: white;

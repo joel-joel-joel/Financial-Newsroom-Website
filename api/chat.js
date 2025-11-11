@@ -1,4 +1,4 @@
-// api/chat.js – Fixed Gemini version with comprehensive error handling
+// api/chat.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Initialize Gemini AI with API key from environment

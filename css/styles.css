@@ -1,14 +1,10 @@
-/* =========================================================
-   ================== FONT IMPORT =========================
-   ========================================================= */
+/* Font Import */
 @font-face {
     font-family: Newsroom; /* Custom headline font */
     src: url(https://fonts.google.com/specimen/Newsreader); /* Font source */
 }
 
-/* =========================================================
-   ================== GLOBAL STYLES =======================
-   ========================================================= */
+/* Global Styles */
 .main-content a,
 .trending-list li a,
 .main-content p {
@@ -27,9 +23,7 @@
     box-sizing: border-box; /* Prevent padding/border from increasing total width */
 }
 
-/* =========================================================
-   ====================== HEADER ==========================
-   ========================================================= */
+/* Header */
 .header {
     background-color: white;
     padding: 30px 20px;
@@ -70,9 +64,7 @@
     font-style: italic;
 }
 
-/* =========================================================
-   ====================== NAVBAR ==========================
-   ========================================================= */
+/* Navbar */
 .navbar {
     display: flex;
     gap: 40px;               /* Space between nav links */
@@ -95,9 +87,7 @@
     text-decoration: underline;
 }
 
-/* =========================================================
-   ====================== NEWS TICKER =====================
-   ========================================================= */
+/* News Ticker */
 .news-ticker {
     width: 100%;
     overflow: hidden;
@@ -125,9 +115,7 @@
     100% { transform: translateX(-100%); }
 }
 
-/* =========================================================
-   =================== MAIN CONTAINER =====================
-   ========================================================= */
+/* Main Container */
 .main-container {
     display: grid;
     grid-template-columns: 66.66% 33.33%;
@@ -135,14 +123,14 @@
     box-sizing: border-box;
 }
 
-/* ------------------- Main Content ----------------------- */
+/* Main Content */
 .main-content {
     background-color: white;
     padding: 20px;
     border: 2px solid lightgray;
     border-radius: 8px;
     margin: 20px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
@@ -150,7 +138,7 @@
 
 .main-content:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
 .main-img {
@@ -214,7 +202,7 @@
     text-overflow: ellipsis;
 }
 
-/* ------------------- Trending Content ------------------- */
+/* Trending Content */
 .trending {
     background-color: #fefefe;
     padding: 20px;
@@ -285,9 +273,7 @@
     text-decoration: underline;
 }
 
-/* =========================================================
-   ====================== LATEST ==========================
-   ========================================================= */
+/* Latest Section */
 .latest {
     background-color: #fefefe;
     padding: 20px;
@@ -314,9 +300,7 @@
     display: inline-block;
 }
 
-/* =========================================================
-   ===================== EDITORS PICK =====================
-   ========================================================= */
+/* Editors Pick */
 .editors-pick,
 .editors-pick-1,
 .editors-pick-2,
@@ -346,7 +330,7 @@
     object-fit: cover;
 }
 
-/* Caption below editor picks */
+/* Caption Below Editors Pick */
 .editor-pick-caption-1,
 .editor-pick-caption-2,
 .editor-pick-caption-3 {
@@ -369,9 +353,7 @@
     text-decoration: underline;
 }
 
-/* =========================================================
-   ===================== COMMENTS =========================
-   ========================================================= */
+/* Comments */
 .comment-1,
 .comment-2,
 .comment-3 {
@@ -406,9 +388,7 @@
     color: crimson;
 }
 
-/* =========================================================
-   ====================== LIVE SECTION ====================
-   ========================================================= */
+/* Live Section */
 .live-section {
     display: flex;
     flex-direction: row-reverse; /* Video right, comments left */
@@ -465,7 +445,6 @@
     max-height: 400px;
 }
 
-/* Chat Message Individual */
 .chat-message {
     display: flex;
     flex-wrap: wrap;
@@ -556,9 +535,7 @@
     background: crimson;
 }
 
-/* =========================================================
-   ====================== FOOTER ===========================
-   ========================================================= */
+/* Footer */
 .subscribe-section {
     background-color: #f4f4f4;
     padding: 40px 20px;
@@ -618,9 +595,7 @@
     text-decoration: underline;
 }
 
-/* =========================================================
-   ==================== RESPONSIVE =========================
-   ========================================================= */
+/* Responsive */
 @media (max-width: 900px) {
     .third-section {
         grid-template-columns: repeat(2, 1fr);
