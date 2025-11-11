@@ -1,303 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Financial Frontier</title>
-        <link rel="stylesheet" href="css/world.css">
-        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+<head>
+    <!-- ===== Meta & Page Setup ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Financial Frontier</title>
 
-        
-           
-    </head>
+    <!-- ===== CSS Stylesheets ===== -->
+    <link rel="stylesheet" href="css/world.css">
 
-    <body>
-        <!-- Header Section -->
-        <div class="header">
-            <div class="date-container">
-                <p class="date" id="current-date"></p>
-            </div>
-            <div class="center">
-                <h1>The Financial Frontier</h1>
-            </div>
+    <!-- ===== Web Fonts ===== -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ================= HEADER SECTION ================= -->
+    <header class="header">
+        <!-- Current date (injected via JS) -->
+        <div class="date-container">
+            <p class="date" id="current-date"></p>
         </div>
 
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="australia.html" class="nav-link">Australia</a>
-            <a href="world.html" class="nav-link">World</a>
-            <a href="discussions.html" class="nav-link">Discussions</a>
-            <a href="about.html" class="nav-link">About Us</a>
-        </nav>
-
-        <!-- News Ticker -->
-        <div class="news-ticker">
-            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
+        <!-- Website Title -->
+        <div class="center">
+            <h1>The Financial Frontier</h1>
         </div>
+    </header>
 
-        <!-- Main Container -->
-        <div class="main-container">
-            <div class="main-header">
-                <h2>World</h2>
-                <form id="search-form">
-                    <input type="text" placeholder="Search for an article..." id="search-input">
-                </form>
-            </div>
+    <!-- ================= MAIN NAVIGATION ================= -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="australia.html" class="nav-link">Australia</a>
+        <a href="world.html" class="nav-link">World</a>
+        <a href="discussions.html" class="nav-link">Discussions</a>
+        <a href="about.html" class="nav-link">About Us</a>
+    </nav>
+
+    <!-- ================= NEWS TICKER ================= -->
+    <div class="news-ticker">
+        <p>
+            Top Headlines: Market hits record high | Fed announces interest rate decision | 
+            Tech stocks soar | Oil prices stabilize |
+        </p>
+    </div>
+
+    <!-- ================= MAIN CONTAINER ================= -->
+    <div class="main-container">
+        <div class="main-header">
+            <h2>World</h2>
+
+            <!-- Search Bar -->
+            <form id="search-form">
+                <input 
+                    type="text" 
+                    placeholder="Search for an article..." 
+                    id="search-input"
+                >
+            </form>
         </div>
+    </div>
 
-        <!-- Navigation Bar -->
-        <nav class="world-navbar">
-            <a href="africa.html" class="world-link">Africa</a>
-            <a href="americas.html" class="world-link">Americas</a>
-            <a href="asia.html" class="world-link">Asia</a>
-            <a href="europe.html" class="world-link">Europe</a>
-        </nav>
+    <!-- ================= WORLD SUB-NAVIGATION ================= -->
+    <nav class="world-navbar">
+        <a href="africa.html" class="world-link">Africa</a>
+        <a href="americas.html" class="world-link">Americas</a>
+        <a href="asia.html" class="world-link">Asia</a>
+        <a href="europe.html" class="world-link">Europe</a>
+    </nav>
 
-        <div class="second-container">
-            <div class="story-section">
-                <h3>Top Stories</h3>
-                <div class="story-grid-1">
+    <!-- ================= TOP STORIES SECTION ================= -->
+    <section class="second-container">
+        <div class="story-section">
+            <h3>Top Stories</h3>
 
+            <!-- First Grid -->
+            <div class="story-grid-1">
+
+                <!-- MAIN STORY -->
                 <a href="#" class="main-story">
                     <h4 class="main-story-title">How the Louvre Jewelry Heist Unfolded</h4>
-                    <img src="https://s.france24.com/media/display/b2e6e4be-add7-11f0-ac63-005056bfb2b6/w:1280/p:16x9/2025-10-20T095328Z-1784776353-RC2KFHAUG817-RTRMADP-3-FRANCE-CRIME-LOUVRE.webp" alt="Main Headline" class="main-img">
+                    <img 
+                        src="https://s.france24.com/media/display/b2e6e4be-add7-11f0-ac63-005056bfb2b6/w:1280/p:16x9/2025-10-20T095328Z-1784776353-RC2KFHAUG817-RTRMADP-3-FRANCE-CRIME-LOUVRE.webp" 
+                        alt="Main Headline" 
+                        class="main-img"
+                    >
                     <p class="main-story-text">
                         Thieves used a truck-mounted ladder to break into the Louvre and steal items of “incalculable” value.
                     </p>
-                    <p class="main-story-author">By Samuel Granados<br>Photographed by Annie Chen</p>
+                    <p class="main-story-author">
+                        By Samuel Granados<br>Photographed by Annie Chen
+                    </p>
                 </a>
-            
+
+                <!-- SUBSTORY 1 -->
                 <a href="#" class="substory-1">
-                    <img src="https://fpif.org/wp-content/uploads/2022/03/shutterstock_528910063.jpg" alt="Main Headline" class="main-img">
+                    <img 
+                        src="https://fpif.org/wp-content/uploads/2022/03/shutterstock_528910063.jpg" 
+                        alt="Edge of Nuclear War" 
+                        class="main-img"
+                    >
                     <h4 class="substory-title">Edge of Nuclear War</h4>
                     <p class="substory-text">It really is going crazy out there.</p>
                     <p class="substory-author">By John Doe<br>Photographed by Jane Doe</p>
                 </a>
-            
+
+                <!-- SUBSTORY 2 -->
                 <a href="#" class="substory-2">
                     <h4 class="substory-title">Famine Strikes the Land</h4>
-                
+
                     <div class="substory-body">
-                        <!-- left text column -->
+                        <!-- Text Column -->
                         <div class="substory-text-wrap">
                             <p class="substory-text">
-                                Severe drought has left millions facing food shortages across the region. Relief agencies warn the crisis could deepen without immediate aid.
+                                Severe drought has left millions facing food shortages across the region.
+                                Relief agencies warn the crisis could deepen without immediate aid.
                             </p>
                         </div>
-                        
-                        <!-- right image + author column -->
+
+                        <!-- Image + Author Column -->
                         <div class="sub-img-col">
-                            <img src="https://www.actionagainsthunger.org.uk/wp-content/uploads/2025/02/Boy-famine-aid.webp"
-                                 alt="Famine crisis" class="sub-img square-right">
+                            <img 
+                                src="https://www.actionagainsthunger.org.uk/wp-content/uploads/2025/02/Boy-famine-aid.webp"
+                                alt="Famine crisis" 
+                                class="sub-img square-right"
+                            >
                             <p class="substory-author-under">By John Doe<br>Photographed by Jane Doe</p>
                         </div>
                     </div>
                 </a>
-                
             </div>
+
+            <!-- Second Grid -->
             <div class="story-grid-2">
 
+                <!-- SUBSTORY -->
                 <a href="#" class="substory-2">
                     <h4 class="substory-title">Putin supervises readiness drills for Russian nuclear forces</h4>
-                
+
                     <div class="substory-body">
-                        <!-- left text column -->
                         <div class="substory-text-wrap">
                             <p class="substory-text">
-                                Russia’s strategic nuclear forces carried out a readiness test supervised by the country’s President Vladimir Putin on Wednesday, the Kremlin said.                            </p>
+                                Russia’s strategic nuclear forces carried out a readiness test supervised by 
+                                President Vladimir Putin on Wednesday, the Kremlin said.
+                            </p>
                         </div>
-                        
-                        <!-- right image + author column -->
+
                         <div class="sub-img-col">
-                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/2025-10-22t113325z-1358261858-rc2zghay7lfk-rtrmadp-3-russia-nuclear-exercises.JPG?c=original&q=w_860,c_fill/f_webp"
-                                 alt="Famine crisis" class="sub-img square-right">
+                            <img 
+                                src="https://media.cnn.com/api/v1/images/stellar/prod/2025-10-22t113325z-1358261858-rc2zghay7lfk-rtrmadp-3-russia-nuclear-exercises.JPG?c=original&q=w_860,c_fill/f_webp"
+                                alt="Nuclear drills" 
+                                class="sub-img square-right"
+                            >
                             <p class="substory-author-under">By John Doe<br>Photographed by Jane Doe</p>
                         </div>
                     </div>
                 </a>
-    
 
+                <!-- MAIN STORY -->
                 <a href="#" class="main-story">
                     <h4 class="main-story-title">UN court rebukes Israel over Gaza restrictions</h4>
-                    <img src="https://media.cnn.com/api/v1/images/stellar/prod/ap25295473362823-1.jpg?c=original&q=w_860,c_fill/f_avif" alt="Main Headline" class="main-img">
+                    <img 
+                        src="https://media.cnn.com/api/v1/images/stellar/prod/ap25295473362823-1.jpg?c=original&q=w_860,c_fill/f_avif" 
+                        alt="UN court rebukes Israel" 
+                        class="main-img"
+                    >
                     <p class="main-story-text">
                         Thieves used a truck-mounted ladder to break into the Louvre and steal items of “incalculable” value.
                     </p>
                     <p class="main-story-author">By Samuel Granados<br>Photographed by Annie Chen</p>
                 </a>
 
+                <!-- SUBSTORY -->
                 <a href="#" class="substory-1">
-                    <img src="https://media.cnn.com/api/v1/images/stellar/prod/mwiki-primary-16.jpg?c=original&q=w_860,c_fill/f_webp" alt="Main Headline" class="main-img">
+                    <img 
+                        src="https://media.cnn.com/api/v1/images/stellar/prod/mwiki-primary-16.jpg?c=original&q=w_860,c_fill/f_webp" 
+                        alt="African maize drought" 
+                        class="main-img"
+                    >
                     <h4 class="substory-title">African maize is facing a drought crisis</h4>
                     <p class="substory-text">It really is going crazy out there.</p>
                     <p class="substory-author">By John Doe<br>Photographed by Jane Doe</p>
                 </a>
-            
-                
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="third-container">
+    <!-- ================= REGIONAL STORIES ================= -->
+    <section class="third-container">
         <div class="third-section">
+
+            <!-- AFRICA -->
             <ul class="africa">
                 <h6>Africa</h6>
                 <li class="topmost-story">
-                    <img src="https://media.cnn.com/api/v1/images/stellar/prod/2025-10-13t110648z-1082242138-rc2zaha7j0mt-rtrmadp-3-israel-palestinians-trump.JPG?c=original&q=w_860,c_fill/f_avif " alt="Stock" class="trend-img">
-                        <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
+                    <img 
+                        src="https://media.cnn.com/api/v1/images/stellar/prod/2025-10-13t110648z-1082242138-rc2zaha7j0mt-rtrmadp-3-israel-palestinians-trump.JPG?c=original&q=w_860,c_fill/f_avif"
+                        alt="Stock"
+                        class="trend-img"
+                    >
+                    <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
                 </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Cryptocurrency Prices Surge</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Top 10 Investment Tips for 2025</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Global Economy: What to Expect</a>
-                </li>
+                <li class="bottommost-story"><a href="#">Cryptocurrency Prices Surge</a></li>
+                <li class="bottommost-story"><a href="#">Top 10 Investment Tips for 2025</a></li>
+                <li class="bottommost-story"><a href="#">Global Economy: What to Expect</a></li>
             </ul>
 
+            <!-- AMERICAS -->
             <ul class="americas">
                 <h6>Americas</h6>
                 <li class="topmost-story">
-                    <img src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png" alt="Stock" class="trend-img">
-                        <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
+                    <img 
+                        src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png"
+                        alt="Stock"
+                        class="trend-img"
+                    >
+                    <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
                 </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Cryptocurrency Prices Surge</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Top 10 Investment Tips for 2025</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Global Economy: What to Expect</a>
-                </li>
-
+                <li class="bottommost-story"><a href="#">Cryptocurrency Prices Surge</a></li>
+                <li class="bottommost-story"><a href="#">Top 10 Investment Tips for 2025</a></li>
+                <li class="bottommost-story"><a href="#">Global Economy: What to Expect</a></li>
             </ul>
 
+            <!-- ASIA -->
             <ul class="asia">
                 <h6>Asia</h6>
                 <li class="topmost-story">
-                    <img src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png" alt="Stock" class="trend-img">
-                        <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
+                    <img 
+                        src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png"
+                        alt="Stock"
+                        class="trend-img"
+                    >
+                    <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
                 </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Cryptocurrency Prices Surge</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Top 10 Investment Tips for 2025</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Global Economy: What to Expect</a>
-                </li>
-
+                <li class="bottommost-story"><a href="#">Cryptocurrency Prices Surge</a></li>
+                <li class="bottommost-story"><a href="#">Top 10 Investment Tips for 2025</a></li>
+                <li class="bottommost-story"><a href="#">Global Economy: What to Expect</a></li>
             </ul>
 
+            <!-- EUROPE -->
             <ul class="europe">
                 <h6>Europe</h6>
                 <li class="topmost-story">
-                    <img src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png" alt="Stock" class="trend-img">
-                        <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
+                    <img 
+                        src="https://i5/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png"
+                        alt="Stock"
+                        class="trend-img"
+                    >
+                    <a href="#" class="mainstory-title">Stock Market Hits Record Highs</a>
                 </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Cryptocurrency Prices Surge</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Top 10 Investment Tips for 2025</a>
-                </li>
-
-                <li class="bottommost-story">
-                    <a href="#"  class="story-title">Global Economy: What to Expect</a>
-                </li>
-
+                <li class="bottommost-story"><a href="#">Cryptocurrency Prices Surge</a></li>
+                <li class="bottommost-story"><a href="#">Top 10 Investment Tips for 2025</a></li>
+                <li class="bottommost-story"><a href="#">Global Economy: What to Expect</a></li>
             </ul>
 
-
         </div>
-    </div>
+    </section>
 
-    <!-- Make this scrollable -->
-        <div class="fourth-container">
-            <h6>Trending</h6>
-            <div class="article-wrapper">
-                <a href="YOUR-LINK" class="article" target="_blank">
-                    <img src="https://images.firstpost.com/uploads/2025/10/RUSSIA-OIL1200-2025-10-b38dd2eb8965249c16456708a3659979.jpg?im=FitAndFill=(596,336)" alt="Article 1 Thumbnail" class="article-thumbnail">
-                    <div class="article-text-block">
-                        <p class="article-date">Oct. 23, 2025</p>
-                        <h5 class="article-title">Oil Price Jumps on Trump’s Russia Sanctions</h5>
-                        <p class="article-description">Traders are pondering whether the United States and its allies are finally getting serious about restricting Russian energy.</p>
-                        <p class="article-author">By STANLEY REED</p>
-                    </div>
-                </a>
-        
-                <a href="YOUR-LINK" class="article" target="_blank">
-                    <img src="https://cdn-res.keymedia.com/cdn-cgi/image/w=1000,h=600,f=auto/https://cdn-res.keymedia.com/cms/images/au/001/0451_638967822087275417.jpg" alt="Article 2 Thumbnail" class="article-thumbnail">
-                    <div class="article-text-block">
-                        <p class="article-date">Oct. 22, 2025</p>
-                        <h5 class="article-title">RBA Hints at Further Rate Cuts</h5>
-                        <p class="article-description">Markets are pricing in a 70% chance of another 25-bp reduction before Christmas as inflation continues to undershoot.</p>
-                        <p class="article-author">By ELENA MARINO</p>
-                    </div>
-                </a>
-        
-                <a href="YOUR-LINK" class="article" target="_blank">
-                    <img src="https://sourcingjournal.com/wp-content/uploads/2025/08/shanghaiterminal.jpg?w=910&h=511&crop=1" alt="Article 3 Thumbnail" class="article-thumbnail">
-                    <div class="article-text-block">
-                        <p class="article-date">Oct. 21, 2025</p>
-                        <h5 class="article-title">China’s Export Surge Rattles EU Ports</h5>
-                        <p class="article-description">A flood of low-cost electric vehicles is straining logistics chains and reviving talk of Brussels tariffs.</p>
-                        <p class="article-author">By MARCUS TAN</p>
-                    </div>
-                </a>
-        
-                <a href="YOUR-LINK" class="article" target="_blank">
-                    <img src="https://s.yimg.com/ny/api/res/1.2/Jy3aekusQQ7mqzcKRIhJ0Q--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTcyMDtjZj13ZWJw/https://media.zenfs.com/en/coindesk_75/f344c8e6a11c374bf44cbe335b6dc2e9" alt="Article 4 Thumbnail" class="article-thumbnail">
-                    <div class="article-text-block">
-                        <p class="article-date">Oct. 20, 2025</p>
-                        <h5 class="article-title">Crypto Rally Fizzles on Regulatory Jitters</h5>
-                        <p class="article-description">Bitcoin slid 8% overnight after U.S. lawmakers floated a strict new staking-tax regime.</p>
-                        <p class="article-author">By SOFIA PATEL</p>
-                    </div>
-                </a>
-            </div>
+    <!-- ================= TRENDING ARTICLES ================= -->
+    <section class="fourth-container">
+        <h6>Trending</h6>
+
+        <div class="article-wrapper">
+            <!-- ARTICLE 1 -->
+            <a href="YOUR-LINK" class="article" target="_blank">
+                <img 
+                    src="https://images.firstpost.com/uploads/2025/10/RUSSIA-OIL1200-2025-10-b38dd2eb8965249c16456708a3659979.jpg?im=FitAndFill=(596,336)" 
+                    alt="Oil Prices" 
+                    class="article-thumbnail"
+                >
+                <div class="article-text-block">
+                    <p class="article-date">Oct. 23, 2025</p>
+                    <h5 class="article-title">Oil Price Jumps on Trump’s Russia Sanctions</h5>
+                    <p class="article-description">
+                        Traders are pondering whether the United States and its allies are finally 
+                        getting serious about restricting Russian energy.
+                    </p>
+                    <p class="article-author">By STANLEY REED</p>
+                </div>
+            </a>
+
+            <!-- ARTICLE 2 -->
+            <a href="YOUR-LINK" class="article" target="_blank">
+                <img 
+                    src="https://cdn-res.keymedia.com/cdn-cgi/image/w=1000,h=600,f=auto/https://cdn-res.keymedia.com/cms/images/au/001/0451_638967822087275417.jpg" 
+                    alt="RBA Rate Cuts" 
+                    class="article-thumbnail"
+                >
+                <div class="article-text-block">
+                    <p class="article-date">Oct. 22, 2025</p>
+                    <h5 class="article-title">RBA Hints at Further Rate Cuts</h5>
+                    <p class="article-description">
+                        Markets are pricing in a 70% chance of another 25-bp reduction before Christmas 
+                        as inflation continues to undershoot.
+                    </p>
+                    <p class="article-author">By ELENA MARINO</p>
+                </div>
+            </a>
+
+            <!-- ARTICLE 3 -->
+            <a href="YOUR-LINK" class="article" target="_blank">
+                <img 
+                    src="https://sourcingjournal.com/wp-content/uploads/2025/08/shanghaiterminal.jpg?w=910&h=511&crop=1" 
+                    alt="China Export Surge" 
+                    class="article-thumbnail"
+                >
+                <div class="article-text-block">
+                    <p class="article-date">Oct. 21, 2025</p>
+                    <h5 class="article-title">China’s Export Surge Rattles EU Ports</h5>
+                    <p class="article-description">
+                        A flood of low-cost electric vehicles is straining logistics chains and 
+                        reviving talk of Brussels tariffs.
+                    </p>
+                    <p class="article-author">By MARCUS TAN</p>
+                </div>
+            </a>
+
+            <!-- ARTICLE 4 -->
+            <a href="YOUR-LINK" class="article" target="_blank">
+                <img 
+                    src="https://s.yimg.com/ny/api/res/1.2/Jy3aekusQQ7mqzcKRIhJ0Q--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTcyMDtjZj13ZWJw/https://media.zenfs.com/en/coindesk_75/f344c8e6a11c374bf44cbe335b6dc2e9"
+                    alt="Crypto Rally"
+                    class="article-thumbnail"
+                >
+                <div class="article-text-block">
+                    <p class="article-date">Oct. 20, 2025</p>
+                    <h5 class="article-title">Crypto Rally Fizzles on Regulatory Jitters</h5>
+                    <p class="article-description">
+                        Bitcoin slid 8% overnight after U.S. lawmakers floated a strict new staking-tax regime.
+                    </p>
+                    <p class="article-author">By SOFIA PATEL</p>
+                </div>
+            </a>
         </div>
+    </section>
 
+    <!-- ================= SUBSCRIBE SECTION ================= -->
+    <section class="subscribe-section">
+        <h3>Stay Updated</h3>
+        <p>Subscribe to our newsletter for weekly insights.</p>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+    </section>
 
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
+        <p>
+            <a href="contact.html">Contact Us</a> | 
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+    </footer>
 
-        <!-- Footer Section -->
-        <div class="subscribe-section">
-            <h3>Stay Updated</h3>
-            <p>Subscribe to our newsletter for weekly insights.</p>
-            <input type="email" placeholder="Enter your email">
-            <button>Subscribe</button>
-        </div>
+    <!-- ================= SCRIPTS ================= -->
+    <script src="js/config.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/world-loader.js"></script>
 
-        <footer class="footer">
-            <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
-            <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
-        </footer>
-
-        
-        
-        <!-- Scripts loaded in correct order -->
-        <script src="js/config.js"></script>
-        <script src="js/api-service.js"></script>
-        <script src="js/world-loader.js"></script>
-
-    </body>
-         
+</body>
 </html>

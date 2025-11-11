@@ -1,236 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Financial Frontier</title>
-        <link rel="stylesheet" href="css/discussions.css">
-        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<head>
+    <!-- ===== META & PAGE SETUP ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Financial Frontier</title>
 
-    </head>
+    <!-- ===== CSS STYLESHEET ===== -->
+    <link rel="stylesheet" href="css/discussions.css">
 
-    <body>
-        <!-- Header Section -->
-         <div class="header">
-            <div class="date-container">
-                <p class="date" id="current-date"></p>
-            </div>
-            <div class="center">
-                <h1>The Financial Frontier</h1>
-            </div>
+    <!-- ===== WEB FONTS ===== -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+
+    <!-- ===== FONT AWESOME ICONS ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- ======================= HEADER ======================= -->
+    <div class="header">
+        <!-- Date Display -->
+        <div class="date-container">
+            <p class="date" id="current-date"></p>
         </div>
 
-        <!-- Navigation Bar -->
-        <div class="navbar">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="australia.html" class="nav-link">Australia</a>
-            <a href="world.html" class="nav-link">World</a>
-            <a href="discussions.html" class="nav-link">Discussions</a>
-            <a href="about.html" class="nav-link">About Us</a>
+        <!-- Site Title -->
+        <div class="center">
+            <h1>The Financial Frontier</h1>
         </div>
+    </div>
 
-        <!-- News Ticker -->
-        <div class="news-ticker">
-            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
-        </div>
+    <!-- ======================= NAVIGATION BAR ======================= -->
+    <div class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="australia.html" class="nav-link">Australia</a>
+        <a href="world.html" class="nav-link">World</a>
+        <a href="discussions.html" class="nav-link">Discussions</a>
+        <a href="about.html" class="nav-link">About Us</a>
+    </div>
 
-        
+    <!-- ======================= NEWS TICKER ======================= -->
+    <div class="news-ticker">
+        <p>
+            Top Headlines: Market hits record high | Fed announces interest rate decision | 
+            Tech stocks soar | Oil prices stabilize |
+        </p>
+    </div>
 
-        <!-- Main Container -->
-        <div class="main-container">
-            <div class="main-header">
-                <h2>Discussions</h2>
+    <!-- ======================= MAIN CONTAINER ======================= -->
+    <div class="main-container">
+        <div class="main-header">
+            <h2>Discussions</h2>
 
-                <div class="stock-exchange-container">
-                    <div class="stock-header">
-                        <span class="last-updated" id="last-updated">Updating...</span>
-                    </div>
-        
-                    <div class="stock-ticker-wrapper">
-                        <div class="stock-ticker" id="stock-ticker">
-                            <!-- Stock items will be populated by JavaScript -->
-                            <div class="stock-item">
-                                <span class="stock-symbol">SPY</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">AAPL</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">MSFT</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">GOOGL</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">TSLA</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">NVDA</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">BTC-USD</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
-                            <div class="stock-item">
-                                <span class="stock-symbol">GLD</span>
-                                <span class="stock-price">$---</span>
-                                <span class="stock-change positive">+0.00%</span>
-                            </div>
+            <!-- ===== STOCK EXCHANGE BAR ===== -->
+            <div class="stock-exchange-container">
+                <!-- Last Updated Text -->
+                <div class="stock-header">
+                    <span class="last-updated" id="last-updated">Updating...</span>
+                </div>
+
+                <!-- Stock Ticker Scroller -->
+                <div class="stock-ticker-wrapper">
+                    <div class="stock-ticker" id="stock-ticker">
+                        <!-- Default placeholder stock items -->
+                        <div class="stock-item">
+                            <span class="stock-symbol">SPY</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">AAPL</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">MSFT</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">GOOGL</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">TSLA</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">NVDA</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">BTC-USD</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-symbol">GLD</span>
+                            <span class="stock-price">$---</span>
+                            <span class="stock-change positive">+0.00%</span>
                         </div>
                     </div>
                 </div>
-                <nav class="nav">
-                    <button class="nav-btn active" data-target="active">Active</button>
-                    <button class="nav-btn" data-target="trending">Trending</button>
-                    <button class="nav-btn" data-target="news">New</button>
-                </nav>
             </div>
+
+            <!-- ===== DISCUSSION NAV TABS ===== -->
+            <nav class="nav">
+                <button class="nav-btn active" data-target="active">Active</button>
+                <button class="nav-btn" data-target="trending">Trending</button>
+                <button class="nav-btn" data-target="news">New</button>
+            </nav>
         </div>
+    </div>
 
-        <div class="second-container">
-            <section id="active" class="active">
-                    <div class="tab-content">
-                        <!-- thread list -->
-                        <a href="thread.html?id=1" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
+    <!-- ======================= THREAD SECTIONS ======================= -->
+    <div class="second-container">
 
-                        <a href="thread.html?id=2" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Oil Volatility Returns</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
-
-                        <!-- add / generate more cards as needed -->
+        <!-- ===== ACTIVE THREADS ===== -->
+        <section id="active" class="active">
+            <div class="tab-content">
+                <!-- Example Thread 1 -->
+                <a href="thread.html?id=1" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                        <i class="fa-solid fa-message"></i>
                     </div>
-                </section>
+                    <p class="thread-blurb">
+                        Markets are pricing in a 70% chance of a 25-bp cut, but some traders are betting on 50.
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
 
-                <section id="trending">
-                    <div class="tab-content">
-                        <!-- thread list -->
-                        <a href="thread.html?id=1" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
-
-                        <a href="thread.html?id=2" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Oil Volatility Returns</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
-
-                        <!-- add / generate more cards as needed -->
+                <!-- Example Thread 2 -->
+                <a href="thread.html?id=2" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Oil Volatility Returns</h5>
+                        <i class="fa-solid fa-message"></i>
                     </div>
-                </section>
+                    <p class="thread-blurb">
+                        Geopolitical tension is pushing WTI toward $90. How are you positioned?
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
 
-                <section id="news">
-                    <div class="tab-content">
-                        <!-- thread list -->
-                        <a href="thread.html?id=1" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Markets are pricing in a 70 % chance of a 25-bp cut, but some traders are betting on 50.</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
+                <!-- Additional threads can be dynamically generated here -->
+            </div>
+        </section>
 
-                        <a href="thread.html?id=2" class="thread-card">
-                            <div class="thread-header">
-                                <h5 class="thread-title">Oil Volatility Returns</h5>
-                                <i class="fa-solid fa-message"></i>
-                            </div>
-                            <p class="thread-blurb">Geopolitical tension is pushing WTI toward $90. How are you positioned?</p>
-                            <span class="thread-reply">42 replies</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-time">last post 3 min ago</span>
-                            <span class="thread-meta">·</span>
-                            <span class="thread-author">Jacob Sartorius</span>
-                        </a>
-
-                        <!-- add / generate more cards as needed -->
+        <!-- ===== TRENDING THREADS ===== -->
+        <section id="trending">
+            <div class="tab-content">
+                <a href="thread.html?id=1" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                        <i class="fa-solid fa-message"></i>
                     </div>
-                </section>
+                    <p class="thread-blurb">
+                        Markets are pricing in a 70% chance of a 25-bp cut, but some traders are betting on 50.
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
 
-        </div>
+                <a href="thread.html?id=2" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Oil Volatility Returns</h5>
+                        <i class="fa-solid fa-message"></i>
+                    </div>
+                    <p class="thread-blurb">
+                        Geopolitical tension is pushing WTI toward $90. How are you positioned?
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
+            </div>
+        </section>
 
-        <!-- ===== NEW THREAD FORM ===== -->
-<div class="new-thread-form">
-    <h3>Start a New Thread</h3>
-    <form id="new-thread-form">
-        <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="new-thread-name" required>
-        </div>
-        <div class="form-group">
-            <label>Thread Title</label>
-            <input type="text" id="new-thread-title" required>
-        </div>
-        <div class="form-group">
-            <label>First Post</label>
-            <textarea id="new-thread-content" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Create Thread</button>
-    </form>
-</div>
+        <!-- ===== NEW THREADS ===== -->
+        <section id="news">
+            <div class="tab-content">
+                <a href="thread.html?id=1" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Fed Decision Looms—What’s Priced In?</h5>
+                        <i class="fa-solid fa-message"></i>
+                    </div>
+                    <p class="thread-blurb">
+                        Markets are pricing in a 70% chance of a 25-bp cut, but some traders are betting on 50.
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
 
-        
-        
-        
-        <script src="js/discussions.js" type="module"></script>
+                <a href="thread.html?id=2" class="thread-card">
+                    <div class="thread-header">
+                        <h5 class="thread-title">Oil Volatility Returns</h5>
+                        <i class="fa-solid fa-message"></i>
+                    </div>
+                    <p class="thread-blurb">
+                        Geopolitical tension is pushing WTI toward $90. How are you positioned?
+                    </p>
+                    <span class="thread-reply">42 replies</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-time">last post 3 min ago</span>
+                    <span class="thread-meta">·</span>
+                    <span class="thread-author">Jacob Sartorius</span>
+                </a>
+            </div>
+        </section>
+    </div>
 
+    <!-- ======================= NEW THREAD FORM ======================= -->
+    <div class="new-thread-form">
+        <h3>Start a New Thread</h3>
 
-    </body>
-         
+        <form id="new-thread-form">
+            <!-- Name Field -->
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="new-thread-name" required>
+            </div>
+
+            <!-- Thread Title Field -->
+            <div class="form-group">
+                <label>Thread Title</label>
+                <input type="text" id="new-thread-title" required>
+            </div>
+
+            <!-- Thread Content Field -->
+            <div class="form-group">
+                <label>First Post</label>
+                <textarea id="new-thread-content" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Create Thread</button>
+        </form>
+    </div>
+
+    <!-- ======================= JAVASCRIPT FILES ======================= -->
+    <script src="js/discussions.js" type="module"></script>
+</body>
 </html>

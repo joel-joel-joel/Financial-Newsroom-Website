@@ -1,64 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Financial Frontier</title>
-        <link rel="stylesheet" href="css/about.css">
-        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
-           
-    </head>
+<head>
+    <!-- ===== Meta & Page Setup ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn more about The Financial Frontier, our mission, and our team.">
+    <title>About Us - The Financial Frontier</title>
 
-    <body>
-        <!-- Header Section -->
-        <div class="header">
-            <div class="date-container">
-                <p class="date" id="current-date"></p>
-            </div>
-            <div class="center">
-                <h1>The Financial Frontier</h1>
-            </div>
+    <!-- ===== Fonts ===== -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet" crossorigin>
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet" crossorigin>
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet" crossorigin>
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="css/about.css">
+</head>
+
+<body>
+    <!-- ===== Header ===== -->
+    <header class="header">
+        <div class="date-container">
+            <p class="date" id="current-date"></p>
+        </div>
+        <div class="center">
+            <h1>The Financial Frontier</h1>
+        </div>
+    </header>
+
+    <!-- ===== Navigation ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="australia.html" class="nav-link">Australia</a>
+        <a href="world.html" class="nav-link">World</a>
+        <a href="discussions.html" class="nav-link">Discussions</a>
+        <a href="about.html" class="nav-link">About Us</a>
+    </nav>
+
+    <!-- ===== News Ticker ===== -->
+    <div class="news-ticker">
+        <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
+    </div>
+
+    <!-- ===== Main Content ===== -->
+    <main class="main-container">
+        <div class="main-header">
+            <h2>About Us</h2>
         </div>
 
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="australia.html" class="nav-link">Australia</a>
-            <a href="world.html" class="nav-link">World</a>
-            <a href="discussions.html" class="nav-link">Discussions</a>
-            <a href="about.html" class="nav-link">About Us</a>
-        </nav>
+        <section class="about-content">
+            <p>Welcome to The Financial Frontier, your trusted source for the latest news and insights on financial markets around the world. Our mission is to provide accurate, timely, and comprehensive coverage of economic trends, market developments, and investment opportunities.</p>
 
-        <!-- News Ticker -->
-        <div class="news-ticker">
-            <p>Top Headlines: Market hits record high | Fed announces interest rate decision | Tech stocks soar | Oil prices stabilize |</p>
-        </div>
+            <p>At The Financial Frontier, we believe that informed investors make better decisions. Our team of experienced journalists and analysts work tirelessly to bring you in-depth articles, expert opinions, and real-time updates on the financial landscape.</p>
 
-        <!-- Main Container -->
-        <div class="main-container">
-            <div class="main-header">
-                <h2>About Us</h2>
-            </div>
+            <p>Whether you're a seasoned investor or just starting your financial journey, we are here to help you navigate the complexities of the market. Stay tuned for our regular updates and feel free to reach out with any questions or feedback.</p>
 
-            <div class="about-content">
-                <p>Welcome to The Financial Frontier, your trusted source for the latest news and insights on financial markets around the world. Our mission is to provide accurate, timely, and comprehensive coverage of economic trends, market developments, and investment opportunities.</p>
+            <p>Thank you for choosing The Financial Frontier as your go-to source for financial news.</p>
 
-                <p>At The Financial Frontier, we believe that informed investors make better decisions. Our team of experienced journalists and analysts work tirelessly to bring you in-depth articles, expert opinions, and real-time updates on the financial landscape.</p>
+            <p>Sincerely,<br>The Financial Frontier Team</p>
+        </section>
+    </main>
 
-                <p>Whether you're a seasoned investor or just starting your financial journey, we are here to help you navigate the complexities of the market. Stay tuned for our regular updates and feel free to reach out with any questions or feedback.</p>
-
-                <p>Thank you for choosing The Financial Frontier as your go-to source for financial news.</p>
-
-                <p>Sincerely,<br>The Financial Frontier Team</p>
-            </div>
-        </div>
-
-        
-        
-        <script src="js/australia.js"></script>
-
-    </body>
-         
+    <!-- ===== Scripts ===== -->
+    <script src="js/config.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/ui-renderer.js"></script>
+    <script src="js/about-loader.js"></script>
+</body>
 </html>

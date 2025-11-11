@@ -5,6 +5,7 @@
 
 class UIRenderer {
   constructor() {
+    // HTML for generic loading spinner
     this.loadingHTML = `
       <div style="display: flex; justify-content: center; align-items: center; padding: 40px;">
         <div style="border: 4px solid #f3f3f3; border-top: 4px solid crimson; 
@@ -24,14 +25,18 @@ class UIRenderer {
 
   /**
    * Render scrolling news ticker
+   * @param {Array} headlines - Array of article objects containing title
    */
   renderNewsTicker(headlines) {
     const tickerContent = document.getElementById('ticker-content');
+
+    // Ensure ticker container and headlines exist
     if (!tickerContent || !headlines || headlines.length === 0) {
       console.warn('⚠️ Ticker element not found or no headlines');
       return;
     }
 
+    // Join headlines with separator
     const tickerText = headlines
       .map(article => article.title)
       .join(' | ');
@@ -44,23 +49,28 @@ class UIRenderer {
 
   /**
    * Render trending articles sidebar
+   * @param {Array} articles - Array of trending article objects
    */
   renderTrendingSection(articles) {
     const trendingList = document.querySelector('.trending-list');
+
+    // Ensure trending container exists
     if (!trendingList) {
       console.warn('⚠️ Trending list element not found');
       return;
     }
 
+    // If no articles, display placeholder
     if (!articles || articles.length === 0) {
       trendingList.innerHTML = '<li>No trending articles available</li>';
       return;
     }
 
+    // Render top 5 trending articles
     trendingList.innerHTML = articles.slice(0, 5).map(article => {
       const articleId = article.id || this._generateArticleId(article);
       this._storeArticle(articleId, article);
-      
+
       return `
         <li>
           <img src="${article.image || article.urlToImage || this._getFallbackImage()}" 
@@ -79,23 +89,28 @@ class UIRenderer {
 
   /**
    * Render top stories carousel
+   * @param {Array} articles - Array of top story articles
    */
   renderTopStories(articles) {
     const storiesContainer = document.querySelector('.top-stories');
+
+    // Check container exists
     if (!storiesContainer) {
       console.warn('⚠️ Top stories container not found');
       return;
     }
 
+    // Placeholder if no articles
     if (!articles || articles.length === 0) {
       storiesContainer.innerHTML = '<div class="story">No stories available</div>';
       return;
     }
 
+    // Render each top story
     storiesContainer.innerHTML = articles.map(article => {
       const articleId = article.id || this._generateArticleId(article);
       this._storeArticle(articleId, article);
-      
+
       return `
         <div class="story">
           <img src="${article.image || article.urlToImage || this._getFallbackImage()}" 
@@ -114,48 +129,53 @@ class UIRenderer {
   /* ========== EDITOR'S PICKS ========== */
 
   /**
-   * Render Editor's Picks section (3 articles with images and captions)
+   * Render Editor's Picks section (requires at least 3 articles)
+   * @param {Array} articles - Array of articles for Editor's Picks
    */
   renderEditorsPicksAPI(articles) {
+    // Check minimum requirement
     if (!articles || articles.length < 3) {
       console.warn('⚠️ Need at least 3 articles for Editor\'s Picks');
       return;
     }
 
-    // Pick 1
+    // Render each editor pick individually
     this._renderEditorPick(articles[0], '.editors-pick-1', '.editor-pick-caption-1');
-    
-    // Pick 2
     this._renderEditorPick(articles[1], '.editors-pick-2', '.editor-pick-caption-2');
-    
-    // Pick 3
     this._renderEditorPick(articles[2], '.editors-pick-3', '.editor-pick-caption-3');
 
     console.log('✓ Editor\'s picks updated');
   }
 
   /**
-   * Helper to render single editor pick
+   * Helper function: Render single editor pick
+   * @param {Object} article - Article object
+   * @param {string} containerSelector - Container element selector
+   * @param {string} linkSelector - Caption/link selector
    */
   _renderEditorPick(article, containerSelector, linkSelector) {
     const container = document.querySelector(containerSelector);
     const link = document.querySelector(linkSelector);
     const img = container?.querySelector('.editor-img');
-    
+
+    // Check required elements
     if (!container || !link || !img) {
       console.warn(`⚠️ Editor pick elements not found: ${containerSelector}`);
       return;
     }
 
+    // Generate ID and store article
     const articleId = article.id || this._generateArticleId(article);
     this._storeArticle(articleId, article);
 
+    // Set image source with fallback
     img.src = article.image || article.urlToImage || this._getFallbackImage();
     img.alt = article.title;
     img.onerror = () => {
       img.src = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=640';
     };
 
+    // Set link text and URL
     link.textContent = article.title;
     link.href = `article.html?id=${articleId}`;
   }
@@ -163,18 +183,23 @@ class UIRenderer {
   /* ========== HERO ARTICLE ========== */
 
   /**
-   * Render main hero article
+   * Render main hero article on homepage
+   * @param {Object} article - Hero article object
    */
   renderHeroArticle(article) {
     const heroContainer = document.querySelector('.main-content');
+
+    // Check container exists
     if (!heroContainer) {
       console.warn('⚠️ Hero container not found');
       return;
     }
 
+    // Generate ID and store
     const articleId = article.id || this._generateArticleId(article);
     this._storeArticle(articleId, article);
 
+    // Render hero article HTML
     heroContainer.innerHTML = `
       <img src="${article.image || article.urlToImage || this._getFallbackImage()}" 
            alt="${this._escapeHtml(article.title)}" 
@@ -198,28 +223,31 @@ class UIRenderer {
   /* ========== FULL ARTICLE PAGE ========== */
 
   /**
-   * Render complete article page
+   * Render complete full article page
+   * @param {Object} article - Full article object
    */
   renderFullArticle(article) {
-    // Update title
+    // Update title element
     const titleEl = document.getElementById('article-title');
     if (titleEl) titleEl.textContent = article.title;
 
-    // Update meta information
+    // Update author element
     const authorEl = document.getElementById('article-author');
     if (authorEl) authorEl.textContent = article.author || 'Staff Writer';
 
+    // Update date element
     const dateEl = document.getElementById('article-date');
     if (dateEl) dateEl.textContent = this.formatDate(article.publishedAt);
 
+    // Update source element
     const sourceEl = document.getElementById('article-source');
     if (sourceEl) sourceEl.textContent = article.source?.name || 'The Financial Frontier';
 
-    // Update excerpt
+    // Update excerpt/description element
     const excerptEl = document.getElementById('article-excerpt');
     if (excerptEl) excerptEl.textContent = article.description || '';
 
-    // Update image
+    // Update main article image
     const imageEl = document.getElementById('article-image');
     if (imageEl) {
       imageEl.src = article.image || article.urlToImage || this._getFallbackImage();
@@ -237,7 +265,7 @@ class UIRenderer {
         : '';
     }
 
-    // Render article body
+    // Render article body content
     this._renderArticleBody(article);
 
     // Set up share buttons
@@ -247,17 +275,17 @@ class UIRenderer {
   }
 
   /**
-   * Render article body content
+   * Render article body content with paragraphs, videos, and "read more" link
+   * @param {Object} article
    */
   _renderArticleBody(article) {
     const bodyEl = document.getElementById('article-body');
     if (!bodyEl) return;
 
-    // Generate article content from available data
     let content = '';
 
+    // Format content if available
     if (article.content) {
-      // Remove NewsAPI's character limit marker
       content = article.content.replace(/\[\+\d+ chars\]$/, '');
       content = this._formatArticleContent(content);
     } else if (article.description) {
@@ -266,7 +294,7 @@ class UIRenderer {
       content = '<p>Full article content is available at the source.</p>';
     }
 
-    // Add read more link
+    // Add "read full article" link if URL exists
     if (article.url && article.url !== '#') {
       content += `
         <div style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 8px; text-align: center;">
@@ -281,7 +309,7 @@ class UIRenderer {
       `;
     }
 
-    // Add video if available
+    // Embed related video if videoId is provided
     if (article.videoId) {
       content += `
         <div style="margin-top: 30px;">
@@ -303,21 +331,23 @@ class UIRenderer {
   }
 
   /**
-   * Format article content with proper paragraphs
+   * Format raw article content into paragraphs
+   * @param {string} content
+   * @returns {string} formatted HTML
    */
   _formatArticleContent(content) {
     if (!content) return '';
-    
-    // Split into paragraphs and wrap each in <p> tags
+
     return content
-      .split(/\n\n+/)
-      .filter(para => para.trim().length > 0)
-      .map(para => `<p>${this._escapeHtml(para.trim())}</p>`)
+      .split(/\n\n+/) // Split by double newline
+      .filter(para => para.trim().length > 0) // Remove empty paragraphs
+      .map(para => `<p>${this._escapeHtml(para.trim())}</p>`) // Wrap in <p>
       .join('\n');
   }
 
   /**
-   * Set up article share buttons
+   * Set up share buttons for social media
+   * @param {Object} article
    */
   _setupShareButtons(article) {
     const shareButtons = document.querySelectorAll('[data-share]');
@@ -326,7 +356,8 @@ class UIRenderer {
 
     shareButtons.forEach(button => {
       const platform = button.getAttribute('data-share');
-      
+
+      // Attach click event to share button
       button.addEventListener('click', (e) => {
         e.preventDefault();
         this._shareArticle(platform, articleUrl, articleTitle);
@@ -335,7 +366,10 @@ class UIRenderer {
   }
 
   /**
-   * Handle article sharing
+   * Share article to social media or copy link
+   * @param {string} platform
+   * @param {string} url
+   * @param {string} title
    */
   _shareArticle(platform, url, title) {
     const shareUrls = {
@@ -359,7 +393,8 @@ class UIRenderer {
   /* ========== RELATED ARTICLES ========== */
 
   /**
-   * Render related articles grid
+   * Render related articles section
+   * @param {Array} articles
    */
   renderRelatedArticles(articles) {
     const relatedGrid = document.getElementById('related-grid');
@@ -370,6 +405,7 @@ class UIRenderer {
       return;
     }
 
+    // Render up to 3 related articles
     relatedGrid.innerHTML = articles.slice(0, 3).map(article => {
       const articleId = article.id || this._generateArticleId(article);
       this._storeArticle(articleId, article);
@@ -396,16 +432,17 @@ class UIRenderer {
   /* ========== UTILITY METHODS ========== */
 
   /**
-   * Show loading indicator
+   * Show loading spinner in container
+   * @param {HTMLElement} container
    */
   showLoading(container) {
-    if (container) {
-      container.innerHTML = this.loadingHTML;
-    }
+    if (container) container.innerHTML = this.loadingHTML;
   }
 
   /**
-   * Show error message
+   * Show error message in container
+   * @param {HTMLElement} container
+   * @param {string} message
    */
   showError(container, message) {
     if (container) {
@@ -423,11 +460,13 @@ class UIRenderer {
   }
 
   /**
-   * Format date for display
+   * Format date string for display
+   * @param {string} dateString
+   * @returns {string} formatted date
    */
   formatDate(dateString) {
     if (!dateString) return 'Date unknown';
-    
+
     try {
       const date = new Date(dateString);
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -438,7 +477,10 @@ class UIRenderer {
   }
 
   /**
-   * Truncate text to specified length
+   * Truncate text to max length with ellipsis
+   * @param {string} text
+   * @param {number} maxLength
+   * @returns {string}
    */
   _truncateText(text, maxLength = 100) {
     if (!text) return '';
@@ -448,6 +490,8 @@ class UIRenderer {
 
   /**
    * Escape HTML to prevent XSS
+   * @param {string} text
+   * @returns {string}
    */
   _escapeHtml(text) {
     if (!text) return '';
@@ -458,6 +502,8 @@ class UIRenderer {
 
   /**
    * Generate article ID from URL or title
+   * @param {Object} article
+   * @returns {string} articleId
    */
   _generateArticleId(article) {
     try {
@@ -471,7 +517,9 @@ class UIRenderer {
   }
 
   /**
-   * Store article in sessionStorage for article page
+   * Store article in sessionStorage for later retrieval
+   * @param {string} articleId
+   * @param {Object} article
    */
   _storeArticle(articleId, article) {
     try {
@@ -482,19 +530,22 @@ class UIRenderer {
   }
 
   /**
-   * Get fallback image
+   * Return fallback image URL
+   * @returns {string}
    */
   _getFallbackImage() {
     return 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800';
   }
 
   /**
-   * Update page meta tags
+   * Update page meta tags for SEO / social
+   * @param {string} title
+   * @param {string} description
    */
   updatePageMeta(title, description) {
     if (title) {
       document.title = `${title} - The Financial Frontier`;
-      
+
       let metaTitle = document.querySelector('meta[property="og:title"]');
       if (!metaTitle) {
         metaTitle = document.createElement('meta');
@@ -516,16 +567,15 @@ class UIRenderer {
   }
 
   /**
-   * Clear container content
+   * Clear all content inside container
+   * @param {HTMLElement} container
    */
   clearContainer(container) {
-    if (container) {
-      container.innerHTML = '';
-    }
+    if (container) container.innerHTML = '';
   }
 }
 
-// Export for use in other modules
+// Export class for use in browser
 if (typeof window !== 'undefined') {
   window.UIRenderer = UIRenderer;
 }

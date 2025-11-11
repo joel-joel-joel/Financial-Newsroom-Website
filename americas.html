@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===== Meta & Page Setup ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia - The Financial Frontier</title>
+    <meta name="description" content="Read the latest financial news from the Americas on The Financial Frontier">
+    <title>Americas - The Financial Frontier</title>
+
+    <!-- ===== Fonts ===== -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet" crossorigin>
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet" crossorigin>
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet" crossorigin>
+
+    <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="css/australia.css">
-    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="header">
+    <!-- ===== Header ===== -->
+    <header class="header">
         <div class="date-container">
             <p class="date" id="current-date"></p>
         </div>
         <div class="center">
             <h1>The Financial Frontier</h1>
         </div>
-    </div>
+    </header>
 
-    <!-- Navigation -->
+    <!-- ===== Navigation ===== -->
     <nav class="navbar">
         <a href="index.html" class="nav-link">Home</a>
         <a href="australia.html" class="nav-link">Australia</a>
@@ -30,38 +36,42 @@
         <a href="about.html" class="nav-link">About Us</a>
     </nav>
 
-    <!-- News Ticker -->
+    <!-- ===== News Ticker ===== -->
     <div class="news-ticker">
         <p id="ticker-content">Loading American headlines...</p>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-container">
+    <!-- ===== Main Content ===== -->
+    <main class="main-container">
         <div class="main-header">
             <h2>Americas</h2>
-            
+
+            <!-- Search Form -->
             <form id="search-form">
                 <input type="text" placeholder="Search for an article..." id="search-input">
             </form>
 
-            <div class="story-section">
+            <!-- Story Section -->
+            <section class="story-section">
                 <h3>Top Stories</h3>
                 <div class="story-grid">
-                    <!-- Standard regional layout: 1 main + 2 substories -->
+                    <!-- Main Story -->
                     <a href="#" class="main-story">
                         <h4 class="main-story-title">Loading...</h4>
                         <img src="https://via.placeholder.com/800x400" alt="Loading" class="main-img">
                         <p class="main-story-text">Loading article content...</p>
                         <p class="main-story-author">By Staff Writer<br>Photographed by Staff</p>
                     </a>
-                
+
+                    <!-- Substory 1 -->
                     <a href="#" class="substory-1">
                         <img src="https://via.placeholder.com/400x300" alt="Loading" class="main-img">
                         <h4 class="substory-title">Loading...</h4>
                         <p class="substory-text">Loading content...</p>
                         <p class="substory-author">By Staff Writer<br>Photographed by Staff</p>
                     </a>
-                
+
+                    <!-- Substory 2 -->
                     <a href="#" class="substory-2">
                         <h4 class="substory-title">Loading...</h4>
                         <div class="substory-body">
@@ -75,43 +85,47 @@
                         </div>
                     </a>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
 
-    <!-- Videos Section -->
-    <div class="secondary-container">
+    <!-- ===== Videos Section ===== -->
+    <section class="secondary-container">
         <h4>Videos</h4>
         <div class="videos-wrapper">
-            <!-- Regional videos can be loaded here -->
+            <!-- Regional videos dynamically loaded -->
         </div>
-    </div>
+    </section>
 
-    <!-- More Articles -->
-    <div class="third-container">
+    <!-- ===== More Articles ===== -->
+    <section class="third-container">
         <h6>Articles</h6>
         <div class="article-wrapper">
-            <!-- Additional articles loaded dynamically -->
+            <!-- Additional articles dynamically loaded -->
         </div>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <div class="subscribe-section">
+    <!-- ===== Newsletter ===== -->
+    <section class="subscribe-section">
         <h3>Stay Updated</h3>
         <p>Subscribe to our newsletter for weekly insights.</p>
         <input type="email" placeholder="Enter your email">
         <button>Subscribe</button>
-    </div>
+    </section>
 
+    <!-- ===== Footer ===== -->
     <footer class="footer">
         <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
         <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
 
-    <!-- Scripts (same as main page) -->
+    <!-- ===== Scripts ===== -->
+    <!-- 1. Configuration -->
     <script src="js/config.js"></script>
+    <!-- 2. Service modules -->
     <script src="js/api-service.js"></script>
     <script src="js/ui-renderer.js"></script>
+    <!-- 3. Regional page logic -->
     <script src="js/regional-loader.js"></script>
 </body>
 </html>

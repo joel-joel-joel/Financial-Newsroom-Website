@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===== META & PAGE SETUP ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Australia - The Financial Frontier</title>
+
+    <!-- ===== CSS STYLESHEET ===== -->
     <link rel="stylesheet" href="css/australia.css">
+
+    <!-- ===== WEB FONTS ===== -->
     <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
-    
 </head>
 
 <body>
-    <!-- Header -->
+    <!-- ======================= HEADER ======================= -->
     <div class="header">
+        <!-- Current Date Display -->
         <div class="date-container">
             <p class="date" id="current-date"></p>
         </div>
+
+        <!-- Site Title -->
         <div class="center">
             <h1>The Financial Frontier</h1>
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- ======================= NAVIGATION BAR ======================= -->
     <nav class="navbar">
         <a href="index.html" class="nav-link">Home</a>
         <a href="australia.html" class="nav-link">Australia</a>
@@ -31,47 +38,64 @@
         <a href="about.html" class="nav-link">About Us</a>
     </nav>
 
-    <!-- News Ticker -->
+    <!-- ======================= NEWS TICKER ======================= -->
     <div class="news-ticker">
         <p id="ticker-content">Loading European headlines...</p>
     </div>
 
-    <!-- Main Content -->
+    <!-- ======================= MAIN CONTENT ======================= -->
     <div class="main-container">
         <div class="main-header">
+            <!-- Section Title -->
             <h2>Europe</h2>
-            
+
+            <!-- Search Form -->
             <form id="search-form">
                 <input type="text" placeholder="Search for an article..." id="search-input">
             </form>
 
+            <!-- Top Stories Section -->
             <div class="story-section">
                 <h3>Top Stories</h3>
+
                 <div class="story-grid">
-                    <!-- Standard regional layout: 1 main + 2 substories -->
+                    <!-- Standard regional layout: 1 main story + 2 substories -->
+
+                    <!-- ===== Main Story ===== -->
                     <a href="#" class="main-story">
                         <h4 class="main-story-title">Loading...</h4>
                         <img src="https://via.placeholder.com/800x400" alt="Loading" class="main-img">
                         <p class="main-story-text">Loading article content...</p>
-                        <p class="main-story-author">By Staff Writer<br>Photographed by Staff</p>
+                        <p class="main-story-author">
+                            By Staff Writer<br>Photographed by Staff
+                        </p>
                     </a>
-                
+
+                    <!-- ===== Substory 1 ===== -->
                     <a href="#" class="substory-1">
                         <img src="https://via.placeholder.com/400x300" alt="Loading" class="main-img">
                         <h4 class="substory-title">Loading...</h4>
                         <p class="substory-text">Loading content...</p>
-                        <p class="substory-author">By Staff Writer<br>Photographed by Staff</p>
+                        <p class="substory-author">
+                            By Staff Writer<br>Photographed by Staff
+                        </p>
                     </a>
-                
+
+                    <!-- ===== Substory 2 ===== -->
                     <a href="#" class="substory-2">
                         <h4 class="substory-title">Loading...</h4>
                         <div class="substory-body">
+                            <!-- Left Column: Text -->
                             <div class="substory-text-wrap">
                                 <p class="substory-text">Loading article content...</p>
                             </div>
+
+                            <!-- Right Column: Image & Author -->
                             <div class="sub-img-col">
                                 <img src="https://via.placeholder.com/120x120" alt="Loading" class="sub-img square-right">
-                                <p class="substory-author-under">By Staff Writer<br>Photographed by Staff</p>
+                                <p class="substory-author-under">
+                                    By Staff Writer<br>Photographed by Staff
+                                </p>
                             </div>
                         </div>
                     </a>
@@ -80,7 +104,7 @@
         </div>
     </div>
 
-    <!-- Videos Section -->
+    <!-- ======================= VIDEOS SECTION ======================= -->
     <div class="secondary-container">
         <h4>Videos</h4>
         <div class="videos-wrapper">
@@ -88,7 +112,7 @@
         </div>
     </div>
 
-    <!-- More Articles -->
+    <!-- ======================= MORE ARTICLES SECTION ======================= -->
     <div class="third-container">
         <h6>Articles</h6>
         <div class="article-wrapper">
@@ -96,7 +120,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- ======================= SUBSCRIBE / FOOTER SECTION ======================= -->
     <div class="subscribe-section">
         <h3>Stay Updated</h3>
         <p>Subscribe to our newsletter for weekly insights.</p>
@@ -104,12 +128,17 @@
         <button>Subscribe</button>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
-        <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
+        <p>
+            <a href="contact.html">Contact Us</a> | 
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
     </footer>
 
-    <!-- Scripts (same as main page) -->
+    <!-- ======================= JAVASCRIPT FILES ======================= -->
+    <!-- Same script loading structure as the main page -->
     <script src="js/config.js"></script>
     <script src="js/api-service.js"></script>
     <script src="js/ui-renderer.js"></script>

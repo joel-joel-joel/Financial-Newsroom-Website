@@ -1,85 +1,85 @@
-/**
- * world-loader.js - FIXED World Page Loader
+/*
+ * Style-aware, grid-based rendering for top stories, regional columns, and trending articles.
  */
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🌍 World page initializing...');
-    
+
     try {
+        // Check required dependencies
         if (typeof API_CONFIG === 'undefined') throw new Error('API_CONFIG missing');
         if (typeof APIService === 'undefined') throw new Error('APIService missing');
-        
+
         const apiService = new APIService(API_CONFIG);
+
+        // Display current date in header
         displayCurrentDate();
-        
+
         console.log('1️⃣ Loading top stories...');
         await loadTopStories(apiService);
-        
+
         console.log('2️⃣ Loading regional columns...');
         await loadRegionalColumns(apiService);
-        
+
         console.log('3️⃣ Loading trending articles...');
         await loadTrendingArticles(apiService);
-        
+
         console.log('✅ World page fully loaded');
-        
+
     } catch (error) {
         console.error('❌ World page initialization error:', error);
         showError(error.message || 'Failed to load world news');
     }
 });
 
-/**
- * ✅ FIXED: Load top stories for both grids
- */
-/**
- * world-loader.js - Style-Aware World Page Loader
- * Handles intentional different grid layouts
- */
-
-// ... keep rest of file unchanged up to loadTopStories ...
 
 /**
- * ✅ STYLE-AWARE: Loads top stories respecting grid layout
+ * ============================
+ * Load Top Stories
+ * ============================
+ * Fetches world news articles and renders them in two different grid layouts
  */
 async function loadTopStories(apiService) {
     console.log('📰 Starting top stories load...');
-    
+
     try {
         const worldNews = await apiService.searchArticles('global economy finance market', 10, 1);
-        
+
         if (!worldNews.articles || worldNews.articles.length < 6) {
             throw new Error(`Insufficient articles: got ${worldNews.articles?.length || 0}`);
         }
-        
-        // Grid 1: Main → Sub-1 → Sub-2 (standard order)
+
+        // Grid 1: Standard order (Main → Sub-1 → Sub-2)
         await renderStoryGrid('.story-grid-1', worldNews.articles.slice(0, 3), 'standard');
-        
-        // Grid 2: Sub-2 → Main → Sub-1 (intentional different order)
+
+        // Grid 2: Inverted order (Sub-2 → Main → Sub-1)
         await renderStoryGrid('.story-grid-2', worldNews.articles.slice(3, 6), 'inverted');
-        
+
         console.log('✅ Top stories rendered');
-        
+
     } catch (error) {
         console.error('❌ Top stories failed:', error);
     }
 }
 
+
 /**
- * ✅ STYLE-AWARE: Renders grid based on layout type
+ * Render a story grid based on layout type
+ * @param {string} gridSelector - CSS selector for the grid container
+ * @param {Array} articles - Array of articles to render
  * @param {string} layout - 'standard' or 'inverted'
  */
 async function renderStoryGrid(gridSelector, articles, layout = 'standard') {
     const grid = document.querySelector(gridSelector);
     if (!grid) return;
-    
+
     console.log(`🏗️ Rendering ${gridSelector} in ${layout} mode`);
-    
+
     // Define element order based on layout
-    const elementSelectors = layout === 'inverted' 
+    const elementSelectors = layout === 'inverted'
         ? ['.substory-2', '.main-story', '.substory-1'] // Grid 2 order
         : ['.main-story', '.substory-1', '.substory-2']; // Grid 1 order
-    
+
     for (let i = 0; i < elementSelectors.length; i++) {
         const element = grid.querySelector(elementSelectors[i]);
         if (element && articles[i]) {
@@ -91,101 +91,113 @@ async function renderStoryGrid(gridSelector, articles, layout = 'standard') {
 
 
 /**
- * ✅ Render individual story
+ * Render individual story inside a grid element
+ * @param {HTMLElement} element - The story container
+ * @param {Object} article - The article data
+ * @param {boolean} isType2 - True if substory-2 (smaller style)
+ * @param {number} index - Article index for fallback images
  */
 async function renderWorldStory(element, article, isType2 = false, index = 0) {
     if (!element || !article) return;
-    
+
     const articleId = generateArticleId(article);
     storeArticleData(articleId, article);
-    
+
     const title = element.querySelector(isType2 ? '.substory-title' : '.main-story-title');
     const text = element.querySelector(isType2 ? '.substory-text' : '.main-story-text');
     const img = element.querySelector(isType2 ? '.sub-img.square-right' : '.main-img');
     const author = element.querySelector(isType2 ? '.substory-author-under' : '.main-story-author');
-    
+
     if (title) title.textContent = article.title || 'Untitled';
     if (text) text.textContent = article.description || 'Read more...';
-    
+
     if (img) {
         img.src = article.urlToImage || article.image || getFallbackImage(index);
         img.alt = article.title || 'Article image';
         img.onerror = () => img.src = getFallbackImage(index);
     }
-    
+
     if (author) {
         const authorName = article.author || 'Staff Writer';
         const sourceName = article.source?.name || 'The Financial Frontier';
         author.innerHTML = `By ${authorName}<br>Photographed by ${sourceName}`;
     }
-    
+
+    // Set the href to link to the article page
     element.href = `article.html?id=${articleId}`;
 }
 
+
 /**
- * ✅ FIXED: Load regional columns with better queries
+ * ============================
+ * Load Regional Columns
+ * ============================
+ * Fetches and populates columns for Africa, Americas, Asia, Europe
  */
 async function loadRegionalColumns(apiService) {
     console.log('🌐 Loading regional columns...');
-    
+
     const regions = {
         africa: 'Africa economy Kenya Nigeria South Africa finance',
         americas: 'Americas USA Canada Brazil economy finance',
         asia: 'Asia China Japan India economy finance',
         europe: 'Europe UK Germany France economy finance'
     };
-    
+
     for (const [region, query] of Object.entries(regions)) {
         try {
             console.log(`  📍 Loading ${region} column...`);
-            
-            // ✅ FIXED: Better search query + more articles
+
             const regionData = await apiService.searchArticles(query, 10, 1);
-            
+
             if (!regionData.articles || regionData.articles.length < 4) {
                 console.warn(`⚠️ ${region}: only got ${regionData.articles?.length || 0} articles`);
                 continue;
             }
-            
+
             const column = document.querySelector(`.${region}`);
             if (!column) {
                 console.warn(`⚠️ Column not found: .${region}`);
                 continue;
             }
-            
-            // Top story (with image)
+
+            // Top story with image
             const topStory = column.querySelector('.topmost-story');
             if (topStory) {
                 updateColumnStory(topStory, regionData.articles[0], false);
             }
-            
-            // Bottom stories (3 title links)
+
+            // Bottom stories (next 3 articles)
             const bottomStories = column.querySelectorAll('.bottommost-story');
             regionData.articles.slice(1, 4).forEach((article, idx) => {
                 if (bottomStories[idx]) {
                     updateColumnStory(bottomStories[idx], article, true);
                 }
             });
-            
+
             console.log(`  ✅ ${region} column loaded`);
-            
+
         } catch (error) {
             console.error(`❌ ${region} column failed:`, error);
         }
     }
-    
+
     console.log('✅ Regional columns loaded');
 }
 
+
 /**
- * ✅ Update column story
+ * Update a story inside a regional column
+ * @param {HTMLElement} element - Column element
+ * @param {Object} article - Article data
+ * @param {boolean} isBottomStory - True if it’s a bottom story (title link only)
  */
 function updateColumnStory(element, article, isBottomStory = false) {
     if (!element || !article) return;
-    
+
     const articleId = generateArticleId(article);
     storeArticleData(articleId, article);
-    
+
     if (isBottomStory) {
         const link = element.querySelector('.story-title');
         if (link) {
@@ -195,13 +207,13 @@ function updateColumnStory(element, article, isBottomStory = false) {
     } else {
         const img = element.querySelector('.trend-img');
         const link = element.querySelector('.mainstory-title');
-        
+
         if (img) {
             img.src = article.urlToImage || article.image || 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400';
             img.alt = article.title || 'Article image';
             img.onerror = () => img.src = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400';
         }
-        
+
         if (link) {
             link.textContent = article.title || 'Untitled';
             link.href = `article.html?id=${articleId}`;
@@ -209,34 +221,38 @@ function updateColumnStory(element, article, isBottomStory = false) {
     }
 }
 
+
 /**
- * ✅ Load trending articles
+ * ============================
+ * Load Trending Articles
+ * ============================
  */
 async function loadTrendingArticles(apiService) {
     console.log('📈 Loading trending articles...');
-    
+
     try {
         const trendingNews = await apiService.getTopHeadlines('business', 8);
-        
+
         if (!trendingNews || trendingNews.length < 4) {
             throw new Error(`Only got ${trendingNews?.length || 0} trending articles`);
         }
-        
+
         const enriched = await Promise.all(
             trendingNews.slice(0, 4).map(article => apiService.getEnrichedArticle(article))
         );
-        
+
         renderArticlesList(enriched, '.fourth-container .article-wrapper');
-        
+
         console.log('✅ Trending articles rendered');
-        
+
     } catch (error) {
         console.error('❌ Trending articles failed:', error);
     }
 }
 
+
 /**
- * ✅ Render articles list
+ * Render a list of articles inside a container
  */
 function renderArticlesList(articles, containerSelector) {
     const container = document.querySelector(containerSelector);
@@ -244,17 +260,17 @@ function renderArticlesList(articles, containerSelector) {
         console.warn(`⚠️ Container not found: ${containerSelector}`);
         return;
     }
-    
+
     container.innerHTML = articles.map(article => {
         const articleId = generateArticleId(article);
         storeArticleData(articleId, article);
-        
+
         const date = new Date(article.publishedAt).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric'
         });
-        
+
         return `
             <a href="article.html?id=${articleId}" class="article" target="_blank" rel="noopener">
                 <img src="${article.urlToImage || article.image || 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=140'}" 
@@ -272,8 +288,11 @@ function renderArticlesList(articles, containerSelector) {
     }).join('');
 }
 
+
 /**
- * ✅ Utilities
+ * ============================
+ * Utility Functions
+ * ============================
  */
 function getFallbackImage(index = 0) {
     const images = [

@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Financial Frontier</title>
-        <link rel="stylesheet" href="css/styles.css">
-        <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">  
-        
-        
-    </head>
-        
+<head>
+    <!-- ===== Meta & Page Setup ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Financial Frontier</title>
 
-    <body>
+    <!-- ===== Stylesheets ===== -->
+    <link rel="stylesheet" href="css/styles.css">
 
-        <!-- Configuration file (API keys) -->
-        <script src="js/config.js"></script>
-        <!-- Header Section -->
+    <!-- ===== Web Fonts ===== -->
+    <link href="https://fonts.cdnfonts.com/css/audrey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/apple-garamond" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/oregon-ldo" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ======================= CONFIGURATION SCRIPT ======================= -->
+    <!-- Contains API keys and configuration values -->
+    <script src="js/config.js"></script>
+
+    <!-- ======================= HEADER SECTION ======================= -->
     <div class="header">
         <div class="date-container">
             <p class="date" id="current-date"></p>
         </div>
+
         <div class="center">
             <h1>The Financial Frontier</h1>
             <p class="titledesc">Your number one stop for financial news and discussions</p>
         </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- ======================= NAVIGATION BAR ======================= -->
     <nav class="navbar">
         <a href="index.html" class="nav-link">Home</a>
         <a href="australia.html" class="nav-link">Australia</a>
@@ -37,251 +42,268 @@
         <a href="about.html" class="nav-link">About Us</a>
     </nav>
 
-    <!-- News Ticker -->
-    <div class="news-ticker"><p>Top Headlines: <span id="ticker-content">Loading…</span></p></div>
+    <!-- ======================= NEWS TICKER ======================= -->
+    <div class="news-ticker">
+        <p>Top Headlines: <span id="ticker-content">Loading…</span></p>
+    </div>
 
-        <!-- Main Container -->
+    <!-- ======================= MAIN CONTAINER ======================= -->
+    <div class="main-container">
+        <!-- ===== Main Article ===== -->
+        <div class="main-content">
+            <img src="https://www.ucdavis.edu/sites/default/files/styles/sf_landscape_16x9/public/media/images/GettyImages-1356756815.jpg?h=555dd4d1&itok=b7vY_pts"
+                 alt="Main Headline" class="main-img">
+            <a href="#">Global Market Crash</a>
 
-        <div class="main-container">
-            <div class="main-content">
-                <!-- Main content -->
-                <img src="https://www.ucdavis.edu/sites/default/files/styles/sf_landscape_16x9/public/media/images/GettyImages-1356756815.jpg?h=555dd4d1&itok=b7vY_pts" alt="Main Headline" class="main-img">
-                <a href="#">Global Market Crash </a>
-                <div class="text-container">
-                    <p class="author">
-                        By Adam Sandler<br>
-                        Photographed by Freddie Mercury
-                    </p>
-                
-                    <p class="description">
-                        In an unprecedented turn of events, global markets experienced a significant downturn today, 
-                        with major indices plummeting due to a combination of economic uncertainties and geopolitical tensions. 
-                        Investors are urged to stay informed and exercise caution as the situation develops.
-                    </p>
-                </div>
-            </div>
-            <div class="trending">
-                <h3>Trending</h3>
-                <!-- Trending content -->
-                <ul class="trending-list">
-                    <li>
-                        <img src="https://iongroup.com/wp-content/uploads/2025/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png" alt="Stock" class="trend-img">
-                        <a href="#">Stock Market Hits Record Highs</a>
-                    </li>
-                    <li>
-                        <img src="https://fortune.com/img-assets/wp-content/uploads/2024/12/GettyImages-2185249409-e1734381382827.jpg?w=1440&q=90" alt="Crypto" class="trend-img">
-                        <a href="#">Cryptocurrency Prices Surge</a>
-                    </li>
-                    <li>
-                        <img src="https://thesmartinvestor.com.sg/wp-content/uploads/2024/01/investing.png" alt="Investment Tips" class="trend-img">
-                        <a href="#">Top 10 Investment Tips for 2025</a>
-                    </li>
-                    <li>
-                        <img src="https://si-interactive.s3.amazonaws.com/prod/ai-cio-com/wp-content/uploads/2021/06/23104942/CIO-062321-Dalio-Summers-Economy-1151072317-web.jpg" alt="Global Economy" class="trend-img">
-                        <a href="#">Global Economy: What to Expect</a>
-                    </li>
-                    <li>
-                        <img src="https://dac.digital/wp-content/uploads/2022/01/dac-www-3-1200x680-optimized.png" alt="Tech Giants" class="trend-img">
-                        <a href="#">Tech Giants Report Earnings</a>
-                    </li>
-                </ul>
-                
+            <div class="text-container">
+                <p class="author">
+                    By Adam Sandler<br>
+                    Photographed by Freddie Mercury
+                </p>
+
+                <p class="description">
+                    In an unprecedented turn of events, global markets experienced a significant downturn today,
+                    with major indices plummeting due to a combination of economic uncertainties and geopolitical tensions.
+                    Investors are urged to stay informed and exercise caution as the situation develops.
+                </p>
             </div>
         </div>
 
-        <!-- Secondary Container-->
-        <div class="secondary-container">
-            <div class="latest">
-                <h3>Top Stories</h3>
-                <div class="top-stories-wrapper">
-                    <div class="top-stories">
-                        <!-- Story 1 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1517142089942-ba376ce32a02?w=640" alt="Story 1" class="story-img">
-                            <a href="#">Federal Reserve Announces Interest Rate Hike</a>
-                        </div>
-                        <!-- Story 2 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1554224150-6a7d4430d243?w=640" alt="Story 2" class="story-img">
-                            <a href="#">Stock Market Reacts to Inflation Reports</a>
-                        </div>
-                        <!-- Story 3 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1526379095098-6648f7d6d46f?w=640" alt="Story 3" class="story-img">
-                            <a href="#">Gold Prices Surge Amid Economic Uncertainty</a>
-                        </div>
-                        <!-- Story 4 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1565372918604-518790a99526?w=640" alt="Story 4" class="story-img">
-                            <a href="#">Cryptocurrency Regulations Tighten Worldwide</a>
-                        </div>
-                        <!-- Story 5 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1519148246700-8f50b4d9b903?w=640" alt="Story 5" class="story-img">
-                            <a href="#">Tech IPOs Set to Shake Up the Market</a>
-                        </div>
-                        <!-- Story 6 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?w=640" alt="Story 6" class="story-img">
-                            <a href="#">Global Trade Talks Reach Critical Stage</a>
-                        </div>
-                        <!-- Story 7 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?w=640" alt="Story 7" class="story-img">
-                            <a href="#">Oil Prices Drop After OPEC Meeting</a>
-                        </div>
-                        <!-- Story 8 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=640" alt="Story 8" class="story-img">
-                            <a href="#">Major Bank Reports Record Quarterly Profits</a>
-                        </div>
-                        <!-- Story 9 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1514697934184-e3d3c7b27228?w=640" alt="Story 9" class="story-img">
-                            <a href="#">S&P 500 Hits All-Time High</a>
-                        </div>
-                        <!-- Story 10 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?w=640" alt="Story 10" class="story-img">
-                            <a href="#">Emerging Markets See Strong Growth</a>
-                        </div>
-                        <!-- Story 11 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2a9a5?w=640" alt="Story 11" class="story-img">
-                            <a href="#">Retail Sector Shows Unexpected Gains</a>
-                        </div>
-                        <!-- Story 12 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1556742502-ec7c0e9f6fdb?w=640" alt="Story 12" class="story-img">
-                            <a href="#">Investors Eye Renewable Energy Stocks</a>
-                        </div>
-                        <!-- Story 13 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1585238342028-3eaa5cf58bbc?w=640" alt="Story 13" class="story-img">
-                            <a href="#">Housing Market Slows in Major Cities</a>
-                        </div>
-                        <!-- Story 14 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1544739313-cba8d9841daa?w=640" alt="Story 14" class="story-img">
-                            <a href="#">Automotive Industry Reports Supply Chain Recovery</a>
-                        </div>
-                        <!-- Story 15 -->
-                        <div class="story">
-                            <img src="https://images.unsplash.com/photo-1551836022-9b7f1dbc20cf?w=640" alt="Story 15" class="story-img">
-                            <a href="#">Central Bank Signals New Monetary Policies</a>
-                        </div>
-                    </div>
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    <!-- Replace from line ~138 to ~171 in your index.html with this: -->
-
-<div class="third-container">
-    <h3 class="third-title">Editor's Picks</h3>
-    
-    <div class="third-section">
-        <!-- ===== 1st pick – comment below ===== -->
-        <div class="pick-column">
-            <div class="editors-pick-1">
-                <img src="https://www.esri.com/about/newsroom/app/uploads/2022/03/is-spatial-finance-coming-to-your-company-wherenext-article-wide-1920x1080-1.jpg"
-                    alt="Editor's Pick 1" class="editor-img">
-                <a href="#" class="editor-pick-caption-1">Loading...</a>
-            </div>
-            <p class="comment-1">
-                "A sharp and insightful breakdown of where international markets are heading …"
-                <br><span class="comment-author-1">— by Joseph Schooling</span>
-            </p>
-        </div>
-
-        <!-- ===== 2nd pick – comment above ===== -->
-        <div class="pick-column">
-            <p class="comment-2">
-                "Clear, concise, and refreshingly grounded …"
-                <br><span class="comment-author-2">— by Alex Turner</span>
-            </p>
-            <div class="editors-pick-2">
-                <img src="https://www.esri.com/about/newsroom/app/uploads/2022/02/Wherenext-Leonard-Brinson-1920x1080-1.jpg"
-                    alt="Editor's Pick 2" class="editor-img">
-                <a href="#" class="editor-pick-caption-2">Loading...</a>
-            </div>
-        </div>
-
-        <!-- ===== 3rd pick – comment below ===== -->
-        <div class="pick-column">
-            <div class="editors-pick-3">
-                <img src="https://www.esri.com/about/newsroom/app/uploads/2021/10/it-mapping-wherenext-nexttech-image-wide-1920x1080-1.jpg"
-                    alt="Editor's Pick 3" class="editor-img">
-                <a href="#" class="editor-pick-caption-3">Loading...</a>
-            </div>
-            <p class="comment-3">
-                "A practical, forward-thinking guide for investors …"
-                <br><span class="comment-author-3">— by Abel Morningold</span>
-            </p>
+        <!-- ===== Trending Section ===== -->
+        <div class="trending">
+            <h3>Trending</h3>
+            <ul class="trending-list">
+                <li>
+                    <img src="https://iongroup.com/wp-content/uploads/2025/01/T16277_Blog-post-on-24-hour-trading-in-equities-markets_Featured-Image-2048x1114.png"
+                         alt="Stock" class="trend-img">
+                    <a href="#">Stock Market Hits Record Highs</a>
+                </li>
+                <li>
+                    <img src="https://fortune.com/img-assets/wp-content/uploads/2024/12/GettyImages-2185249409-e1734381382827.jpg?w=1440&q=90"
+                         alt="Crypto" class="trend-img">
+                    <a href="#">Cryptocurrency Prices Surge</a>
+                </li>
+                <li>
+                    <img src="https://thesmartinvestor.com.sg/wp-content/uploads/2024/01/investing.png"
+                         alt="Investment Tips" class="trend-img">
+                    <a href="#">Top 10 Investment Tips for 2025</a>
+                </li>
+                <li>
+                    <img src="https://si-interactive.s3.amazonaws.com/prod/ai-cio-com/wp-content/uploads/2021/06/23104942/CIO-062321-Dalio-Summers-Economy-1151072317-web.jpg"
+                         alt="Global Economy" class="trend-img">
+                    <a href="#">Global Economy: What to Expect</a>
+                </li>
+                <li>
+                    <img src="https://dac.digital/wp-content/uploads/2022/01/dac-www-3-1200x680-optimized.png"
+                         alt="Tech Giants" class="trend-img">
+                    <a href="#">Tech Giants Report Earnings</a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
 
-        <!-- Fourth Container -->
-        <div class="fourth-container">
-            <h4 class="fourth-title">Live Feed</h4>
+    <!-- ======================= SECONDARY CONTAINER ======================= -->
+    <div class="secondary-container">
+        <div class="latest">
+            <h3>Top Stories</h3>
 
-            <section class="live-section">
-                <div class="comments-box">
-                    <h3>Live Chat</h3>
-                    <div class="chat-messages">
-                        
+            <div class="top-stories-wrapper">
+                <div class="top-stories">
+                    <!-- Each story includes an image and headline link -->
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1517142089942-ba376ce32a02?w=640"
+                             alt="Story 1" class="story-img">
+                        <a href="#">Federal Reserve Announces Interest Rate Hike</a>
                     </div>
-                    <input type="text" placeholder="Type your message...">
-                    <button>Send</button>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1554224150-6a7d4430d243?w=640"
+                             alt="Story 2" class="story-img">
+                        <a href="#">Stock Market Reacts to Inflation Reports</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1526379095098-6648f7d6d46f?w=640"
+                             alt="Story 3" class="story-img">
+                        <a href="#">Gold Prices Surge Amid Economic Uncertainty</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1565372918604-518790a99526?w=640"
+                             alt="Story 4" class="story-img">
+                        <a href="#">Cryptocurrency Regulations Tighten Worldwide</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1519148246700-8f50b4d9b903?w=640"
+                             alt="Story 5" class="story-img">
+                        <a href="#">Tech IPOs Set to Shake Up the Market</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?w=640"
+                             alt="Story 6" class="story-img">
+                        <a href="#">Global Trade Talks Reach Critical Stage</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?w=640"
+                             alt="Story 7" class="story-img">
+                        <a href="#">Oil Prices Drop After OPEC Meeting</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=640"
+                             alt="Story 8" class="story-img">
+                        <a href="#">Major Bank Reports Record Quarterly Profits</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1514697934184-e3d3c7b27228?w=640"
+                             alt="Story 9" class="story-img">
+                        <a href="#">S&P 500 Hits All-Time High</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?w=640"
+                             alt="Story 10" class="story-img">
+                        <a href="#">Emerging Markets See Strong Growth</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2a9a5?w=640"
+                             alt="Story 11" class="story-img">
+                        <a href="#">Retail Sector Shows Unexpected Gains</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1556742502-ec7c0e9f6fdb?w=640"
+                             alt="Story 12" class="story-img">
+                        <a href="#">Investors Eye Renewable Energy Stocks</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1585238342028-3eaa5cf58bbc?w=640"
+                             alt="Story 13" class="story-img">
+                        <a href="#">Housing Market Slows in Major Cities</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1544739313-cba8d9841daa?w=640"
+                             alt="Story 14" class="story-img">
+                        <a href="#">Automotive Industry Reports Supply Chain Recovery</a>
+                    </div>
+
+                    <div class="story">
+                        <img src="https://images.unsplash.com/photo-1551836022-9b7f1dbc20cf?w=640"
+                             alt="Story 15" class="story-img">
+                        <a href="#">Central Bank Signals New Monetary Policies</a>
+                    </div>
                 </div>
-              
-                <div class="video-box">
-                  <!-- Replace with your actual live video embed -->
-                  <iframe
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= THIRD CONTAINER (Editor's Picks) ======================= -->
+    <div class="third-container">
+        <h3 class="third-title">Editor's Picks</h3>
+
+        <div class="third-section">
+            <!-- ===== 1st Pick ===== -->
+            <div class="pick-column">
+                <div class="editors-pick-1">
+                    <img src="https://www.esri.com/about/newsroom/app/uploads/2022/03/is-spatial-finance-coming-to-your-company-wherenext-article-wide-1920x1080-1.jpg"
+                         alt="Editor's Pick 1" class="editor-img">
+                    <a href="#" class="editor-pick-caption-1">Loading...</a>
+                </div>
+                <p class="comment-1">
+                    "A sharp and insightful breakdown of where international markets are heading …"
+                    <br><span class="comment-author-1">— by Joseph Schooling</span>
+                </p>
+            </div>
+
+            <!-- ===== 2nd Pick ===== -->
+            <div class="pick-column">
+                <p class="comment-2">
+                    "Clear, concise, and refreshingly grounded …"
+                    <br><span class="comment-author-2">— by Alex Turner</span>
+                </p>
+                <div class="editors-pick-2">
+                    <img src="https://www.esri.com/about/newsroom/app/uploads/2022/02/Wherenext-Leonard-Brinson-1920x1080-1.jpg"
+                         alt="Editor's Pick 2" class="editor-img">
+                    <a href="#" class="editor-pick-caption-2">Loading...</a>
+                </div>
+            </div>
+
+            <!-- ===== 3rd Pick ===== -->
+            <div class="pick-column">
+                <div class="editors-pick-3">
+                    <img src="https://www.esri.com/about/newsroom/app/uploads/2021/10/it-mapping-wherenext-nexttech-image-wide-1920x1080-1.jpg"
+                         alt="Editor's Pick 3" class="editor-img">
+                    <a href="#" class="editor-pick-caption-3">Loading...</a>
+                </div>
+                <p class="comment-3">
+                    "A practical, forward-thinking guide for investors …"
+                    <br><span class="comment-author-3">— by Abel Morningold</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= FOURTH CONTAINER (Live Feed) ======================= -->
+    <div class="fourth-container">
+        <h4 class="fourth-title">Live Feed</h4>
+
+        <section class="live-section">
+            <!-- Live Chat Section -->
+            <div class="comments-box">
+                <h3>Live Chat</h3>
+                <div class="chat-messages"></div>
+                <input type="text" placeholder="Type your message...">
+                <button>Send</button>
+            </div>
+
+            <!-- Embedded Live Video -->
+            <div class="video-box">
+                <iframe
                     src="https://www.youtube.com/embed/5qap5aO4i9A"
                     frameborder="0"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-              </section>
-            
-         </div>
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+    </div>
 
+    <!-- ======================= FOOTER SECTION ======================= -->
+    <div class="subscribe-section">
+        <h3>Stay Updated</h3>
+        <p>Subscribe to our newsletter for weekly insights.</p>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+    </div>
 
-        <!-- Footer Section -->
-        <div class="subscribe-section">
-            <h3>Stay Updated</h3>
-            <p>Subscribe to our newsletter for weekly insights.</p>
-            <input type="email" placeholder="Enter your email">
-            <button>Subscribe</button>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
+        <p>
+            <a href="contact.html">Contact Us</a> |
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+    </footer>
 
-        <footer class="footer">
-            <p>&copy; 2025 The Financial Frontier. All rights reserved.</p>
-            <p><a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a></p>
-        </footer>
-        
+    <!-- ======================= SCRIPTS ======================= -->
+    <!-- Service and functionality scripts -->
+    <script src="js/api-service.js"></script>
+    <script src="js/ui-renderer.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script src="js/main.js"></script>
 
-        <!-- Service modules -->
-        <script src="js/api-service.js"></script>
-        <script src="js/ui-renderer.js"></script>
-        <script defer src="/_vercel/speed-insights/script.js"></script>
-
-        <!-- Main application logic -->
-        <script src="js/main.js"></script>
-
-        <!-- CSS animation for loading spinner -->
-        <style>
+    <!-- Loading Spinner Animation -->
+    <style>
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        </style>
+    </style>
 
-    </body>
-         
+</body>
 </html>
-
