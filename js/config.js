@@ -1,5 +1,4 @@
-/**
- * config.js - API Configuration (FIXED)
+/*
  * For production deployment on Vercel
  */
 

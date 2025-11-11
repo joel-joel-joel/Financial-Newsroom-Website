@@ -1,13 +1,13 @@
 /**
  * api-service.js - Enhanced API Service
- * Handles all API calls with robust error handling and caching
+ * Handles all API calls with robust error handling, caching, and deduplication
  */
 
 class APIService {
   constructor(config) {
     this.config = config;
     this.cache = new Map();
-    this.cacheExpiry = config.app?.cacheDuration || 5 * 60 * 1000;
+    this.cacheExpiry = config.app?.cacheDuration || 5 * 60 * 1000; // 5 min default
     this.requestQueue = new Map(); // Prevent duplicate simultaneous requests
   }
 
@@ -17,21 +17,19 @@ class APIService {
    * Build URL for API requests (proxy or direct)
    */
   _buildUrl(service, params = {}) {
-    // Production: Use Vercel proxy
+    // Use proxy if configured
     if (this.config.proxyUrl) {
       const queryParams = new URLSearchParams({ service, ...params });
       return `${this.config.proxyUrl}?${queryParams}`;
     }
 
-    // Development: Direct API calls
+    // Direct API calls for development
     const serviceConfig = this.config[service];
-    if (!serviceConfig) {
-      throw new Error(`Unknown service: ${service}`);
-    }
+    if (!serviceConfig) throw new Error(`Unknown service: ${service}`);
 
     const url = new URL(serviceConfig.baseUrl);
-    
-    // Add endpoint for NewsAPI
+
+    // Add NewsAPI endpoint
     if (service === 'newsApi') {
       url.pathname += params.category ? '/v2/top-headlines' : '/v2/everything';
     }
@@ -43,7 +41,7 @@ class APIService {
       }
     });
 
-    // Add API key for direct calls
+    // Append API keys
     if (service === 'newsApi') url.searchParams.set('apiKey', serviceConfig.key);
     if (service === 'unsplash') url.searchParams.set('client_id', serviceConfig.key);
     if (service === 'youtube') url.searchParams.set('key', serviceConfig.key);
@@ -52,7 +50,7 @@ class APIService {
   }
 
   /**
-   * Check if cached data is still valid
+   * Check if cache entry is still valid
    */
   _isCacheValid(key) {
     if (!this.cache.has(key)) return false;
@@ -61,7 +59,7 @@ class APIService {
   }
 
   /**
-   * Get from cache or return null
+   * Get cached data if valid
    */
   _getFromCache(key) {
     if (this._isCacheValid(key)) {
@@ -72,7 +70,7 @@ class APIService {
   }
 
   /**
-   * Store in cache
+   * Store data in cache
    */
   _setCache(key, data) {
     this.cache.set(key, { data, timestamp: Date.now() });
@@ -83,16 +81,11 @@ class APIService {
    */
   async _fetchWithTimeout(url, options = {}) {
     const timeout = this.config.app?.apiTimeout || 10000;
-    
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal
-      });
-      
+      const response = await fetch(url, { ...options, signal: controller.signal });
       clearTimeout(timeoutId);
 
       if (!response.ok) {
@@ -102,24 +95,17 @@ class APIService {
       return await response.json();
     } catch (error) {
       clearTimeout(timeoutId);
-      
-      if (error.name === 'AbortError') {
-        throw new Error('Request timeout');
-      }
+      if (error.name === 'AbortError') throw new Error('Request timeout');
       throw error;
     }
   }
 
   /**
-   * Deduplicate simultaneous requests
+   * Deduplicate simultaneous requests for the same key
    */
   async _dededuplicatedFetch(key, fetchFn) {
-    // If request is already in progress, wait for it
-    if (this.requestQueue.has(key)) {
-      return this.requestQueue.get(key);
-    }
+    if (this.requestQueue.has(key)) return this.requestQueue.get(key);
 
-    // Start new request
     const promise = fetchFn().finally(() => {
       this.requestQueue.delete(key);
     });
@@ -131,26 +117,22 @@ class APIService {
   /* ========== NEWS API METHODS ========== */
 
   /**
-   * Get top headlines
+   * Get top headlines by category
    */
   async getTopHeadlines(category = 'business', count = 10) {
     const cacheKey = `headlines-${category}-${count}`;
-    
-    // Check cache first
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
-    // Fetch from API
     return this._dededuplicatedFetch(cacheKey, async () => {
       try {
-        const url = this._buildUrl('newsApi', { 
-          category, 
+        const url = this._buildUrl('newsApi', {
+          category,
           pageSize: count,
           language: 'en'
         });
-        
+
         const data = await this._fetchWithTimeout(url);
-        
         if (data?.articles) {
           this._setCache(cacheKey, data.articles);
           console.log(`✓ Fetched ${data.articles.length} headlines`);
@@ -170,29 +152,22 @@ class APIService {
    */
   async searchArticles(query, pageSize = 20, page = 1) {
     const cacheKey = `search-${query}-${pageSize}-${page}`;
-    
-    // Check cache
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
-    // Fetch from API
     return this._dededuplicatedFetch(cacheKey, async () => {
       try {
-        const url = this._buildUrl('newsApi', { 
+        const url = this._buildUrl('newsApi', {
           q: query,
           pageSize,
           page,
           sortBy: 'publishedAt',
           language: 'en'
         });
-        
+
         const data = await this._fetchWithTimeout(url);
-        
         if (data?.articles) {
-          const result = {
-            articles: data.articles,
-            totalResults: data.totalResults || 0
-          };
+          const result = { articles: data.articles, totalResults: data.totalResults || 0 };
           this._setCache(cacheKey, result);
           console.log(`✓ Found ${result.articles.length} articles for "${query}"`);
           return result;
@@ -211,24 +186,17 @@ class APIService {
    */
   async getArticlesBySource(source, count = 20) {
     const cacheKey = `source-${source}-${count}`;
-    
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
     return this._dededuplicatedFetch(cacheKey, async () => {
       try {
-        const url = this._buildUrl('newsApi', { 
-          sources: source,
-          pageSize: count
-        });
-        
+        const url = this._buildUrl('newsApi', { sources: source, pageSize: count });
         const data = await this._fetchWithTimeout(url);
-        
         if (data?.articles) {
           this._setCache(cacheKey, data.articles);
           return data.articles;
         }
-
         throw new Error('Invalid source response');
       } catch (error) {
         console.error('Source fetch error:', error);
@@ -240,22 +208,17 @@ class APIService {
   /* ========== UNSPLASH METHODS ========== */
 
   /**
-   * Get image for query (faster random method)
+   * Get random image for a query
    */
   async getRandomImage(query) {
     const cacheKey = `img-random-${query}`;
-    
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
     try {
-      // Use Unsplash source.unsplash.com for quick random images
       const fallbackUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(query)}`;
-      
-      // Make HEAD request to get final redirected URL
       const response = await fetch(fallbackUrl, { method: 'HEAD' });
       const imageUrl = response.url || fallbackUrl;
-      
       this._setCache(cacheKey, imageUrl);
       return imageUrl;
     } catch (error) {
@@ -265,23 +228,17 @@ class APIService {
   }
 
   /**
-   * Search Unsplash for specific images
+   * Search Unsplash for images
    */
   async searchImages(query, count = 1) {
     const cacheKey = `img-search-${query}-${count}`;
-    
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
     try {
-      const url = this._buildUrl('unsplash', {
-        query,
-        per_page: count,
-        orientation: 'landscape'
-      });
-      
+      const url = this._buildUrl('unsplash', { query, per_page: count, orientation: 'landscape' });
       const data = await this._fetchWithTimeout(url);
-      
+
       if (data?.results?.length) {
         const images = data.results.map(img => ({
           url: img.urls.regular,
@@ -289,7 +246,7 @@ class APIService {
           author: img.user.name,
           authorUrl: img.user.links.html
         }));
-        
+
         this._setCache(cacheKey, images);
         return images;
       }
@@ -308,7 +265,6 @@ class APIService {
    */
   async searchVideos(query, maxResults = 5) {
     const cacheKey = `videos-${query}-${maxResults}`;
-    
     const cached = this._getFromCache(cacheKey);
     if (cached) return cached;
 
@@ -320,9 +276,9 @@ class APIService {
         maxResults,
         relevanceLanguage: 'en'
       });
-      
+
       const data = await this._fetchWithTimeout(url);
-      
+
       if (data?.items) {
         const videos = data.items.map(video => ({
           id: video.id.videoId,
@@ -332,7 +288,7 @@ class APIService {
           channelTitle: video.snippet.channelTitle,
           publishedAt: video.snippet.publishedAt
         }));
-        
+
         this._setCache(cacheKey, videos);
         console.log(`✓ Found ${videos.length} videos for "${query}"`);
         return videos;
@@ -345,31 +301,22 @@ class APIService {
     }
   }
 
-  /* ========== UTILITY METHODS ========== */
+  /* ========== ARTICLE ENRICHMENT ========== */
 
   /**
    * Enrich article with image and optional video
    */
   async getEnrichedArticle(article, includeVideo = false) {
     try {
-      // Extract topic from title
       const topic = this.extractMainTopic(article.title);
-      
-      // Get image (use article image if available, otherwise fetch)
+
       let imageUrl = article.urlToImage;
       if (!imageUrl || !this._isValidImageUrl(imageUrl)) {
         imageUrl = await this.getRandomImage(topic);
       }
-      
-      // Build enriched article
-      const enriched = {
-        ...article,
-        image: imageUrl,
-        topic,
-        id: this._generateArticleId(article)
-      };
 
-      // Add video if requested
+      const enriched = { ...article, image: imageUrl, topic, id: this._generateArticleId(article) };
+
       if (includeVideo) {
         const videos = await this.searchVideos(topic, 1);
         if (videos.length > 0) {
@@ -386,22 +333,23 @@ class APIService {
   }
 
   /**
-   * Extract main topic from article title
+   * Extract main topic from title
    */
   extractMainTopic(title) {
     if (!title) return 'finance';
-    
-    // Remove common stop words
-    const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 
-                       'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'was'];
-    
+
+    const stopWords = [
+      'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at',
+      'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'was'
+    ];
+
     const words = title
       .toLowerCase()
-      .replace(/[^\w\s]/g, '') // Remove punctuation
+      .replace(/[^\w\s]/g, '')
       .split(' ')
       .filter(word => word.length > 3 && !stopWords.includes(word))
       .slice(0, 3);
-    
+
     return words.length > 0 ? words.join(' ') : 'finance';
   }
 
@@ -425,9 +373,7 @@ class APIService {
     try {
       return btoa(article.url || article.title)
         .slice(0, 16)
-        .replace(/[/+=]/g, match => {
-          return { '/': '-', '+': '_', '=': '' }[match];
-        });
+        .replace(/[/+=]/g, match => ({ '/': '-', '+': '_', '=': '' }[match]));
     } catch {
       return 'article_' + Date.now();
     }
@@ -444,13 +390,13 @@ class APIService {
       business: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800',
       technology: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800'
     };
-    
+
     const key = Object.keys(fallbackImages).find(k => query.toLowerCase().includes(k));
     return fallbackImages[key] || fallbackImages.finance;
   }
 
   /**
-   * Get fallback articles when API fails
+   * Get fallback articles for failed API calls
    */
   _getFallbackArticles() {
     return [
@@ -484,6 +430,8 @@ class APIService {
     ];
   }
 
+  /* ========== CACHE MANAGEMENT ========== */
+
   /**
    * Clear all cached data
    */
@@ -503,7 +451,7 @@ class APIService {
   }
 }
 
-// Export for use in other modules
+// Export for Node/CommonJS usage
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = APIService;
 }

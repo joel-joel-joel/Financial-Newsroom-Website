@@ -1,18 +1,21 @@
+/* =========================================================
+   ================== FONT IMPORT =========================
+   ========================================================= */
 @font-face {
     font-family: Newsroom;
     src: url(https://fonts.google.com/specimen/Newsreader);
 }
 
-
-
-/* Header styles */
+/* =========================================================
+   ================== HEADER STYLES =======================
+   ========================================================= */
 .header {
     background-color: white;
     padding: 10px 10px;
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally */
-    position: relative;
+    position: relative; /* For absolute positioning of date */
 }
 
 .header h1 {
@@ -23,6 +26,8 @@
     text-align: center;
     text-decoration: underline black;
 }
+
+/* Date container in the header */
 .date-container {
     position: absolute;
     top: 10px;
@@ -36,20 +41,19 @@
     font-style: italic;
 }
 
-
-
-/* Navbar styles */
+/* =========================================================
+   ================== NAVBAR STYLES =======================
+   ========================================================= */
 .navbar {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 40px; /* Adds spacing between links */
+    display: flex; /* Flex container for nav links */
+    gap: 40px; /* Spacing between links */
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
     align-items: center; /* Vertically centers items */
-    text-align: center;
     justify-content: center; /* Horizontally centers the navbar */
-    border-bottom: 2px solid black; /* Line below the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
+    border-bottom: 2px solid black; /* Bottom border line */
+    padding: 10px 0; /* Inner spacing */
 }
 
 .nav-link {
@@ -58,38 +62,42 @@
 }
 .nav-link:hover {
     color: crimson;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
-/* News Ticker styles */
+/* =========================================================
+   ================== NEWS TICKER =========================
+   ========================================================= */
 .news-ticker {
     width: 100%;
-    overflow: hidden;      /* hide overflowing text */
+    overflow: hidden; /* Hide overflow text */
     background-color: rgb(255, 255, 255);
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;  /* prevents line breaks */
+    white-space: nowrap; /* Prevent line breaks */
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+    border-bottom: 2px solid black;
 }
 
 .news-ticker p {
     display: inline-block;
-    white-space: nowrap;   /* prevents line breaks */
-    padding-left: 100%;       /* start on-screen from the left */
-    animation: scroll-right 20s linear infinite; /* Use a new animation */
-}
-  
-@keyframes scroll-right {
-    0% { transform: translateX(0); } /* Start off-screen to the left */
-    100% { transform: translateX(-100%); }   /* End on-screen to the right */
+    white-space: nowrap;
+    padding-left: 100%; /* Start off-screen */
+    animation: scroll-right 20s linear infinite; /* Animation for scrolling text */
 }
 
-/* Main Container */
+@keyframes scroll-right {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* =========================================================
+   ================== MAIN CONTAINER ======================
+   ========================================================= */
 .main-container {
     display: flex;
     flex-direction: column;
@@ -98,6 +106,7 @@
     padding: 40px 20px;
 }
 
+/* ---------------- Thread Header Section ---------------- */
 .thread-header-section {
     width: 100%;
     max-width: 900px;
@@ -114,6 +123,7 @@
     text-align: center;
 }
 
+/* Thread info (author, date, etc.) */
 .thread-info {
     display: flex;
     gap: 20px;
@@ -122,6 +132,7 @@
     font-style: italic;
 }
 
+/* Back button */
 .back-btn {
     display: inline-flex;
     align-items: center;
@@ -133,18 +144,20 @@
     font-family: 'Audrey', sans-serif;
     cursor: pointer;
 }
-
 .back-btn:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* Posts Container */
+/* =========================================================
+   ================== POSTS CONTAINER =====================
+   ========================================================= */
 .posts-container {
     width: 100%;
     max-width: 900px;
 }
 
+/* Individual post card */
 .post {
     background: white;
     border: 1px solid #ddd;
@@ -154,12 +167,12 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .post:hover {
-    transform: scale(1.02); /* Slightly enlarge the section on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+    transform: scale(1.02); /* Slight enlarge on hover */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
+/* Post header: author & timestamp */
 .post-header {
     display: flex;
     justify-content: space-between;
@@ -179,6 +192,7 @@
     font-style: italic;
 }
 
+/* Post content */
 .post-content {
     font-size: 15px;
     line-height: 1.6;
@@ -186,6 +200,7 @@
     margin-bottom: 12px;
 }
 
+/* Post actions (reply, like, etc.) */
 .post-actions {
     display: flex;
     gap: 20px;
@@ -198,13 +213,14 @@
     cursor: pointer;
     transition: color 0.2s ease;
 }
-
 .post-action:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* Reply Form */
+/* =========================================================
+   ================== REPLY FORM ==========================
+   ========================================================= */
 .reply-form {
     background: white;
     border: 1px solid #ddd;
@@ -216,6 +232,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Reply form heading */
 .reply-form h3 {
     font-family: 'Audrey', sans-serif;
     font-size: 20px;
@@ -225,6 +242,7 @@
     padding-bottom: 8px;
 }
 
+/* Form groups */
 .form-group {
     margin-bottom: 15px;
 }
@@ -251,6 +269,7 @@
     min-height: 120px;
 }
 
+/* Focus styles */
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
@@ -258,6 +277,7 @@
     box-shadow: 0 0 0 2px rgba(220, 20, 60, 0.1);
 }
 
+/* Submit button */
 .submit-btn {
     background-color: crimson;
     color: white;

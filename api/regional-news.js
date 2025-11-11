@@ -1,18 +1,22 @@
 // api/regional-news.js - Regional news endpoint with proper error handling
+
 export default async function handler(req, res) {
   console.log('🎯 Function invoked with region:', req.body?.region);
   console.log('🔑 NEWS_KEY present:', !!process.env.NEWS_KEY);
+
   // ===== CORS Configuration =====
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
+
+  // ===== Handle Preflight Requests =====
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
+  // ===== Only Allow POST Method =====
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
+    return res.status(405).json({
       success: false,
       error: 'Method not allowed',
       allowedMethods: ['POST']
@@ -22,7 +26,7 @@ export default async function handler(req, res) {
   // ===== Validate Environment Variables =====
   if (!process.env.NEWS_KEY) {
     console.error('❌ NEWS_KEY environment variable not set');
-    return res.status(500).json({ 
+    return res.status(500).json({
       success: false,
       error: 'Server configuration error',
       details: 'API key not configured'
@@ -31,17 +35,17 @@ export default async function handler(req, res) {
 
   // ===== Extract and Validate Parameters =====
   const { region, pageSize = 20, page = 1 } = req.body;
-  
+
   const validRegions = ['australia', 'africa', 'americas', 'asia', 'europe'];
   if (!region || !validRegions.includes(region.toLowerCase())) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       success: false,
       error: 'Invalid region',
       details: `Region must be one of: ${validRegions.join(', ')}`
     });
   }
 
-  // ===== Build Search Query Based on Region =====
+  // ===== Map Regions to Search Queries =====
   const regionQueries = {
     australia: 'Australia OR Sydney OR Melbourne OR ASX market finance economy',
     africa: 'Africa OR Kenya OR Nigeria OR "South Africa" market finance economy',
@@ -54,8 +58,8 @@ export default async function handler(req, res) {
 
   try {
     console.log(`📤 Fetching regional news for: ${region}`);
-    
-    // ===== Call NewsAPI =====
+
+    // ===== Fetch News from NewsAPI =====
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
@@ -67,20 +71,17 @@ export default async function handler(req, res) {
     apiUrl.searchParams.set('language', 'en');
     apiUrl.searchParams.set('apiKey', process.env.NEWS_KEY);
 
-    const response = await fetch(apiUrl.toString(), {
-      signal: controller.signal
-    });
-
+    const response = await fetch(apiUrl.toString(), { signal: controller.signal });
     clearTimeout(timeoutId);
 
     console.log(`📥 NewsAPI response: ${response.status}`);
 
     const data = await response.json();
 
-    // ===== Handle Error Responses =====
+    // ===== Handle API Errors =====
     if (!response.ok) {
       console.error('❌ NewsAPI error:', data);
-      
+
       if (response.status === 429) {
         return res.status(429).json({
           success: false,
@@ -88,7 +89,7 @@ export default async function handler(req, res) {
           details: 'Too many requests, please try again later'
         });
       }
-      
+
       if (response.status === 401) {
         return res.status(401).json({
           success: false,
@@ -100,10 +101,10 @@ export default async function handler(req, res) {
       throw new Error(data.message || `HTTP ${response.status}`);
     }
 
-    // ===== Validate Response Data =====
+    // ===== Validate Response Structure =====
     if (!data.articles || !Array.isArray(data.articles)) {
       console.error('❌ Invalid response structure:', data);
-      return res.status(500).json({ 
+      return res.status(500).json({
         success: false,
         error: 'Invalid response format',
         details: 'NewsAPI returned malformed data'
@@ -113,7 +114,7 @@ export default async function handler(req, res) {
     console.log(`✅ Retrieved ${data.articles.length} articles for ${region}`);
 
     // ===== Return Successful Response =====
-    return res.status(200).json({ 
+    return res.status(200).json({
       success: true,
       region,
       articles: data.articles,
@@ -145,7 +146,7 @@ export default async function handler(req, res) {
       errorDetails = 'Unable to reach NewsAPI';
     }
 
-    return res.status(statusCode).json({ 
+    return res.status(statusCode).json({
       success: false,
       error: errorMessage,
       details: errorDetails,

@@ -1,5 +1,4 @@
-/**
- * regional-loader.js - Regional Page Loader
+/*
  * Handles regional news, videos, search, and layout rendering
  */
 

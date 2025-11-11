@@ -1,33 +1,44 @@
+/* ==========================================================================
+   ============================= FONT FACES =================================
+   ========================================================================== */
+
+/* Custom font faces for headings and body text */
 @font-face {
-    font-family: Newsroom; /* set name */
-    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+    font-family: Newsroom; /* Main header font */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* URL to font */
 }
 
+/* ==========================================================================
+   ============================= HEADER STYLES ==============================
+   ========================================================================== */
 
-/* Header styles */
 .header {
-    background-color: white;
-    padding: 10px 10px;
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
-    position: relative;
+    background-color: white;            /* Header background */
+    padding: 10px 10px;                 /* Inner spacing */
+    display: flex;                      /* Flex container */
+    flex-direction: column;             /* Stack children vertically */
+    align-items: center;                /* Center children horizontally */
+    position: relative;                 /* Needed for absolute children (like date) */
 }
 
+/* Main site title */
 .header h1 {
     margin: 0;
-    font-size: 35px; /* reduced from 70px */
+    font-size: 35px;                    /* Reduced from 70px */
     font-family: 'Newsroom';
     color: crimson;
     text-align: center;
-    text-decoration: underline black;
+    text-decoration: underline black;   /* Underline with black */
 }
+
+/* Date display container (top-left corner) */
 .date-container {
     position: absolute;
     top: 10px;
     left: 20px;
 }
 
+/* Individual date text */
 .date {
     font-size: 16px;
     color: black;
@@ -35,58 +46,96 @@
     font-style: italic;
 }
 
+/* ==========================================================================
+   ============================= NAVBAR STYLES ==============================
+   ========================================================================== */
 
-
-/* Navbar styles */
+/* Standard navigation bar */
 .navbar {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 40px; /* Adds spacing between links */
+    display: flex;                     /* Flex container */
+    gap: 40px;                         /* Space between links */
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
-    align-items: center; /* Vertically centers items */
+    align-items: center;               /* Vertically center items */
     text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    border-bottom: 2px solid black; /* Line below the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
+    justify-content: center;           /* Horizontally center items */
+    border-bottom: 2px solid black;    /* Bottom border */
+    padding: 10px 0;
 }
 
+/* Individual nav links */
 .nav-link {
     color: black;
     text-decoration: none;
 }
+
+/* Hover effect for nav links */
 .nav-link:hover {
     color: crimson;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
-/* News Ticker styles */
+/* Secondary world navbar */
+.world-navbar {
+    display: flex;
+    gap: 80px;
+    font-size: 24px;
+    font-family: 'Audrey', sans-serif;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+/* Individual world link */
+.world-link {
+    color: black;
+    text-decoration: none;
+}
+
+/* Hover effect for world links */
+.world-link:hover {
+    color: crimson;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   ============================= NEWS TICKER ================================
+   ========================================================================== */
+
 .news-ticker {
-    width: 100%;
-    overflow: hidden;      /* hide overflowing text */
-    background-color: rgb(255, 255, 255);
+    width: 100%;                       /* Full width */
+    overflow: hidden;                   /* Hide overflowing text */
+    background-color: rgb(255,255,255);
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;  /* prevents line breaks */
+    white-space: nowrap;                /* Prevent line breaks */
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+    border-bottom: 2px solid black;
 }
 
 .news-ticker p {
     display: inline-block;
-    white-space: nowrap;   /* prevents line breaks */
-    padding-left: 100%;       /* start on-screen from the left */
-    animation: scroll-right 20s linear infinite; /* Use a new animation */
+    white-space: nowrap;
+    padding-left: 100%;                /* Start outside screen */
+    animation: scroll-right 20s linear infinite;
 }
-  
+
+/* News ticker animation keyframes */
 @keyframes scroll-right {
-    0% { transform: translateX(0); } /* Start off-screen to the left */
-    100% { transform: translateX(-100%); }   /* End on-screen to the right */
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
+
+/* ==========================================================================
+   ============================= MAIN CONTAINER =============================
+   ========================================================================== */
 
 .main-container {
     display: flex;
@@ -95,6 +144,7 @@
     width: 100%;
 }
 
+/* Main page header */
 .main-header {
     display: flex;
     flex-direction: column;
@@ -110,6 +160,7 @@
     margin-bottom: 30px;
 }
 
+/* Search form styling */
 #search-form {
     width: 100%;
     display: flex;
@@ -117,8 +168,8 @@
 }
 
 #search-input {
-    width: 90%; /* stretches almost full width */
-    max-width: 1200px; /* optional max width */
+    width: 90%;
+    max-width: 1200px;
     padding: 10px 20px;
     font-size: 18px;
     border: 2px solid black;
@@ -127,31 +178,10 @@
     box-sizing: border-box;
 }
 
+/* ==========================================================================
+   ============================= SECOND CONTAINER ===========================
+   ========================================================================== */
 
-
-.world-navbar {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 80px; /* Adds spacing between links */
-    font-size: 24px;
-    font-family: 'Audrey', sans-serif;
-    color: cornsilk;
-    align-items: center; /* Vertically centers items */
-    text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
-    margin-top: 20px;
-}
-
-.world-link {
-    color: black;
-    text-decoration: none;
-}
-.world-link:hover {
-    color: crimson;
-    text-decoration:underline;
-}
-
-/* ---------- 2nd-container shell ---------- */
 .second-container {
     display: flex;
     flex-direction: column;
@@ -159,30 +189,29 @@
     width: 100%;
 }
 
-/* ---------- Top-Stories section block ---------- */
+/* Top-Stories section block */
 .story-section {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
     width: 90%;
     max-width: 1200px;
     margin: 20px auto;
     gap: 20px;
-    box-sizing: border-box;
     padding: 40px;
     border: 2px solid lightgray;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
-    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
     transition: transform .3s ease, box-shadow .3s ease;
     text-align: center;
-    position:relative;
-    display: inline-block;
-}
-.story-section:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+    position: relative;
 }
 
+/* Hover effect for story section */
+.story-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,.2);
+}
+
+/* Story section title */
 .story-section h3 {
     font-family: 'Audrey', sans-serif;
     color: #000;
@@ -192,7 +221,7 @@
     display: inline-block;
 }
 
-/* ---------- story rows ---------- */
+/* Story grid rows */
 .story-grid-1,
 .story-grid-2 {
     display: flex;
@@ -200,7 +229,7 @@
     margin: 30px;
 }
 
-/* ---------- shared card skin ---------- */
+/* Individual story cards */
 .main-story,
 .substory-1,
 .substory-2 {
@@ -208,7 +237,7 @@
     border-radius: 8px;
     border: 2px solid transparent;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
     transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
     text-decoration: none;
     color: inherit;
@@ -217,20 +246,21 @@
     box-sizing: border-box;
     text-align: left;
 }
+
+/* Hover effect for story cards */
 .main-story:hover,
 .substory-1:hover,
 .substory-2:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+    box-shadow: 0 6px 12px rgba(0,0,0,.2);
     border-color: crimson;
 }
 
-/* widths */
-.main-story   { flex: 2; min-width: 0; }
-.substory-1,
-.substory-2   { flex: 1; min-width: 0; }
+/* Card widths */
+.main-story { flex: 2; min-width: 0; }
+.substory-1, .substory-2 { flex: 1; min-width: 0; }
 
-/* ---------- typography ---------- */
+/* Story card typography */
 .main-story-title,
 .substory-title {
     font-size: 22px;
@@ -261,7 +291,7 @@
     font-family: 'Apple Garamond', sans-serif;
 }
 
-/* ---------- main-story image ---------- */
+/* Main story image */
 .main-img {
     width: 100%;
     height: 60%;
@@ -270,17 +300,17 @@
     display: block;
 }
 
-/* ---------- substory-2  (text-wrap + thumb) ---------- */
+/* Substory layout */
 .substory-2 {
     display: flex;
-    flex-direction: column;   /* title → body → author */
+    flex-direction: column;
 }
 
 .substory-body {
-    flex: 1 1 auto;           /* consume remaining height, allow shrink */
+    flex: 1 1 auto;
     display: flex;
     gap: 12px;
-    min-height: 0;            /* enable ellipsis clamping */
+    min-height: 0;
 }
 
 .substory-text-wrap {
@@ -294,13 +324,13 @@
     margin: 0;
     font-size: 16px;
     line-height: 1.4;
-    display: -webkit-box;   /* multi-line ellipsis */
-    -webkit-line-clamp: 4;  /* adjust to taste */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* thumb + author column */
+/* Thumbnail & author column */
 .sub-img-col {
     flex: 0 0 auto;
     display: flex;
@@ -316,12 +346,15 @@
 }
 
 .substory-author-under {
-    margin: 8px 0 0 0;   /* sits directly under thumb */
+    margin: 8px 0 0 0;
     font-size: 12px;
     color: #777;
     text-align: center;
 }
 
+/* ==========================================================================
+   ============================= THIRD CONTAINER ============================
+   ========================================================================== */
 
 .third-container {
     display: flex;
@@ -330,9 +363,9 @@
     width: 100%;
 }
 
-/* ---------- Top-Stories section block ---------- */
+/* Third section block (world news columns) */
 .third-section {
-    display: flex;                 /* 4 equal columns */
+    display: flex;
     width: 90%;
     max-width: 1200px;
     margin: 20px auto;
@@ -344,17 +377,19 @@
     transition: transform .3s ease, box-shadow .3s ease;
     box-sizing: border-box;
 }
+
+/* Hover effect for third section */
 .third-section:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
-/* ---------- 4 equal columns ---------- */
+/* Equal width columns */
 .africa,
 .americas,
 .asia,
 .europe {
-    flex: 1 1 0;                 /* equal width */
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -362,7 +397,7 @@
     list-style: none;
 }
 
-/* ---------- column title ---------- */
+/* Column title */
 .africa h6,
 .americas h6,
 .asia h6,
@@ -377,18 +412,19 @@
     text-align: center;
 }
 
-/* ---------- stories ---------- */
+/* Stories in columns */
 .topmost-story,
 .bottommost-story {
     padding: 10px 0;
-    border-bottom: 1px solid #ddd;   /* separator line */
-}
-.topmost-story:last-child,
-.bottommost-story:last-child {
-    border-bottom: none;             /* remove last line */
+    border-bottom: 1px solid #ddd;
 }
 
-/* optional image sizing */
+.topmost-story:last-child,
+.bottommost-story:last-child {
+    border-bottom: none;
+}
+
+/* Optional image sizing */
 .trend-img {
     width: 100%;
     height: auto;
@@ -396,78 +432,55 @@
     margin-bottom: 8px;
 }
 
-.mainstory-title{
-    font-size: 20px;
-    margin: 5px 0;
-    padding-bottom: 5px;
-    display: inline-block;
-    color: #222;
-    font-family: 'Apple Garamond', sans-serif;
-    font-weight: bold;
-    text-decoration: none;
-}
+/* ==========================================================================
+   ============================= FOURTH CONTAINER ===========================
+   ========================================================================== */
 
-.story-title{
-    font-size: 16px;
-    line-height: 1.4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    font-family: 'Apple Garamond', sans-serif;
-    text-decoration: none;
-}
-
-.story-title:hover, .mainstory-title:hover {
-    text-decoration: underline;
-    color:crimson;
-}
-
-
-.fourth-container{
-    flex-direction: column; /* stack the title on top of the stories */
+.fourth-container {
+    flex-direction: column;
     width: 90%;
     max-width: 1200px;
     margin: 40px auto;
     gap: 20px;
     box-sizing: border-box;
     padding: 40px;
-    padding-top: 40px;
     border: 2px solid lightgray;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     text-align: center;
 }
 
-.fourth-container:hover{
+.fourth-container:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 12px rgba(0,0,0,.2);
 }
 
+/* Fourth container title */
 .fourth-container h6 {
     font-family: 'Audrey', sans-serif;
     color: black;
     font-size: 24px;
     border-bottom: 4px solid crimson;
-    margin: 0 0 20px 0; /* spacing below title */
+    margin: 0 0 20px 0;
     display: inline-block;
 }
 
+/* Article bars */
 .article-wrapper {
     display: flex;
-    flex-direction: column;   /* one bar under another */
-    gap: 16px; 
+    flex-direction: column;
+    gap: 16px;
 }
 
-/* ---------- article bar ---------- */
 .article {
     display: flex;
-    align-items: flex-start;   /* top-align everything */
-    gap: 12px;                 /* space between thumb & text block */
+    align-items: flex-start;
+    gap: 12px;
     padding: 10px;
-    min-height: 100px;          /* same height for every bar */
+    min-height: 100px;
     border: 2px solid #ddd;
     border-radius: 6px;
     background: #fff;
@@ -475,39 +488,39 @@
     color: inherit;
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  }
+}
 
-  .article:hover{
+.article:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 12px rgba(0,0,0,.2);
     border-color: crimson;
-  }
-  
-  .article-thumbnail {
-    width: 140px;              /* fixed thumb width */
+}
+
+.article-thumbnail {
+    width: 140px;
     height: 100px;
-    object-fit: cover;         /* crop, never stretch */
+    object-fit: cover;
     border-radius: 4px;
-    flex: 0 0 auto;            /* don’t grow or shrink */
-  }
-  
-  .article-text-block {
-    flex: 1 1 auto;             /* take remaining width */
+    flex: 0 0 auto;
+}
+
+.article-text-block {
+    flex: 1 1 auto;
     flex-direction: column;
     justify-content: center;
-    gap: 8px;                  /* Add more space between text elements */
+    gap: 8px;
 }
 
 .article-date {
-    margin: 0;                  /* Remove default margin */
+    margin: 0;
     font-size: 13px;
     color: #666;
     text-transform: uppercase;
 }
 
 .article-title {
-    display: inline-block;       /* Ensure underline is only as wide as the title */
-    margin: 4px 0;               /* More space above and below the title */
+    display: inline-block;
+    margin: 4px 0;
     font-size: 18px;
     font-weight: bold;
     color: #000;
@@ -516,23 +529,24 @@
 }
 
 .article-description {
-    margin: 0;                  /* Remove default margin */
+    margin: 0;
     font-size: 15px;
     color: #333;
     line-height: 1.3;
 }
 
 .article-author {
-    margin: 4px 0 0;            /* More space above the author, none below */
+    margin: 4px 0 0;
     font-size: 13px;
     color: #888;
 }
 
-
-/* ===== Footer Section ===== */
+/* ==========================================================================
+   ============================= FOOTER & SUBSCRIBE =========================
+   ========================================================================== */
 
 .subscribe-section {
-    background-color: #f4f4f4; /* soft grey background */
+    background-color: #f4f4f4;
     padding: 40px 20px;
     text-align: center;
     border-radius: 12px;
@@ -541,28 +555,29 @@
     margin: 40px auto;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-.subscribe-section:hover{
+}
+
+.subscribe-section:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
-  
-  .subscribe-section h3 {
+
+.subscribe-section h3 {
     font-size: 1.8rem;
     margin-bottom: 10px;
     color: #333;
     font-family: 'Audrey', sans-serif;
     text-decoration: underline crimson 4px;
-  }
-  
-  .subscribe-section p {
+}
+
+.subscribe-section p {
     font-size: 1rem;
     color: #666;
     margin-bottom: 20px;
     font-family: 'Garamond', sans-serif;
-  }
-  
-  .subscribe-section input[type="email"] {
+}
+
+.subscribe-section input[type="email"] {
     padding: 12px;
     width: 70%;
     max-width: 300px;
@@ -572,30 +587,30 @@
     outline: none;
     transition: border-color 0.3s;
     font-family: 'Garamond', sans-serif;
-  }
-  
-  .subscribe-section input[type="email"]:focus {
-    border-color: #007bff; /* blue highlight */
-  }
-  
-  .subscribe-section button {
+}
+
+.subscribe-section input[type="email"]:focus {
+    border-color: #007bff;
+}
+
+.subscribe-section button {
     padding: 10px 20px;
     margin-left: 10px;
     background-color: black;
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Garamond';
     font-size: 20px;
-  }
-  
-  .subscribe-section button:hover {
-    background-color: crimson; /* darker blue on hover */
-  }
-  
+    cursor: pointer;
+    font-family: 'Garamond';
+    transition: background-color 0.3s;
+}
+
+.subscribe-section button:hover {
+    background-color: crimson;
+}
+
+/* Footer styling */
 .footer {
     background-color: #111;
     color: white;
@@ -614,4 +629,3 @@
 .footer a:hover {
     text-decoration: underline;
 }
-

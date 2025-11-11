@@ -1,23 +1,25 @@
+// ===== Navigation Button Functionality =====
 const navButtons = document.querySelectorAll('.nav-btn');
-  const sections = document.querySelectorAll('section');
+const sections = document.querySelectorAll('section');
 
-  navButtons.forEach(button => {
+navButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Remove "active" from all buttons and sections
-      navButtons.forEach(btn => btn.classList.remove('active'));
-      sections.forEach(sec => sec.classList.remove('active'));
+        // Remove "active" class from all buttons and sections
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
 
-      // Add "active" to clicked button and corresponding section
-      button.classList.add('active');
-      const targetId = button.dataset.target;
-      document.getElementById(targetId).classList.add('active');
+        // Add "active" to clicked button and corresponding section
+        button.classList.add('active');
+        const targetId = button.dataset.target; // get target section id
+        document.getElementById(targetId).classList.add('active');
     });
-  });
+});
 
 
-  // Stock Exchange Live Data
+// ===== Stock Exchange Live Data =====
 document.addEventListener("DOMContentLoaded", function() {
-    // Display current date
+
+    // Display current date in the format: Month Day, Year
     const dateElement = document.querySelector(".date");
     if (dateElement) {
         const today = new Date();
@@ -32,10 +34,12 @@ document.addEventListener("DOMContentLoaded", function() {
     navButtons.forEach(button => {
         button.addEventListener('click', () => {
             const target = button.getAttribute('data-target');
-            
+
+            // Remove "active" from all buttons and sections
             navButtons.forEach(btn => btn.classList.remove('active'));
             sections.forEach(section => section.classList.remove('active'));
-            
+
+            // Add "active" to clicked button and target section
             button.classList.add('active');
             document.getElementById(target).classList.add('active');
         });
@@ -43,11 +47,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Stock Exchange API Integration
     const API_KEY = 'A013U359DE2M782C'; // Get free key from alphavantage.co
-    const USE_DEMO_DATA = false; 
-    
+    const USE_DEMO_DATA = false;        // Set true to use demo data for testing
+
+    // List of stock symbols to display
     const stockSymbols = ['SPY', 'AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA', 'BTC-USD', 'GLD'];
-    
-    // Demo data for development (remove when using real API)
+
+    // Generate demo stock data with random price fluctuations
     function generateDemoStockData() {
         return stockSymbols.map(symbol => {
             const basePrice = {
@@ -60,10 +65,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 'BTC-USD': 43250.00,
                 'GLD': 185.90
             };
-            
-            const price = basePrice[symbol] + (Math.random() - 0.5) * 10;
-            const change = (Math.random() - 0.5) * 5;
-            
+
+            const price = basePrice[symbol] + (Math.random() - 0.5) * 10; // small random fluctuation
+            const change = (Math.random() - 0.5) * 5; // change in price
             return {
                 symbol: symbol,
                 price: price.toFixed(2),
@@ -73,24 +77,23 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Update the stock ticker with either demo or real API data
     function updateStockTicker() {
         const tickerContainer = document.getElementById('stock-ticker');
         if (!tickerContainer) return;
 
-        let stockData;
-        
         if (USE_DEMO_DATA) {
-            // Use demo data
-            stockData = generateDemoStockData();
+            // Use demo data for development/testing
+            const stockData = generateDemoStockData();
             displayStocks(stockData);
         } else {
-            // Use real API (requires API key)
+            // Fetch real data from API
             fetchRealStockData().then(data => {
                 displayStocks(data);
             });
         }
 
-        // Update last updated time
+        // Update the "last updated" timestamp
         const lastUpdated = document.getElementById('last-updated');
         if (lastUpdated) {
             const now = new Date();
@@ -98,17 +101,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Render the stock ticker HTML
     function displayStocks(stockData) {
         const tickerContainer = document.getElementById('stock-ticker');
-        
-        // Duplicate stocks for seamless infinite scroll
+
+        // Duplicate data for infinite scroll effect
         const duplicatedData = [...stockData, ...stockData];
-        
+
         tickerContainer.innerHTML = duplicatedData.map(stock => {
-            const changeClass = parseFloat(stock.changePercent) > 0 ? 'positive' : 
+            const changeClass = parseFloat(stock.changePercent) > 0 ? 'positive' :
                                parseFloat(stock.changePercent) < 0 ? 'negative' : 'neutral';
             const changeSign = parseFloat(stock.changePercent) > 0 ? '+' : '';
-            
+
             return `
                 <div class="stock-item">
                     <span class="stock-symbol">${stock.symbol}</span>
@@ -121,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }).join('');
     }
 
-    // Real API function (uncomment and use when you have API key)
+    // Fetch real stock data from Alpha Vantage API
     async function fetchRealStockData() {
         const promises = stockSymbols.map(async (symbol) => {
             try {
@@ -130,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
                 const data = await response.json();
                 const quote = data['Global Quote'];
-                
+
                 return {
                     symbol: symbol,
                     price: parseFloat(quote['05. price']).toFixed(2),
@@ -142,18 +146,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 return null;
             }
         });
-        
+
         const results = await Promise.all(promises);
         return results.filter(r => r !== null);
     }
 
-    // Initialize and update every 10 seconds
+    // Initial stock ticker update and auto-refresh every 10 seconds
     updateStockTicker();
-    setInterval(updateStockTicker, 10000); // Update every 10 seconds
+    setInterval(updateStockTicker, 10000);
 });
 
+
+// ===== Thread Forum Functionality =====
 import { getAllThreads, addThread } from './persist.js';
 
+// Build HTML card for a single thread
 function buildCard(t) {
     return `
     <a href="thread.html?id=${t.id}" class="thread-card">
@@ -170,23 +177,30 @@ function buildCard(t) {
     </a>`;
 }
 
+// Render all threads in the container
 function renderThreads() {
     const container = document.querySelector('#news .tab-content');
-    container.innerHTML = '';                     // clear static placeholders
+    container.innerHTML = ''; // Clear previous static placeholders
     getAllThreads().forEach(t => container.insertAdjacentHTML('beforeend', buildCard(t)));
 }
 
+// Handle new thread form submission
 document.getElementById('new-thread-form').addEventListener('submit', e => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload
+
     const title   = document.getElementById('new-thread-title').value.trim();
     const author  = document.getElementById('new-thread-name').value.trim();
     const content = document.getElementById('new-thread-content').value.trim();
-    if (!title || !author || !content) return;
-    addThread({ title, author, content });
-    e.target.reset();
-    renderThreads();          // show immediately in “New”
-    // optional: switch to the “New” tab
+
+    if (!title || !author || !content) return; // Validate input
+
+    addThread({ title, author, content }); // Save thread
+    e.target.reset();                     // Reset form fields
+    renderThreads();                       // Immediately show new thread
+
+    // Optionally switch to the "News" tab after adding a thread
     document.querySelector('[data-target="news"]').click();
 });
-renderThreads();   // initial load
 
+// Initial rendering of threads on page load
+renderThreads();

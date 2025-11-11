@@ -1,16 +1,16 @@
+/* ===== Custom Fonts ===== */
 @font-face {
     font-family: Newsroom; /* set name */
-    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* font URL */
 }
 
-
-/* Header styles */
+/* ===== Header Styles ===== */
 .header {
     background-color: white;
-    padding: 10px 10px;
+    padding: 10px;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
+    flex-direction: column; /* stack children vertically */
+    align-items: center;    /* center horizontally */
     position: relative;
 }
 
@@ -22,6 +22,7 @@
     text-align: center;
     text-decoration: underline black;
 }
+
 .date-container {
     position: absolute;
     top: 10px;
@@ -35,61 +36,59 @@
     font-style: italic;
 }
 
-
-
-/* Navbar styles */
+/* ===== Navbar Styles ===== */
 .navbar {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 40px; /* Adds spacing between links */
+    display: flex;
+    gap: 40px;
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
-    align-items: center; /* Vertically centers items */
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    border-bottom: 2px solid black; /* Line below the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
+    border-bottom: 2px solid black;
+    padding: 10px 0;
 }
 
 .nav-link {
     color: black;
     text-decoration: none;
 }
+
 .nav-link:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-/* News Ticker styles */
+/* ===== News Ticker ===== */
 .news-ticker {
     width: 100%;
-    overflow: hidden;      /* hide overflowing text */
-    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    background-color: #fff;
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;  /* prevents line breaks */
+    white-space: nowrap;
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+    border-bottom: 2px solid black;
 }
 
 .news-ticker p {
     display: inline-block;
-    white-space: nowrap;   /* prevents line breaks */
-    padding-left: 100%;       /* start on-screen from the left */
-    animation: scroll-right 20s linear infinite; /* Use a new animation */
+    white-space: nowrap;
+    padding-left: 100%; /* start off-screen */
+    animation: scroll-right 20s linear infinite;
 }
-  
+
 @keyframes scroll-right {
-    0% { transform: translateX(0); } /* Start off-screen to the left */
-    100% { transform: translateX(-100%); }   /* End on-screen to the right */
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
-
-
+/* ===== Main Container ===== */
 .main-container {
     display: flex;
     flex-direction: column;
@@ -112,6 +111,7 @@
     margin-bottom: 30px;
 }
 
+/* ===== Search Form ===== */
 #search-form {
     width: 100%;
     display: flex;
@@ -119,8 +119,8 @@
 }
 
 #search-input {
-    width: 90%; /* stretches almost full width */
-    max-width: 1200px; /* optional max width */
+    width: 90%;
+    max-width: 1200px;
     padding: 10px 20px;
     font-size: 18px;
     border: 2px solid black;
@@ -129,80 +129,72 @@
     box-sizing: border-box;
 }
 
+/* ===== Section Navigation ===== */
 nav {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 40px; /* Adds spacing between links */
+    display: flex;
+    gap: 40px;
     font-size: 28px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
-    align-items: center; /* Vertically centers items */
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
-    margin-top: 30px;
-    margin-bottom: -20px;
-  }
+    padding: 10px 0;
+    margin: 30px 0 -20px 0;
+}
 
-  nav button {
+nav button {
     background: none;
     border: none;
-    color: crimson;
-    font-size: 1rem;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    display: flex; /* Makes this a flex container if needed */
-    gap: 80px; /* Adds spacing between links */
+    color: black;
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
-    color: black;
-    align-items: center; /* Vertically centers items */
-    text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0;
+    cursor: pointer;
+}
 
-  nav button:hover {
+nav button:hover,
+nav button.active {
     color: crimson;
     text-decoration: underline;
-  }
+}
 
-  nav button.active {
-    color: crimson;
-text-decoration: underline;
-  }
-
-   /* Page sections */
-  section {
+/* ===== Page Sections ===== */
+section {
     display: none;
     padding: 2px;
-    max-width: none;
     margin: 20px;
-  }
+}
 
-  section.active {
+section.active {
     display: block;
     animation: fadeIn 0.3s ease-in-out;
-  }
+}
 
-  @keyframes fadeIn {
+@keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-  }
+}
 
-  .second-container{
-    flex-direction: column; /* stack the title on top of the stories */
+/* ===== Containers ===== */
+.second-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    max-width: none;
     margin-bottom: 40px;
-  }
+}
 
-
-/* ---------- tab content wrapper ---------- */
+/* ===== Tab Content ===== */
 .tab-content {
     display: flex;
     flex-direction: column;
-    max-width: none;          /* remove max-width restriction */
-    padding: 40px;       /* more horizontal padding inside */
+    max-width: none;
+    padding: 40px;
     border: 2px solid lightgray;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,.1);
@@ -210,17 +202,17 @@ text-decoration: underline;
     align-items: center;
 }
 
-/* cards will expand to fill the wider container */
+/* ===== Thread Cards ===== */
 .thread-card {
-    width: 100%;              /* takes full width of parent container */
-    max-width: none;          /* remove max-width restriction for full expansion */
+    width: 100%;
+    max-width: none;
     margin: 0 auto 16px auto;
-    padding: 30px;       /* slightly more padding */
+    padding: 30px;
     border: 1px solid #ddd;
     border-radius: 6px;
     background: #f9f9f9;
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
     transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     box-sizing: border-box;
 }
@@ -231,13 +223,31 @@ text-decoration: underline;
     border-color: crimson;
 }
 
+.thread-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.thread-header i {
+    color: crimson;
+    font-size: 18px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.thread-card:hover .thread-header i {
+    transform: scale(1.2);
+    color: darkred;
+}
+
 .thread-title {
     font-family: 'Apple Garamond', sans-serif;
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 8px 0;
-    display: inline-block;
     border-bottom: 2px solid crimson;
+    display: inline-block;
 }
 
 .thread-blurb {
@@ -251,40 +261,23 @@ text-decoration: underline;
     overflow: hidden;
 }
 
-.thread-meta, .thread-time, .thread-reply, .thread-author {
+.thread-meta,
+.thread-time,
+.thread-reply,
+.thread-author {
     font-size: 13px;
     color: #777;
     margin: 0;
 }
 
-.thread-header {
-    display: flex;
-    justify-content: space-between; /* title left, icon right */
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.thread-header i {
-    color: crimson;
-    font-size: 18px;
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-/* subtle hover interaction */
-.thread-card:hover .thread-header i {
-    transform: scale(1.2);
-    color: darkred;
-}
-
-
-/* ===== Live Stock Exchange Container ===== */
+/* ===== Stock Exchange ===== */
 .stock-exchange-container {
     width: 90%;
     background-color: white;
     border: 2px solid lightgray;
     border-radius: 8px;
     padding: 15px 0;
-    margin: 20;
+    margin: 20px auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -302,7 +295,6 @@ text-decoration: underline;
     font-size: 22px;
     color: black;
     margin: 0;
-    display: inline-block;
     border-bottom: 3px solid crimson;
     padding-bottom: 5px;
 }
@@ -392,12 +384,11 @@ text-decoration: underline;
     background-color: #e9ecef;
 }
 
-/* Pause animation on hover */
 .stock-ticker-wrapper:hover .stock-ticker {
     animation-play-state: paused;
 }
 
-
+/* ===== Forms ===== */
 .form-group {
     margin-bottom: 15px;
 }
@@ -447,6 +438,7 @@ text-decoration: underline;
     background-color: darkred;
 }
 
+/* ===== New Thread Form ===== */
 .new-thread-form {
     background: white;
     border: 1px solid #ddd;
@@ -458,7 +450,7 @@ text-decoration: underline;
     margin: 40px auto 0 auto;
 }
 
-.new-thread-form h3{
+.new-thread-form h3 {
     font-family: 'Audrey', sans-serif;
     font-size: 20px;
     color: black;

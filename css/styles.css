@@ -1,38 +1,60 @@
+/* =========================================================
+   ================== FONT IMPORT =========================
+   ========================================================= */
 @font-face {
-    font-family: Newsroom; /* set name */
-    src: url(https://fonts.google.com/specimen/Newsreader); /* url of the font */
+    font-family: Newsroom; /* Custom headline font */
+    src: url(https://fonts.google.com/specimen/Newsreader); /* Font source */
 }
 
-/* For single-line truncation */
+/* =========================================================
+   ================== GLOBAL STYLES =======================
+   ========================================================= */
 .main-content a,
 .trending-list li a,
 .main-content p {
     overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent text from wrapping to next line */
+    white-space: nowrap;     /* Prevent wrapping */
     text-overflow: ellipsis; /* Show "..." for overflowing text */
 }
 
-/* ===== Unified Container Width Control ===== */
 .main-container,
 .secondary-container,
 .third-container {
     width: 100%;
-    max-width: 2000px;      /* Consistent visual width across all sections */
-    margin: 20px auto;      /* Centers horizontally and adds equal vertical spacing */
-    padding: 0 20px;        /* Same left-right padding for all */
-    box-sizing: border-box; /* Prevents borders/padding from changing total width */
+    max-width: 2000px;      /* Consistent container width */
+    margin: 20px auto;      /* Center horizontally, equal spacing vertically */
+    padding: 0 20px;        /* Consistent horizontal padding */
+    box-sizing: border-box; /* Prevent padding/border from increasing total width */
 }
 
-
-
-/* Header styles */
+/* =========================================================
+   ====================== HEADER ==========================
+   ========================================================= */
 .header {
     background-color: white;
     padding: 30px 20px;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
+    flex-direction: column;  /* Stack children vertically */
+    align-items: center;     /* Center children horizontally */
     position: relative;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 70px;
+    font-family: 'Newsroom';
+    color: crimson;
+    text-align: center;
+    text-decoration: underline black 10px;
+}
+
+.header p {
+    margin: 5px 0 0;
+    font-size: 18px;
+    font-family: 'Apple Garamond Light', sans-serif;
+    text-align: center;
+    color: black;
+    font-style: italic;
 }
 
 .date-container {
@@ -48,89 +70,72 @@
     font-style: italic;
 }
 
-
-.header h1 {
-    margin: 0;
-    font-size: 70px;
-    font-family: 'Newsroom';
-    color: crimson;
-    text-align: center;
-    text-decoration: underline black 10px;
-}
-
-
-.header p {
-    margin: 5px 0 0; /* Add some spacing above the paragraph */
-    font-size: 18px;
-    font-family: 'Apple Garamond Light', sans-serif;
-    text-align: center; /* Center the text */
-    color: black;
-    font-style: italic;
-}
-
-
-/* Navbar styles */
+/* =========================================================
+   ====================== NAVBAR ==========================
+   ========================================================= */
 .navbar {
-    display: flex; /* Makes this a flex container if needed */
-    gap: 40px; /* Adds spacing between links */
+    display: flex;
+    gap: 40px;               /* Space between nav links */
     font-size: 24px;
     font-family: 'Audrey', sans-serif;
     color: cornsilk;
-    align-items: center; /* Vertically centers items */
-    text-align: center;
-    justify-content: center; /* Horizontally centers the navbar */
-    border-bottom: 2px solid black; /* Line below the navbar */
-    padding: 10px 0; /* Adds spacing inside the navbar */
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    border-bottom: 2px solid black;
+    padding: 10px 0;
 }
 
 .nav-link {
     color: black;
     text-decoration: none;
 }
+
 .nav-link:hover {
     color: crimson;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
-/* News Ticker styles */
+/* =========================================================
+   ====================== NEWS TICKER =====================
+   ========================================================= */
 .news-ticker {
     width: 100%;
-    overflow: hidden;      /* hide overflowing text */
-    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    background-color: #fff;
     color: crimson;
     padding: 5px 0;
-    white-space: nowrap;  /* prevents line breaks */
+    white-space: nowrap;
     box-sizing: border-box;
     position: relative;
     font-family: 'Oregon LDO', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid black; /* Adds a black border around the news ticker */
+    border-bottom: 2px solid black;
 }
 
 .news-ticker p {
     display: inline-block;
-    white-space: nowrap;   /* prevents line breaks */
-    padding-left: 100%;       /* start on-screen from the left */
-    animation: scroll-right 20s linear infinite; /* Use a new animation */
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: scroll-right 20s linear infinite;
 }
-  
+
 @keyframes scroll-right {
-    0% { transform: translateX(0); } /* Start off-screen to the left */
-    100% { transform: translateX(-100%); }   /* End on-screen to the right */
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
-
-/* Container for the main content and trending section */
+/* =========================================================
+   =================== MAIN CONTAINER =====================
+   ========================================================= */
 .main-container {
     display: grid;
     grid-template-columns: 66.66% 33.33%;
     gap: 10px;
-    box-sizing: border-box; /* keep this */
+    box-sizing: border-box;
 }
 
-
-/* Main content styles */
+/* ------------------- Main Content ----------------------- */
 .main-content {
     background-color: white;
     padding: 20px;
@@ -139,7 +144,6 @@
     margin: 20px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
@@ -154,46 +158,42 @@
     height: 700px;
     object-fit: cover;
     border-radius: 4px;
-    display: block;
 }
 
-
-/* Main content link box */
 .main-content a {
-    text-decoration: none; 
+    position: absolute;
+    bottom: 100px;
+    left: 20px;
     width: 90%;
-    color: black; 
-    font-weight: bold; 
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 4px;
     font-size: 40px;
+    font-weight: bold;
     font-family: 'Apple Garamond', sans-serif;
-    position: absolute; 
-    bottom: 100px; 
-    left: 20px; 
-    background-color: rgba(255, 255, 255, 0.8); 
-    padding: 10px; 
-    border-radius: 4px; 
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent wrapping */
-    text-overflow: ellipsis; /* Show ... for overflow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; /* Smooth hover */
+    color: black;
+    text-decoration: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
 
 .main-content a:hover {
-    transform: scale(1.02);  /* Slightly enlarge on hover */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow */
-    color: crimson; 
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    color: crimson;
     text-decoration: underline;
 }
 
-
 .text-container {
-    display: flex;               /* Use flexbox layout */
-    justify-content: space-between; /* Push left and right text apart */
-    align-items: flex-start;     /* Align text at the top */
-    width: 100%;                 /* Fit inside main content box */
-    flex-wrap: wrap;             /* Allow wrapping on small screens */
-    gap: 10px;                   /* Optional spacing between left and right */
+    display: flex;
     flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
 }
 
 .author {
@@ -201,124 +201,107 @@
     font-family: 'Apple Garamond Light', sans-serif;
     color: #666;
     margin: 0;
-    text-align: left;
 }
 
 .description {
     font-size: 18px;
     font-family: 'Apple Garamond', sans-serif;
-    color: #444;;
+    color: #444;
     margin: 0;
-    text-align: left;
-    max-width: 50%; /* Keeps it from stretching too wide */
-    overflow: hidden;        /* Hide overflowing text */
-    white-space: nowrap;     /* Prevent wrapping */
+    max-width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
-
 }
 
-
-/* Trending Content styles */
+/* ------------------- Trending Content ------------------- */
 .trending {
-    background-color: #fefefe; /* Slightly off-white for a softer look */
+    background-color: #fefefe;
     padding: 20px;
-    border: 2px solid lightgray; /* Add a full border for a clean box effect */
-    border-radius: 8px; /* Rounded corners for a modern look */
+    border: 2px solid lightgray;
+    border-radius: 8px;
     text-align: center;
     color: black;
-    font-family: 'Audrey', sans-serif; /* Ensure a fallback font is provided */
+    font-family: 'Audrey', sans-serif;
     font-size: 24px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px 0; /* Add spacing above and below the section */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-    overflow: hidden; /* Prevent content from bleeding outside */
-    
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.trending h3{
-    border-bottom: 4px solid crimson; /* line below text */
-    padding-bottom: 10px;  
-    display: inline-block;      /* Shrinks element to fit text */
-}
-
-/* Hover effect for the trending section */
 .trending:hover {
-    transform: scale(1.02); /* Slightly enlarge the section on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* Trending list styles */
+.trending h3 {
+    border-bottom: 4px solid crimson;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
 .trending-list {
-    list-style-type: none; /* Remove default bullet points */
-    padding: 0; /* Remove default padding */
-    margin: 10px 0; /* Add spacing above the list */
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
 }
 
 .trending-list li {
-    display: flex; /* Align image and text horizontally */
-    align-items: center; /* Vertically center the image and text */
-    background-color: #f9f9f9; /* Light background for the box */
-    border: 1px solid #ddd; /* Add a light border around the box */
-    border-radius: 8px; /* Rounded corners for the box */
-    padding: 10px; /* Add spacing inside the box */
-    margin-bottom: 10px; /* Add spacing between boxes */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .trending-list li:hover {
-    transform: scale(1.02); /* Slightly enlarge the box on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     border-color: crimson;
 }
 
 .trend-img {
-    width: 100px; /* Set a fixed width for the image */
-    height: 100px; /* Set a fixed height for the image */
-    margin-right: 15px; /* Add spacing between the image and text */
+    width: 100px;
+    height: 100px;
     object-fit: cover;
+    margin-right: 15px;
 }
 
 .trending-list li a {
-    text-decoration: none; /* Remove underline from links */
-    color: black; /* Match the color of the section */
-    font-weight: bold; /* Make the links stand out */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
-    font-size: 22px; /* Slightly smaller font size for links */
-    font-family: 'Apple Garamond', sans-serif; /* Ensure a fallback font is provided */
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-family: 'Apple Garamond', sans-serif;
+    font-size: 22px;
+    transition: color 0.3s ease;
 }
 
 .trending-list li a:hover {
-    color: crimson; /* Change color on hover for interactivity */
+    color: crimson;
     text-decoration: underline;
 }
 
-/* Secondary Container */
-.secondary-container {
-    display: grid;
-    gap: 10px;
-    box-sizing: border-box;
-}
-
-
-/* Latest styles */
+/* =========================================================
+   ====================== LATEST ==========================
+   ========================================================= */
 .latest {
-    background-color: #fefefe; /* Slightly off-white for a softer look */
+    background-color: #fefefe;
     padding: 20px;
-    border: 2px solid lightgray; /* Add a full border for a clean box effect */
-    border-radius: 8px; /* Rounded corners for a modern look */
+    border: 2px solid lightgray;
+    border-radius: 8px;
     text-align: center;
-    color: black;
-    font-family: 'Audrey', sans-serif; /* Ensure a fallback font is provided */
+    font-family: 'Audrey', sans-serif;
     font-size: 24px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px 0; /* Add spacing above and below the section */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-    overflow: hidden; /* Prevent overflow */
-    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.latest:hover{
+.latest:hover {
     transform: scale(1.03);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
@@ -328,123 +311,12 @@
     margin-bottom: 15px;
     border-bottom: 4px solid crimson;
     padding-bottom: 10px;
-    display: inline-block;      /* Shrinks element to fit text */
-
+    display: inline-block;
 }
 
-.top-stories-wrapper {
-    width: 100%;
-    position: relative;
-    margin-top: 10px;
-}
-
-.top-stories {
-    display: flex;             /* Align stories horizontally */
-    transition: transform 0.5s ease-in-out; /* Smooth sliding */
-    will-change: transform; /* Optimize animation performance */
-}
-
-.story {
-    flex: 0 0 20%; /* 5 stories per view (100% / 5 = 20%) */
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 14px;
-    font-family: 'Apple Garamond', sans-serif;
-    min-width: 0; /* Allows flex items to shrink below content size */
-    background-color: #f9f9f9;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    margin: 0 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.story:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    border-color: crimson;
-}
-
-.story a {
-    display: block;
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
-    -webkit-box-orient: vertical;
-    white-space: normal;
-    line-height: 1.3;
-    min-height: 35px; /* Consistent height for all links */
-    transition: color 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.8); 
-    font-family: 'Apple Garamond', sans-serif;
-    font-size: 18px;
-    border-top: crimson 2px solid;
-}
-
-.story a:hover {
-    color: crimson;
-    text-decoration: underline;
-}
-
-.story-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-}
-
-
-
-
-/* ===== Container Wrapper ===== */
-.third-container {
-    background-color: #ffffff;
-    border: 2px solid lightgray;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 20px;
-    width: 100%;
-    max-width: 1425px;  /* smaller width */
-    margin: 20px auto;  /* keep it centered */
-    padding: 20px;
-    text-align: center;
-}
-
-
-.third-container:hover{
-    transform: scale(1.02); /* Slightly enlarge the section on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
-}
-
-/* ===== Section Title ===== */
-.third-title {
-    display: inline-block;              /* shrink to fit text width */
-    border-bottom: 4px solid crimson;   /* thicker line for visibility */
-    padding-bottom: 10px;
-    text-align: center;                 /* keeps text centered */
-    font-size: 28px;
-    margin: 0 auto 25px auto;           /* centers the inline-block */
-    color: #222;
-    font-family: 'Audrey', sans-serif;
-}
-
-
-/* ===== Section ===== */
-.third-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 20px;
-  width: 100%;
-  text-align: center;
-}
-
-
-/* ===== Each Story Box ===== */
+/* =========================================================
+   ===================== EDITORS PICK =====================
+   ========================================================= */
 .editors-pick,
 .editors-pick-1,
 .editors-pick-2,
@@ -452,15 +324,11 @@
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .editors-pick:hover,
@@ -473,122 +341,77 @@
 }
 
 .editor-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  max-width: 100%;
-  border-radius: 0; /* optional: prevent extra rounding */
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
-
-.pick-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1 1 33.33%;
-  max-width: 33.33%;
-  box-sizing: border-box;
-}
-
-
-
-/* ===== Caption ===== */
-.editor-pick-caption-1, .editor-pick-caption-2, .editor-pick-caption-3 {
+/* Caption below editor picks */
+.editor-pick-caption-1,
+.editor-pick-caption-2,
+.editor-pick-caption-3 {
     display: block;
     text-decoration: none;
-    color: #000;
+    color: black;
     font-family: 'Apple Garamond', sans-serif;
     font-size: 18px;
     font-weight: bold;
     padding: 15px;
-    background-color: #f4f4f4;;
+    background-color: #f4f4f4;
+    border-top: 2px solid crimson;
     transition: color 0.3s ease;
-    border-top: crimson 2px solid;
 }
 
-
-
-.editor-pick-caption-1:hover, .editor-pick-caption-2:hover, .editor-pick-caption-3:hover {
+.editor-pick-caption-1:hover,
+.editor-pick-caption-2:hover,
+.editor-pick-caption-3:hover {
     color: crimson;
     text-decoration: underline;
 }
 
-.comment-1, .comment-3{
+/* =========================================================
+   ===================== COMMENTS =========================
+   ========================================================= */
+.comment-1,
+.comment-2,
+.comment-3 {
     font-size: 30px;
     font-style: italic;
-    padding: 30px;
     color: #666;
     font-family: 'Apple Garamond', sans-serif;
     min-height: 50px;
-    text-align: bottom;
-    border-top: 2px solid crimson; /* line below text */
-    padding-bottom: 50px;  
+    padding: 30px;
+    text-align: center;
+}
+
+.comment-1,
+.comment-3 {
+    border-top: 2px solid crimson;
+    padding-bottom: 50px;
 }
 
 .comment-2 {
-    font-size: 30px;
-    font-style: italic;
-    padding:0px;
-    color: #666;
-    font-family: 'Apple Garamond', sans-serif;
-    min-height: 50px;
-    text-align: top;
-    border-bottom: 2px solid crimson; /* line below text */
-    padding-bottom: 30px;   
+    border-bottom: 2px solid crimson;
+    padding-bottom: 30px;
 }
 
-
-.comment-author-1, .comment-author-2, .comment-author-3 {
-    text-align: center;
+.comment-author-1,
+.comment-author-2,
+.comment-author-3 {
     display: block;
+    text-align: center;
     margin-top: 8px;
     font-size: 20px;
-    font-family: 'Audrey', sans-serif; /* or any other font you like */
-    font-style: normal;
-    color: crimson;
-  }
-
-  
-
-
-
-/* ===== Fourth Container ===== */
-/* Container for the main content and trending section */
-.fourth-container {
-    background-color: #ffffff;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 20px;
-    width: 95%;
-    max-width: 1425px;  /* smaller width */
-    margin: 20px auto;  /* keep it centered */
-    padding: 20px;
-    text-align: center;
-}
-
-.fourth-container:hover{
-    transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-.fourth-container h4{
-    display: inline-block;              /* shrink to fit text width */
-    border-bottom: 4px solid crimson;   /* thicker line for visibility */
-    padding-bottom: 10px;
-    text-align: center;                 /* keeps text centered */
-    font-size: 28px;
-    margin: 0 auto 25px auto;           /* centers the inline-block */
-    color: #222;
     font-family: 'Audrey', sans-serif;
+    color: crimson;
 }
 
-
-.live-section{
+/* =========================================================
+   ====================== LIVE SECTION ====================
+   ========================================================= */
+.live-section {
     display: flex;
-    flex-direction: row-reverse; /* puts video on the right, comments on the left */
+    flex-direction: row-reverse; /* Video right, comments left */
     height: 500px;
     width: 100%;
     background-color: #f4f4f4;
@@ -600,264 +423,144 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-  }
+}
 
-  .video-box iframe {
+.video-box iframe {
     width: 90%;
     height: 90%;
     border-radius: 10px;
-  }
+}
 
-
-  .comments-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #f4f4f4;
-  color: white;
-  border: 2px solid crimson;
-  border-radius: 8px;
-  box-sizing: border-box; /* Include padding and border in total size */
-  overflow: hidden; /* Prevent content from bleeding out */
-  padding-top: 0px;
+.comments-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid crimson;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .comments-box h3 {
-  display: inline-block;
-  border-bottom: 4px solid crimson;
-  padding-bottom: 0px;
-  text-align: center;
-  font-size: 28px;
-  margin: 0 auto 10px auto;
-  color: black;
-  font-family: 'Audrey', sans-serif;
-  padding-top: 5px;
+    display: inline-block;
+    border-bottom: 4px solid crimson;
+    text-align: center;
+    font-size: 28px;
+    margin: 0 auto 10px auto;
+    font-family: 'Audrey', sans-serif;
 }
 
-/* ===== CRITICAL: Chat Messages Container ===== */
+/* Chat Messages */
 .chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-  margin-bottom: 10px;
-  background-color: #000000; /* Black background */
-  border-radius: 8px;
-  padding: 10px;
-  color: #ffffff; /* White text */
-  font-family: 'Apple Garamond', sans-serif;
-  text-align: left;
-  min-height: 300px; /* Ensure minimum height */
-  max-height: 400px; /* Prevent excessive growth */
-  display: block; /* Ensure it's visible */
-  position: relative;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #000;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: 'Apple Garamond', sans-serif;
+    color: #fff;
+    min-height: 300px;
+    max-height: 400px;
 }
 
-/* ===== Individual Chat Messages ===== */
+/* Chat Message Individual */
 .chat-message {
-  padding: 8px 12px;
-  margin-bottom: 6px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  line-height: 1.5;
-  background-color: transparent;
-  color: #ffffff; /* Ensure white text */
-  word-wrap: break-word;
-  word-break: break-word;
-  /* CRITICAL: Make sure messages are visible */
-  opacity: 1 !important;
-  visibility: visible !important;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    line-height: 1.5;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    word-wrap: break-word;
 }
 
-.chat-message:hover {
-  background-color: #2a2a2a;
-}
-
-/* User's own messages */
 .chat-message.own-message {
-  background-color: #1a1a1a;
-  border-left: 3px solid crimson;
+    background-color: #1a1a1a;
+    border-left: 3px solid crimson;
 }
 
-/* ===== Message Header (Username + Timestamp) ===== */
 .message-header {
-  flex-shrink: 0;
-  margin-right: 8px;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
 }
 
 .message-header strong {
-  color: crimson; /* Red username */
-  font-weight: bold;
-  font-family: 'Apple Garamond', sans-serif;
-  font-size: 14px;
+    color: crimson;
+    font-weight: bold;
+    font-family: 'Apple Garamond', sans-serif;
+    font-size: 14px;
 }
 
-/* ===== Message Text Content ===== */
 .message-text {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap; /* Preserve line breaks */
-  flex: 1;
-  min-width: 0;
-  font-family: 'Apple Garamond', sans-serif;
-  color: #ffffff; /* White text */
-  font-size: 14px;
-  line-height: 1.4;
+    white-space: pre-wrap;
+    flex: 1;
+    min-width: 0;
+    font-family: 'Apple Garamond', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
-/* ===== Timestamp ===== */
 .timestamp {
-  font-size: 11px;
-  color: #999999; /* Gray timestamp */
-  margin-left: 8px;
-  flex-shrink: 0;
-  font-family: 'Apple Garamond Light', sans-serif;
+    font-size: 11px;
+    color: #999;
+    margin-left: 8px;
+    flex-shrink: 0;
 }
 
-/* ===== Character Counter ===== */
-.character-counter {
-  font-size: 12px;
-  color: #666;
-  text-align: right;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0px;
-  display: none; /* Hidden by default */
-  font-family: 'Apple Garamond', sans-serif;
-  flex-shrink: 0; /* Prevent counter from shrinking */
-}
-
-.character-counter.warning {
-  color: #ff6b6b;
-  font-weight: bold;
-}
-
-/* ===== Input and Button ===== */
+/* Input and Buttons */
 .comments-box input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  outline: none;
-  margin-bottom: 10px;
-  font-family: 'Apple Garamond', sans-serif;
-  font-size: 14px;
-  background-color: #ffffff;
-  color: #000000;
-  box-sizing: border-box; /* Include padding in width calculation */
-}
-
-.comments-box input:focus {
-  border-color: crimson;
-  box-shadow: 0 0 5px rgba(220, 20, 60, 0.3);
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: 'Apple Garamond', sans-serif;
 }
 
 .comments-box button {
-  background-color: #000000;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: 'Audrey', sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100%; /* Full width button */
-  box-sizing: border-box; /* Include padding in width calculation */
-  flex-shrink: 0; /* Prevent button from shrinking */
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Audrey', sans-serif;
+    font-weight: bold;
 }
 
 .comments-box button:hover {
-  background-color: crimson;
+    background-color: crimson;
 }
 
-.comments-box button:active {
-  transform: scale(0.98);
-}
-
-/* ===== Scrollbar Styling for Chat ===== */
+/* Scrollbar Styling */
 .chat-messages::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 .chat-messages::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 4px;
+    background: #1a1a1a;
+    border-radius: 4px;
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 4px;
+    background: #444;
+    border-radius: 4px;
 }
 
 .chat-messages::-webkit-scrollbar-thumb:hover {
-  background: crimson;
+    background: crimson;
 }
 
-/* ===== Loading State ===== */
-.chat-messages:empty::before {
-  content: "Chat loading...";
-  display: block;
-  text-align: center;
-  color: #666;
-  padding: 20px;
-  font-style: italic;
-  font-family: 'Apple Garamond', sans-serif;
-}
-
-/* ===== Responsive Adjustments ===== */
-@media (max-width: 900px) {
-  .live-section {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .comments-box {
-    order: 2; /* Chat below video on mobile */
-    min-height: 400px;
-  }
-
-  .video-box {
-    order: 1;
-    min-height: 300px;
-  }
-}
-
-/* ===== Debug Helper (Remove in production) ===== */
-.chat-message[data-message-id] {
-  /* Ensure messages with IDs are visible */
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* ===== AI Bot Message Styling ===== */
-.chat-message:has(strong:contains("@AI_Bot")) {
-  background-color: rgba(220, 20, 60, 0.1); /* Slight crimson tint */
-  border-left: 2px solid crimson;
-}
-
-/* ===== System Messages ===== */
-.chat-message:has(strong:contains("@System")) {
-  background-color: rgba(255, 193, 7, 0.1); /* Slight yellow tint */
-  font-style: italic;
-}
-
-
-/* ===== Footer Section ===== */
-
+/* =========================================================
+   ====================== FOOTER ===========================
+   ========================================================= */
 .subscribe-section {
-    background-color: #f4f4f4; /* soft grey background */
+    background-color: #f4f4f4;
     padding: 40px 20px;
     text-align: center;
     border-radius: 12px;
@@ -865,57 +568,38 @@
     max-width: 500px;
     margin: 40px auto;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  
-  .subscribe-section h3 {
+}
+
+.subscribe-section h3 {
     font-size: 1.8rem;
     margin-bottom: 10px;
     color: #333;
     font-family: 'Audrey', sans-serif;
     text-decoration: underline crimson 4px;
-  }
-  
-  .subscribe-section p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 20px;
-    font-family: 'Garamond', sans-serif;
-  }
-  
-  .subscribe-section input[type="email"] {
+}
+
+.subscribe-section input[type="email"] {
     padding: 12px;
     width: 70%;
     max-width: 300px;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s;
+    border: 1px solid #ccc;
     font-family: 'Garamond', sans-serif;
-  }
-  
-  .subscribe-section input[type="email"]:focus {
-    border-color: #007bff; /* blue highlight */
-  }
-  
-  .subscribe-section button {
+}
+
+.subscribe-section button {
     padding: 10px 20px;
-    margin-left: 10px;
     background-color: black;
     color: white;
-    border: none;
     border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Garamond';
+    font-family: 'Garamond', sans-serif;
     font-size: 20px;
-  }
-  
-  .subscribe-section button:hover {
-    background-color: crimson; /* darker blue on hover */
-  }
-  
+}
+
+.subscribe-section button:hover {
+    background-color: crimson;
+}
+
 .footer {
     background-color: #111;
     color: white;
@@ -928,23 +612,30 @@
 .footer a {
     color: crimson;
     text-decoration: none;
-    margin: 0 5px;
 }
 
 .footer a:hover {
     text-decoration: underline;
 }
 
-
-
-
-
-
-
-/* ===== Responsive Layout ===== */
+/* =========================================================
+   ==================== RESPONSIVE =========================
+   ========================================================= */
 @media (max-width: 900px) {
     .third-section {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .live-section {
+        flex-direction: column;
+        height: auto;
+    }
+    .comments-box {
+        order: 2;
+        min-height: 400px;
+    }
+    .video-box {
+        order: 1;
+        min-height: 300px;
     }
 }
 
